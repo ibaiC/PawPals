@@ -1,3 +1,4 @@
 from django.contrib import admin
+from pawpals.models import *
 
-# Register your models here.
+#admin.site.register(model_or_iterable, admin_class)

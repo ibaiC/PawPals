@@ -9,25 +9,10 @@ standard_char_field = models.CharField(max_length = 200)
 extended_char_field = models.CharField(max_length = 500)
 datetime_field = models.DateTimeField()
 
-class User(models.Model):
-    username = models.CharField(max_length = 128, primary_key = True)
-    fullname = standard_char_field # name and surname
-    profile_picture = models.ImageField(upload_to="users_profile_images", blank="True")
-    
-    class Meta:
-        abstract = True;
-
-class StandardUser(User):
-    phone_contact = phone_char_field
-
-class ShelterManagerUser(User):
-    shelter = OneToOneField(Shelter)
-
 class Shelter(models.Model):
     # relationship
-    
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
-    bio = extended_char_field
+    s_bio = extended_char_field
     webpage = models.URLField()
     profile_picture = models.ImageField(upload_to="shelters_profile_images", blank="True")
     phone_contact = phone_char_field
@@ -40,10 +25,25 @@ class Shelter(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
+
+class User(models.Model):
+    username = models.CharField(max_length = 128, primary_key = True)
+    fullname = standard_char_field # name and surname
+    profile_picture = models.ImageField(upload_to="users_profile_images", blank="True")
+    
+    class Meta:
+        abstract = True;
+
+class StandardUser(User):
+    phone_contact = phone_char_field
+
+class ShelterManagerUser(User):
+    managed_shelter = OneToOneField(Shelter)
+
     
 class Dog(models.Model):
     # relationships
-    shelter = models.ForeignKey(Shelter)
+    dog_shelter = models.ForeignKey(Shelter)
     
     name = standard_char_field
     id = models.AutoField(primary_key=True)
@@ -53,10 +53,10 @@ class Dog(models.Model):
 
     difficulty = models.IntegerField()
 
-    size = models.CharField(choices = (("S", "Small"),
+    size = models.CharField(max_length = 1, choices = (("S", "Small"),
                                        ("M", "Medium"),
                                        ("L", "Large")))
-    gender = models.CharField(choices = (("M", "male"),
+    gender = models.CharField(max_length = 1, choices = (("M", "male"),
                                          ("F", "female")))
                                          
     is_puppy = models.BooleanField()
@@ -70,8 +70,8 @@ class Dog(models.Model):
 
 class Review(models.Model):
     # relationshios
-    user = ManyToManyField(StandardUser)
-    dog = ManyToManyField(Dog)
+    reviewing_user = models.ForeignKey(StandardUser)
+    reviewed_dog = models.ForeignKey(Dog)
     
     rating = models.IntegerField()
     comment = extended_char_field
@@ -79,12 +79,12 @@ class Review(models.Model):
 
 class Request(models.Model):
     # relationships
-    user = ManyToManyField(StandardUser)
-    shelter_manager = ManyToManyField(ShelterManagerUser)
-    dog = ManyToManyField(Dog)
+    #requesting_user = models.ForeignKey(StandardUser) #, related_name="%(app_label)s_%(class)s_standard_user")
+    #request_manager = models.ForeignKey(ShelterManagerUser) #, related_name="%(app_label)s_%(class)s_shelter_manager")
+    #requested_dog = models.ForeignKey(Dog)
     
     date = datetime_field
-    confirmation_status = models.CharField(choices = (("C", "Confirmed"),
+    confirmation_status = models.CharField(max_length = 1, choices = (("C", "Confirmed"),
                                                       ("D", "Denied"),
                                                       ("P", "Pending")))
     message = extended_char_field
