@@ -4,12 +4,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pawpals_project.settings")
 import django
 django.setup()
 
+from django.utils import timezone
 from pawpals.models import *
 
 
 def populate():
     
-    ### Dog trust ###
+    ### Dog Trust data ###
     dog_trust_dogs = [
         {"name" : "Leo",
          "bio" : "Very good boy.",
@@ -28,7 +29,16 @@ def populate():
          "size" : "L",
          "gender" : "M",
          "is_puppy" : False,
-         "is_childfriendly" : True}
+         "is_childfriendly" : True},
+        {"name": "Lisa",
+         "bio": "Fierce lady.",
+         "profile_picture": None,
+         "breed": "Puddle",
+         "difficulty": 5,
+         "size": "S",
+         "gender": "F",
+         "is_puppy": False,
+         "is_childfriendly": False}
         ]
     
     dog_trust_manager = {"username" : "jsmith",
@@ -36,18 +46,69 @@ def populate():
                         "phone_contact" : "121212112",
                         "email" : "jsmith@mail.co.uk"
                         }
-    
-    shelters = {"Dog Trust" : {"manager": dog_trust_manager,
-                               "dogs": dog_trust_dogs, 
-                               "bio": "315 Hamilton Road Uddingston Glasgow G71 7SL",
-                               "webpage": "https://www.dogstrust.org.uk/our-centres/glasgow/",
-                               "phone_contact": "+44 123456789",
-                               "availability_info": "Everyday 8am-3pm",
-                               "location": "Glasgow",
-                               "avg_rating": 4
-                               }}
-    
 
+    ### Blue Cross For Pets data ###
+
+    blue_cross_dogs = [
+        {"name": "Jonathan",
+         "bio": "Calm, loves running.",
+         "profile_picture": None,
+         "breed": "Husky",
+         "difficulty": 2,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Dio",
+         "bio": "Very energetic, loves biting.",
+         "profile_picture": None,
+         "breed": "Dobermann",
+         "difficulty": 5,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": False},
+        {"name": "Speed",
+         "bio": "Loves cuddles and treats.",
+         "profile_picture": None,
+         "breed": "Pug",
+         "difficulty": 4,
+         "size": "M",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": False}
+    ]
+
+    blue_cross_manager = {"username": "abrown",
+                         "fullname": "Anna Brown",
+                         "phone_contact": "1313131313",
+                         "email": "abrown@mail.co.uk"
+                         }
+
+    ### Shelters ###
+
+    shelters = {"Dog Trust" : {
+                    "manager": dog_trust_manager,
+                    "dogs": dog_trust_dogs,
+                    "bio": "315 Hamilton Road Uddingston Glasgow G71 7SL",
+                    "webpage": "https://www.dogstrust.org.uk/our-centres/glasgow/",
+                    "phone_contact": "+44 123456789",
+                    "availability_info": "Everyday 8am-3pm",
+                    "location": "Glasgow",
+                    "avg_rating": 4
+                    },
+                "Blue Cross For Pets" : {
+                    "manager": blue_cross_manager,
+                    "dogs": blue_cross_dogs,
+                    "bio": "Rehoming for cats, dogs & rabbits Parklands,Thirsk,YO7 3SE",
+                    "webpage": "https://www.bluecross.org.uk/yorkshire-thirsk-rehoming-centre",
+                    "phone_contact": "+44 987654321",
+                    "availability_info": "Tuesday - Saturday 8am-3pm",
+                    "location": "Yorkshire",
+                    "avg_rating": 3
+                    }}
+    
+    ### Shelter, dog, manager creation ###
 
     for shelter, shelter_data in shelters.items():
         manager_data = shelter_data["manager"]
@@ -81,7 +142,71 @@ def populate():
     for sh in Shelter.objects.all():
         for dog in Dog.objects.filter(dog_shelter = sh):
             print("- {0} -{1}".format(str(sh), str(dog)))
-    
+
+        ### Users ###
+
+        users = {"jojo2": {
+                        "fullname" : "Joseph Joestar",
+                         "email" :"jojo2@gmail.com",
+                        "phone_contact" : "+44 000000",
+                        "reviews": {Dog.objects.all().get(pk = 1) : {
+                                                "rating": 5,
+                                                "comment": "Good doggo!",
+                                                "date": timezone.now()},
+                                    Dog.objects.all().get(pk = 2): {
+                                                "rating": 1,
+                                                "comment": "Bad doggo!",
+                                                "date": timezone.now()},
+                        }},
+        "optiplex": {
+            "fullname" : "Ann Dawn",
+                         "email" : "optiplex@mail.com",
+                                   "phone_contact": "+44 11111111",
+                        "reviews": {Dog.objects.all().get(pk = 3) : {
+                                                "rating": 2,
+                                                "comment": "So fluffy!!",
+                                                "date": timezone.now()},
+                                    Dog.objects.all().get(pk = 4): {
+                                                "rating": 3,
+                                                "comment": "Bites a bit, otherwise great",
+                                                "date": timezone.now()},
+                        }},
+        "lilylith": {
+            "fullname" : "Lily Lithium",
+                         "email" : "llith@mail.com",
+                                   "phone_contact" : "+44 222222222",
+                        "reviews": {Dog.objects.all().get(pk = 5) : {
+                                                "rating": 5,
+                                                "comment": "Nice walk.",
+                                                "date": timezone.now()},
+                                    Dog.objects.all().get(pk = 6): {
+                                                "rating": 5,
+                                                "comment": "Very playful, nice walk.",
+                                                "date": timezone.now()},
+                        }}
+        }
+
+
+
+        ### Users creation ###
+    for user, user_data in users.items():
+        u = add_user(is_manager = False,
+                 username = user,
+                 fullname = user_data["fullname"],
+                 email = user_data["email"],
+                 phone_contact = user_data["phone_contact"])
+
+        for reviewed_dog, review_data in user_data["reviews"].items():
+            add_review(user = u,
+                        dog = reviewed_dog,
+                        date = review_data["date"],
+                        rating = review_data["rating"],
+                        comment = review_data["comment"])
+
+
+    ### Review creation ###
+
+    ### Request creation ###
 
 def add_user(is_manager, username, fullname, email, phone_contact, profile_picture = None):
     
@@ -130,8 +255,8 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
 
 def add_review(user, dog, date, rating, comment):
     
-    rev = Review.objects.get_or_create(user = user, dog = dog, date = date)
-    
+    rev = Review.objects.get_or_create(reviewing_user = user, reviewed_dog = dog, date = date)[0]
+
     rev.rating = rating
     rev.comment = comment
     
