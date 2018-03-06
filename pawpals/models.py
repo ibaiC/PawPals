@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.fields.related import ManyToManyField, OneToOneField
 from django.template.defaultfilters import slugify, default
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 # default values
@@ -91,10 +93,10 @@ class Review(models.Model):
     date = models.DateTimeField()
 
     def __str__(self):
-        dog_name = Dog.__str__(self.reviewed_dog)
-        user_name = User.__str__(self.reviewing_user)
+        dog_name = str(self.reviewed_dog)
+        user_name = str(self.reviewing_user)
 
-        return (dog_name + ": " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")
+        return (dog_name  + " (" + self.date.strftime("%B %d, %Y") + ")")
 
 
 class Request(models.Model):
@@ -103,11 +105,25 @@ class Request(models.Model):
     request_manager = models.ForeignKey(ShelterManagerUser) #, related_name="%(app_label)s_%(class)s_shelter_manager")
     requested_dog = models.ForeignKey(Dog)
     
-    date = models.DateTimeField()
-    confirmation_status = models.CharField(max_length = 1, choices = (("C", "Confirmed"),
+    date = models.DateTimeField(default = timezone.now())
+    confirmation_status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
                                                       ("D", "Denied"),
-                                                      ("P", "Pending")))
+                                                      ("P", "Pending"),
+                                                      ("C", "Completed")))
     message = models.CharField(max_length = extended_char_len)
     
+    def __str__(self):
+        dog_name = str(self.requested_dog)
+        user_name = str(self.requesting_user)
+        manger_name = str(self.request_manager)
+
+        return (dog_name  + " - by " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")    
+
+    def clean(self):
+        
+        managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
+        managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
+        if self.requested_dog not in managed_dogs:
+            raise ValidationError("Dog is not managed by given shelter manager.")
 #class Confirmation(models.Model):
 
