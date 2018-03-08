@@ -105,7 +105,6 @@ class Dog(models.Model):
             
             for review in reviews:
                 avg_difficulty += review.difficulty_rating
-                print(avg_difficulty)
             
             avg_difficulty = avg_difficulty/len(reviews)
         else:

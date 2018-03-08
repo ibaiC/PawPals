@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from pawpals.models import PUserProfile
+from pawpals.models import UserProfile
 
 
 class UserForm(forms.ModelForm):
