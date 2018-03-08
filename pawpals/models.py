@@ -7,6 +7,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 import numpy as np
 
 
+
 # default values
 phone_len = 20
 standard_char_len = 200
@@ -65,7 +66,6 @@ class Shelter(models.Model):
         else:
             self.avg_difficulty_rating = 0
             
-        
         super(Shelter, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -97,7 +97,7 @@ class Dog(models.Model):
     slug = models.SlugField(unique = True)
 
     def save(self, *args, **kwargs):
-        
+
         reviews = Review.objects.all().filter(reviewed_dog = self)
     
         
@@ -167,4 +167,3 @@ class Request(models.Model):
         managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
         if self.requested_dog not in managed_dogs:
             raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
-
