@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+import numpy as np
 
 
 # default values
@@ -49,10 +50,21 @@ class Shelter(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         
-###        # Get average
+        sum = 0
+        count = 0
         
-        #shelter_dogs = Dog.objects().all().filter(dog_shelter = self)
-        #reviews = Review.objects.all().filter()
+        shelter_dogs = Dog.objects.all().filter(dog_shelter = self)
+        
+        for dog in shelter_dogs:
+            reviews = Review.objects.all().filter(reviewed_dog = dog)
+            sum += np.sum([review.difficulty_rating for review in reviews])
+            count += len(reviews)
+        
+        if (count):
+            self.avg_difficulty_rating = int(sum/count)
+        else:
+            self.avg_difficulty_rating = 0
+            
         
         super(Shelter, self).save(*args, **kwargs)
 
@@ -113,7 +125,6 @@ class Review(models.Model):
     reviewing_user = models.ForeignKey(StandardUser)
     reviewed_dog = models.ForeignKey(Dog)
     
-### 
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField()
@@ -121,6 +132,7 @@ class Review(models.Model):
     def clean(self):
         # update dog upon creating/changing review  
         self.reviewed_dog.save()
+        self.reviewed_dog.dog_shelter.save()
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)
