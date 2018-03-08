@@ -59,24 +59,33 @@ def populate():
          "gender": "M",
          "is_puppy": False,
          "is_childfriendly": True},
-        {"name": "Dio",
-         "bio": "Very energetic, loves biting.",
+        {"name": "Helix",
+         "bio": "Loves purple balls",
          "profile_picture": None,
-         "breed": "Dobermann",
-         "difficulty": 5,
-         "size": "L",
+         "breed": "Shih-tzu",
+         "difficulty": 3,
+         "size": "S",
          "gender": "M",
          "is_puppy": False,
-         "is_childfriendly": False},
+         "is_childfriendly": True},
         {"name": "Speed",
          "bio": "Loves cuddles and treats.",
          "profile_picture": None,
          "breed": "Pug",
          "difficulty": 4,
          "size": "M",
-         "gender": "M",
+         "gender": "N",
          "is_puppy": False,
-         "is_childfriendly": False}
+         "is_childfriendly": False},
+        {"name": "Amino",
+         "bio": "Has a long tongue",
+         "profile_picture": None,
+         "breed": "Shih-tzu",
+         "difficulty": 4,
+         "size": "S",
+         "gender": "N",
+         "is_puppy": False,
+         "is_childfriendly": True},
     ]
 
     blue_cross_manager = {"username": "abrown",
@@ -278,7 +287,7 @@ def add_shelter(manager, name, bio, webpage, phone_contact, availability_info, l
     sh.phone_contact = phone_contact
     sh.availability_info = availability_info
     sh.location = location
-    sh.avg_rating = avg_rating
+    sh.avg_difficulty_rating = avg_rating
     sh.save()
     return sh
 
@@ -308,7 +317,7 @@ def add_review(user, dog, date, rating, comment):
     #       there can be many reviews by the same user on the same dog but with different DATE
     rev = Review.objects.get_or_create(reviewing_user=user, reviewed_dog=dog, date=date)[0]
 
-    rev.rating = rating
+    rev.difficulty_rating = rating
     rev.comment = comment
     
     rev.save()
@@ -322,7 +331,7 @@ def add_request(user, shelter_manager, dog, date, confirmation_status, message):
     
     req.date = date
     
-    req.confirmation_status = confirmation_status 
+    req.status = confirmation_status 
     req.message = message  
     
     req.save()

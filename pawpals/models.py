@@ -3,19 +3,21 @@ from django.db.models.fields.related import ManyToManyField, OneToOneField
 from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # default values
 phone_len = 20
 standard_char_len = 200
 extended_char_len = 500
+difficulty_validators = [MinValueValidator(0), MaxValueValidator(5)]
 
 class User(models.Model):
     username = models.CharField(max_length = 128, primary_key = True)
     fullname = models.CharField(max_length = standard_char_len) # name and surname
-    email = models.EmailField()
+    email = models.EmailField(unique = True)
     profile_picture = models.ImageField(upload_to="users_profile_images", blank="True")
-    phone_contact = models.CharField(max_length = phone_len, unique = True)
+    phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True")
 
     class Meta:
         abstract = True;
@@ -35,17 +37,23 @@ class Shelter(models.Model):
 
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
     bio = models.CharField(max_length = extended_char_len)
-    webpage = models.URLField()
+    webpage = models.URLField(blank = "True")
     profile_picture = models.ImageField(upload_to="shelters_profile_images", blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True)
     availability_info = models.CharField(max_length = extended_char_len)
     location = models.CharField(max_length = standard_char_len)
-    avg_rating = models.IntegerField(default = 5)
+    avg_difficulty_rating = models.IntegerField(default = 5, validators = difficulty_validators)
     
     slug = models.SlugField(unique = True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        
+###        # Get average
+        
+        #shelter_dogs = Dog.objects().all().filter(dog_shelter = self)
+        #reviews = Review.objects.all().filter()
+        
         super(Shelter, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -61,14 +69,15 @@ class Dog(models.Model):
     bio = models.CharField(max_length = extended_char_len)
     profile_picture = models.ImageField(upload_to="dogs_profile_images", blank="True")
     breed = models.CharField(max_length = standard_char_len)
-
-    difficulty = models.IntegerField(default = 0)
+    
+    difficulty = models.IntegerField(default = 0, validators = difficulty_validators)
 
     size = models.CharField(max_length = 1, choices = (("S", "Small"),
                                        ("M", "Medium"),
                                        ("L", "Large")))
-    gender = models.CharField(max_length = 1, choices = (("M", "male"),
-                                         ("F", "female")))
+    gender = models.CharField(max_length = 1, choices = (("M", "Male"),
+                                                         ("F", "Female"),
+                                                         ("N", "Neutered")))
                                          
     is_puppy = models.BooleanField(default = "False")
     is_childfriendly = models.BooleanField(default = "False")
@@ -76,6 +85,22 @@ class Dog(models.Model):
     slug = models.SlugField(unique = True)
 
     def save(self, *args, **kwargs):
+        
+        reviews = Review.objects.all().filter(reviewed_dog = self)
+    
+        
+        if reviews:
+            avg_difficulty = 0
+            
+            for review in reviews:
+                avg_difficulty += review.difficulty_rating
+                print(avg_difficulty)
+            
+            avg_difficulty = avg_difficulty/len(reviews)
+        else:
+            avg_difficulty = 3;
+        
+        self.difficulty = avg_difficulty
         
         self.slug = slugify(self.name + "-" + str(self.id))
         super(Dog, self).save(*args, **kwargs)
@@ -88,9 +113,14 @@ class Review(models.Model):
     reviewing_user = models.ForeignKey(StandardUser)
     reviewed_dog = models.ForeignKey(Dog)
     
-    rating = models.IntegerField(default = 3)
+### 
+    difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField()
+
+    def clean(self):
+        # update dog upon creating/changing review  
+        self.reviewed_dog.save()
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)
@@ -101,12 +131,12 @@ class Review(models.Model):
 
 class Request(models.Model):
     # relationships
-    requesting_user = models.ForeignKey(StandardUser) #, related_name="%(app_label)s_%(class)s_standard_user")
-    request_manager = models.ForeignKey(ShelterManagerUser) #, related_name="%(app_label)s_%(class)s_shelter_manager")
+    requesting_user = models.ForeignKey(StandardUser)
+    request_manager = models.ForeignKey(ShelterManagerUser) 
     requested_dog = models.ForeignKey(Dog)
     
     date = models.DateTimeField(default = timezone.now())
-    confirmation_status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
+    status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
                                                       ("D", "Denied"),
                                                       ("P", "Pending"),
                                                       ("C", "Completed")))
@@ -124,6 +154,5 @@ class Request(models.Model):
         managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
         managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
         if self.requested_dog not in managed_dogs:
-            raise ValidationError("Dog is not managed by given shelter manager.")
-#class Confirmation(models.Model):
+            raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
 
