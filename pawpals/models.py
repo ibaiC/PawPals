@@ -82,13 +82,20 @@ class Dog(models.Model):
         return self.name
 
 class Review(models.Model):
-    # relationshios
+    # relationships
     reviewing_user = models.ForeignKey(StandardUser)
     reviewed_dog = models.ForeignKey(Dog)
     
-    rating = models.IntegerField()
+    rating = models.IntegerField(default = 3)
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField()
+
+    def __str__(self):
+        dog_name = Dog.__str__(self.reviewed_dog)
+        user_name = User.__str__(self.reviewing_user)
+
+        return (dog_name + ": " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")
+
 
 class Request(models.Model):
     # relationships
