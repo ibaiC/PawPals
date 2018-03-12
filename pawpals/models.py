@@ -76,7 +76,7 @@ class Dog(models.Model):
     dog_shelter = models.ForeignKey(Shelter)
     
     name = models.CharField(max_length = standard_char_len)
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     bio = models.CharField(max_length = extended_char_len)
     profile_picture = models.ImageField(upload_to="dogs_profile_images", blank="True")
     breed = models.CharField(max_length = standard_char_len)
@@ -112,7 +112,7 @@ class Dog(models.Model):
         
         self.difficulty = avg_difficulty
         
-        self.slug = slugify(self.name + "-" + str(self.id))
+        self.slug = slugify(self.name + "-" + str(self.pk))
         super(Dog, self).save(*args, **kwargs)
         
     def __str__(self):

@@ -1,8 +1,11 @@
 from django.contrib import admin
 from pawpals.models import *
 from django.contrib.admin.templatetags.admin_modify import prepopulated_fields_js
+from django.contrib.admin.helpers import AdminReadonlyField
 
 class DogAdmin(admin.ModelAdmin):
+    #AdminReadonlyField = id
+    readonly_fields = ("id")
     prepopulated_fields = {"slug": ("name", "id")}
 
 admin.site.register(Dog, DogAdmin)
