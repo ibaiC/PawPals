@@ -10,6 +10,10 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, "pawpals/home.html", context={})
 
+def about(request):
+    reponse = render(request, 'pawpals/about.html', context={})
+    return reponse
+
 def register(request):
     registered = False
     if request.method == 'POST':

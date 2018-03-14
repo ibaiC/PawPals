@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-import numpy as np
+#import numpy as np
 
 
 # default values
