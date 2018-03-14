@@ -16,9 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from pawpals import views
 
 
 urlpatterns = [
-    url(r'^$', include("pawpals.urls")),
+    url(r'^$', views.home, name='home'),
+    url(r'^pawpals/', include('pawpals.urls')),
     url(r'^admin/', admin.site.urls),
 ]
