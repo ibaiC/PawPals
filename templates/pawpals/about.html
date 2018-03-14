@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %}
+
+<html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About title</title>
-</head>
-<body>
-    <h1>About USSSSS</h1>
-</body>
+
+{% block title_block %}
+    About
+{% endblock %}
+{% block body_block %}
+    About body block
+{% endblock %}
 </html>
