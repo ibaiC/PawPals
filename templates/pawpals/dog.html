@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %}
+
+<html>
+<html lang="en">
+
+{% block title_block %}
+    {{ dog.name }}
+{% endblock %}
+{% block body_block %}
+    Welcome to {{ dog.name }}'s page !!! </br>
+    {{ dog.name }}'s breed is: {{ dog.breed }} </br>
+    Gender: {{ dog.gender }} </br>
+    Size: {{ dog.size }}
+{% endblock %}
+</html>

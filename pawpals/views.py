@@ -3,16 +3,51 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from pawpals.models import Shelter,Dog
+from datetime import datetime
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 
 def home(request):
-    return render(request, "pawpals/home.html", context={})
+    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
+    dogs_list = Dog.objects.order_by('-difficulty')[:5]
+    context_dict = {'shelters': shelters_list, 'dogs': dogs_list}
+
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+
+    response = render(request, "pawpals/home.html", context_dict)
+    return response
 
 def about(request):
     reponse = render(request, 'pawpals/about.html', context={})
     return reponse
+
+def show_shelter(request, shelter_slug):
+    context_dict = {}
+    try:
+        shelter = Shelter.objects.get(slug=shelter_slug)
+        dog_list = Dog.objects.all()
+        context_dict['shelter'] = shelter
+        context_dict['dog'] = dog_list
+
+    except Shelter.DoesNotExist:
+        context_dict = {}
+
+    return render(request, 'pawpals/shelter.html', context_dict)
+
+def show_dog(request, dog_slug):
+    context_dict = {}
+    try:
+        dog = Dog.objects.get(slug=dog_slug)
+        context_dict['dog'] = dog
+
+
+    except Dog.DoesNotExist:
+        context_dict = {}
+
+    return render(request, 'pawpals/dog.html', context_dict)
 
 def register(request):
     registered = False
@@ -71,7 +106,7 @@ def restricted(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('home'))
 
 def visitor_cookie_handler(request):
 

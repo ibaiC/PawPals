@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %}
+
+<html>
+<html lang="en">
+
+{% block title_block %}
+    {{ shelter.name }}
+{% endblock %}
+{% block body_block %}
+    This is {{ shelter.name }}'s bio: {{ shelter.bio }} </br>
+    This is {{ shelter.name }}'s webpage: <a href="{{ shelter.webpage }}">{{ shelter.name }}</a> </br>
+    This is {{ shelter.name }}'s location: {{ shelter.location }} </br>
+    All dogs
+    <ul>
+    {% for d in dog %}
+        <li>{{ d.name }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+</html>
