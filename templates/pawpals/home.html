@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'pawpals/base_bootstrap.html' %}
 
-	<head>
-		<title>PawPals</title>
-	</head>
-	
-	<body>
-		Homepage test
-	</body>
-	
-</html>
+{% block title_block %}
+Welcome to PawPals!
+{% endblock %}
+
+{% block body_block %}
+Body
+{% endblock %}
+
+{% block sidebar_block %}
+{% get_category_list category %}
+{% endblock %}
+
