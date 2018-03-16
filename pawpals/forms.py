@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from pawpals.models import UserProfile
+from pawpals.models import User as UserProfile
 
 
 class UserForm(forms.ModelForm):
@@ -13,4 +13,4 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('website', 'picture')
+        fields = ('profile_picture','phone_contact')
