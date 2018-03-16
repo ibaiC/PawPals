@@ -3,9 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from pawpals.models import Shelter,Dog
+from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import UserForm, UserProfileForm
+
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -25,6 +26,12 @@ def about(request):
     reponse = render(request, 'pawpals/about.html', context={})
     return reponse
 
+def edit(request):
+    response = render (request, 'pawpals/edit.html', context ={})
+    AbstractUser= AbstractUser.objects.get(slug=AbstractUser_slug)
+    #give information about user
+    return response
+
 def show_shelter(request, shelter_slug):
     context_dict = {}
     try:
@@ -40,13 +47,17 @@ def show_shelter(request, shelter_slug):
 
 def show_dog(request, dog_slug):
     context_dict = {}
+    print("<<<<<<<<<<<<<<<<<")
+
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
+        print("<<<<<<<" + dog.name)
 
 
     except Dog.DoesNotExist:
         context_dict = {}
+        print("<<<<<<<")
 
     return render(request, 'pawpals/dog.html', context_dict)
 
