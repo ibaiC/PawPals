@@ -2,16 +2,64 @@
 {% load staticfiles %}
 
 <html>
-	<head lang="en">
-		<meta charset="UTF-8" />
-		<title>PawPals -
-           {% block title_block %}
-               Welcome to PawPals!
-           {% endblock %}
-		</title>
-	</head>
-	<body>
-       {% block body_block %}
-       {% endblock %}
-	</body>
+    <head lang="en">
+        <meta charset="UTF-8">
+       <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<nav class="navbar sticky-top navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#">PawPals</a>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Dog Search</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Shelters
+        </a>
+	{% if shelters %}
+		  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			{% for shelter in shelters %}
+          <a class="dropdown-item" href="{% url 'show_shelter' shelter.slug %}">{{ shelter.name }}</a>
+		  {% endfor %}
+		          </div>
+		  {% endif %}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About & FAQ</a>
+      </li>
+    </ul>
+	  <form>
+      <ul class="navbar-nav ml-auto">
+    <a class="btn btn-outline-success" href="#" role="button">Sign In</a>
+    <a class="btn btn-outline-info" href="#" role="button">Sign Up</a>
+      </ul>
+		  </form>
+  </div>
+</nav>
+    </head>
+        <title>
+          {% block title_block %}
+          {% endblock %}
+        </title>
+    <body>
+        <div>
+            {% block body_block %}
+            {% endblock %}
+        </div>
+    </body>
 </html>
