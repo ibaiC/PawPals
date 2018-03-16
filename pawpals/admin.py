@@ -4,12 +4,13 @@ from django.contrib.admin.templatetags.admin_modify import prepopulated_fields_j
 from django.contrib.admin.helpers import AdminReadonlyField
 
 class DogAdmin(admin.ModelAdmin):
-    #AdminReadonlyField = id
-    readonly_fields = ("id")
-    prepopulated_fields = {"slug": ("name", "id")}
+    prepopulated_fields = {"slug": ("name",)}
+
+class ShelterAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
 
 admin.site.register(Dog, DogAdmin)
-admin.site.register(Shelter)
+admin.site.register(Shelter, ShelterAdmin)
 admin.site.register(ShelterManagerUser)
 admin.site.register(StandardUser)
 admin.site.register(Review)
