@@ -38,6 +38,24 @@ def populate():
          "size": "S",
          "gender": "F",
          "is_puppy": False,
+         "is_childfriendly": False},
+        {"name": "Atos",
+         "bio": "Old but strong! Huge. Obedient. Protective.",
+         "profile_picture": None,
+         "breed": "Mongrel",
+         "difficulty": 1,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Sawa",
+         "bio": "Very playful, active, guard dog.",
+         "profile_picture": None,
+         "breed": "Mongrel",
+         "difficulty": 5,
+         "size": "M",
+         "gender": "F",
+         "is_puppy": False,
          "is_childfriendly": False}
         ]
     
@@ -154,11 +172,11 @@ def populate():
     users = {"jojo2": {"fullname" : "Joseph Joestar",
                        "email" :"jojo2@gmail.com",
                        "phone_contact" : "+44 000000",
-                       "reviews": {Dog.objects.all().get(pk=1) : {"rating": 5,
+                       "reviews": {Dog.objects.all().get(id=1) : {"rating": 5,
                                                                     "comment": "Good doggo!",
                                                                     "date": "2018-02-01T13:20:30+03:00"
                                                                     },
-                                   Dog.objects.all().get(pk=2): {"rating": 1,
+                                   Dog.objects.all().get(id=2): {"rating": 1,
                                                                    "comment": "Bad doggo!",
                                                                    "date": "2018-02-11T13:20:30+03:00"
                                                                    }
@@ -167,11 +185,11 @@ def populate():
         "optiplex": {"fullname" : "Ann Dawn",
                      "email" : "optiplex@mail.com",
                      "phone_contact": "+44 11111111",
-                     "reviews": {Dog.objects.all().get(pk=3) : {"rating": 2,
+                     "reviews": {Dog.objects.all().get(id=3) : {"rating": 2,
                                                                 "comment": "So fluffy!!",
                                                                 "date": "2018-02-10T13:20:30+03:00"
                                                                 },
-                                 Dog.objects.all().get(pk=4): {"rating": 3,
+                                 Dog.objects.all().get(id=4): {"rating": 3,
                                                                "comment": "Bites a bit, otherwise great",
                                                                "date": "2018-03-01T13:20:30+03:00"
                                                                }
@@ -180,11 +198,11 @@ def populate():
         "lilylith": {"fullname" : "Lily Lithium",
                      "email" : "llith@mail.com",
                      "phone_contact" : "+44 222222222",
-                     "reviews": {Dog.objects.all().get(pk=5) : {"rating": 5,
+                     "reviews": {Dog.objects.all().get(id=5) : {"rating": 5,
                                                                 "comment": "Nice walk.",
                                                                 "date": "2018-03-11T13:20:30+03:00"
                                                                 },
-                                 Dog.objects.all().get(pk=6): {"rating": 5,
+                                 Dog.objects.all().get(id=6): {"rating": 5,
                                                                "comment": "Very playful, nice walk.",
                                                                "date": "2018-03-21T13:20:30+03:00"
                                                                }
@@ -232,8 +250,6 @@ def populate():
                      "message" : "Usual?"},
                 }
     
-    print(">>>Check: " + str(requests[2]["user"]))
-                
     for request_id, request in requests.items():
         add_request(user = request["user"], 
                     shelter_manager = request["shelter_manager"], 

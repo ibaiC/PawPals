@@ -6,19 +6,18 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 #import numpy as np
 
-
 # default values
 phone_len = 20
 standard_char_len = 200
 extended_char_len = 500
 difficulty_validators = [MinValueValidator(0), MaxValueValidator(5)]
 
-class User(models.Model):
+class AbstractUser(models.Model):
     username = models.CharField(max_length = 128, primary_key = True)
     fullname = models.CharField(max_length = standard_char_len) # name and surname
     email = models.EmailField(unique = True)
     profile_picture = models.ImageField(upload_to="users_profile_images", blank="True")
-    phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True")
+    phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
 
     class Meta:
         abstract = True;
@@ -26,10 +25,10 @@ class User(models.Model):
     def __str__(self):
         return self.fullname
     
-class StandardUser(User):
+class StandardUser(AbstractUser):
     pass
 
-class ShelterManagerUser(User):
+class ShelterManagerUser(AbstractUser):
     pass
 
 class Shelter(models.Model):
@@ -60,7 +59,7 @@ class Shelter(models.Model):
             sum += np.sum([review.difficulty_rating for review in reviews])
             count += len(reviews)
         
-        if (count):
+        if (count):            
             self.avg_difficulty_rating = int(sum/count)
         else:
             self.avg_difficulty_rating = 0
@@ -74,9 +73,11 @@ class Shelter(models.Model):
 class Dog(models.Model):
     # relationships
     dog_shelter = models.ForeignKey(Shelter)
+        
+    # ID (or pk) is implicitly made by Django
+    # id = models.AutoField(primary_key=True) 
     
     name = models.CharField(max_length = standard_char_len)
-    id = models.AutoField(primary_key=True)
     bio = models.CharField(max_length = extended_char_len)
     profile_picture = models.ImageField(upload_to="dogs_profile_images", blank="True")
     breed = models.CharField(max_length = standard_char_len)
@@ -99,7 +100,6 @@ class Dog(models.Model):
 
         reviews = Review.objects.all().filter(reviewed_dog = self)
     
-        
         if reviews:
             avg_difficulty = 0
             
@@ -111,6 +111,10 @@ class Dog(models.Model):
             avg_difficulty = 3;
         
         self.difficulty = avg_difficulty
+
+        # if called upon object creation, save first, so pk is created and is not None in slug
+        if not(self.id):
+            super(Dog, self).save(*args, **kwargs)
         
         self.slug = slugify(self.name + "-" + str(self.id))
         super(Dog, self).save(*args, **kwargs)
@@ -127,10 +131,41 @@ class Review(models.Model):
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField()
 
-    def clean(self):
-        # update dog upon creating/changing review  
+    def save(self, *args, **kwargs):
+        
+        completed_requests = Request.objects.all().filter(requesting_user = self.reviewing_user,
+                                                          requested_dog = self.reviewed_dog,
+                                                          status = "C"
+                                                    )
+        
+        
+        
+        # update dog upon creating/changing review          
+        super(Review, self).save(*args, **kwargs)
+        
+        # upon creation change request to "Reviewed"
+        # self.reviewed_dog.
         self.reviewed_dog.save()
         self.reviewed_dog.dog_shelter.save()
+
+    def clean(self):
+        # User can only review dog if their request was completed
+        # User can only make as many reviews as completed requests
+        reviews_num = Review.objects.all().filter(reviewing_user = self.reviewing_user, reviewed_dog = self.reviewed_dog).count()
+        requests = Request.objects.all().filter(requesting_user = self.reviewing_user, 
+                                                    requested_dog = self.reviewed_dog)
+        complete_requests_num = requests.filter(status = "C").count()
+        reviewed_requests_num = requests.filter(status = "R").count()
+        
+        
+        if review_num == reviewed_requests_num:
+            raise ValidationError("Dog has already been reviewed by given user.")
+        
+        if complete_requests_num <= 0:
+            raise ValidationError("Cannot review dog which request has not been completed.")
+
+        
+
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)
@@ -144,13 +179,14 @@ class Request(models.Model):
     requesting_user = models.ForeignKey(StandardUser)
     request_manager = models.ForeignKey(ShelterManagerUser) 
     requested_dog = models.ForeignKey(Dog)
+    review = models.ForeignKey(Review, blank = True, null = True)
     
     date = models.DateTimeField(default = timezone.now())
     status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
                                                       ("D", "Denied"),
                                                       ("P", "Pending"),
                                                       ("C", "Completed")))
-    message = models.CharField(max_length = extended_char_len)
+    message = models.CharField(max_length = extended_char_len, blank = True)
     
     def __str__(self):
         dog_name = str(self.requested_dog)
@@ -158,6 +194,13 @@ class Request(models.Model):
         manger_name = str(self.request_manager)
 
         return (dog_name  + " - by " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")    
+
+    def save(self, *args, **kwargs):
+        
+        if (self.review) and not(self.status.__eq__("R")):
+            self.status = "R"
+            
+        super(Review, self).save(*args, **kwargs)
 
     def clean(self):
         
