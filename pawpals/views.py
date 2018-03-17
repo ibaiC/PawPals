@@ -13,7 +13,7 @@ from pawpals.forms import UserForm, UserProfileForm
 def base(request):
     shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
     context_dict = {'shelters': shelters_list}
-    response = render(request, "pawpals/base.html", context_dict)
+    response = render(request, "pawpals/home.html", context_dict)
     return response
 
 def home(request):
@@ -27,11 +27,11 @@ def home(request):
     return response
 
 def about(request):
-    reponse = render(request, 'pawpals/about.html', context={'shelters': shelters_list})
+    reponse = render(request, 'pawpals/about.html')
     return reponse
 
 def edit(request):
-    response = render (request, 'pawpals/edit.html', context ={'shelters': shelters_list})
+    response = render (request, 'pawpals/edit.html')
     AbstractUser= AbstractUser.objects.get(slug=AbstractUser_slug)
     #give information about user
     return response
