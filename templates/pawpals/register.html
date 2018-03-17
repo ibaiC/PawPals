@@ -1,31 +1,30 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
 
-<html>
-
+{% block stylesheet_block %}
+    <link rel="stylesheet" type="text/css" href="{% static "styles/register.css" %}">
+{% endblock %}
 {% block title_block %}
     Register
 {% endblock %}
 
 {% block body_block %}
-<h1>Register for Pawpals</h1>
+<div class ="register">
+<h1 class="title">Register for Pawpals</h1>
     {% if registered %}
         Pawpals says:
         <strong>Thank you for registering!</strong>
         <a href="{% url 'home' %}">Return to the homepage.</a>
         <br />
     {% else %}
-        Rango says:
-        <strong>Register here!</strong><br />
-        <form id="user_form" method="post" action="{% url 'register' %}"
+        <div class ="float-center" id="user_form" method="post" action="{% url 'register' %}"
               enctype="multipart/form-data">
             {% csrf_token %}
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+            <div class="form_fields">{{ user_form.as_p }}
+            {{ profile_form.as_p }}</div>
             <!-- Submit button -->
             <input type="submit" name="submit" value="Register" />
         </form>
+    </div>
     {% endif %}
     {% endblock %}
-
-<html>

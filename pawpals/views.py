@@ -10,20 +10,20 @@ from pawpals.forms import UserForm, UserProfileForm
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
-def base(request):
-    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
-    context_dict = {'shelters': shelters_list}
-    response = render(request, "pawpals/home.html", context_dict)
-    return response
-
 def home(request):
-    dogs_list = Dog.objects.order_by('-difficulty')[:5]
+    dogs_list = Dog.objects.order_by('-difficulty')[:6]
     context_dict = {'dogs': dogs_list}
 
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
 
     response = render(request, "pawpals/home.html", context_dict)
+    return response
+
+def shelters(request):
+    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')
+    context_dict = {'shelters': shelters_list}
+    response = render(request, "pawpals/shelters.html", context_dict)
     return response
 
 def about(request):
@@ -51,7 +51,7 @@ def show_shelter(request, shelter_slug):
     return render(request, 'pawpals/shelter.html', context_dict)
 
 def show_dog(request, dog_slug):
-
+    context_dict ={}
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
