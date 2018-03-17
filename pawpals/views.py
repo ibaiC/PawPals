@@ -10,11 +10,15 @@ from pawpals.forms import UserForm, UserProfileForm
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
+def base(request):
+    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
+    context_dict = {'shelters': shelters_list}
+    response = render(request, "pawpals/base.html", context_dict)
+    return response
 
 def home(request):
-    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
     dogs_list = Dog.objects.order_by('-difficulty')[:5]
-    context_dict = {'shelters': shelters_list, 'dogs': dogs_list}
+    context_dict = {'dogs': dogs_list}
 
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
@@ -23,17 +27,18 @@ def home(request):
     return response
 
 def about(request):
-    reponse = render(request, 'pawpals/about.html', context={})
+    reponse = render(request, 'pawpals/about.html', context={'shelters': shelters_list})
     return reponse
 
 def edit(request):
-    response = render (request, 'pawpals/edit.html', context ={})
+    response = render (request, 'pawpals/edit.html', context ={'shelters': shelters_list})
     AbstractUser= AbstractUser.objects.get(slug=AbstractUser_slug)
     #give information about user
     return response
 
 def show_shelter(request, shelter_slug):
-    context_dict = {}
+    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
+    context_dict = {'shelters': shelters_list}
     try:
         shelter = Shelter.objects.get(slug=shelter_slug)
         dog_list = Dog.objects.all()
@@ -46,11 +51,18 @@ def show_shelter(request, shelter_slug):
     return render(request, 'pawpals/shelter.html', context_dict)
 
 def show_dog(request, dog_slug):
+<<<<<<< HEAD
     context_dict = {}
+=======
+>>>>>>> d0b41dc207b6d297fc7aaa5dc36566633081088f
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0b41dc207b6d297fc7aaa5dc36566633081088f
 
     except Dog.DoesNotExist:
         context_dict = {}
@@ -104,16 +116,9 @@ def user_login(request):
             else:
                 return HttpResponse("Your PawPals account is disabled.")
         else:
-            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'pawpals/login.html', {})
-
-@login_required
-def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
-    return render(request, 'pawpals/restricted.html', {})
-
+        return render(request, 'pawpals/login.html', {'shelters': shelters_list})
 
 @login_required
 def user_logout(request):
