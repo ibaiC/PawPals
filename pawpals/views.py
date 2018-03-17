@@ -47,17 +47,13 @@ def show_shelter(request, shelter_slug):
 
 def show_dog(request, dog_slug):
     context_dict = {}
-    print("<<<<<<<<<<<<<<<<<")
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
-        print("<<<<<<<" + dog.name)
-
 
     except Dog.DoesNotExist:
         context_dict = {}
-        print("<<<<<<<")
 
     return render(request, 'pawpals/dog.html', context_dict)
 

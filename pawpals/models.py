@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-#import numpy as np
+import numpy as np
 
 # default values
 phone_len = 20
@@ -165,8 +165,6 @@ class Review(models.Model):
             raise ValidationError("Cannot review dog which request has not been completed.")
 
         
-
-
     def __str__(self):
         dog_name = str(self.reviewed_dog)
         user_name = str(self.reviewing_user)
@@ -200,7 +198,7 @@ class Request(models.Model):
         if (self.review) and not(self.status.__eq__("R")):
             self.status = "R"
             
-        super(Review, self).save(*args, **kwargs)
+        super(Request, self).save(*args, **kwargs)
 
     def clean(self):
         
