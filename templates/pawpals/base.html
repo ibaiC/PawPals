@@ -16,6 +16,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    </head>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: #e3f2fd;">
   <a class="navbar-brand" href="#">PawPals</a>
 
@@ -28,7 +29,7 @@
         <a class="nav-link" href="#">Dog Search</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="navbarDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
           Shelters
         </a>
@@ -41,7 +42,7 @@
 		  {% endif %}
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">About & FAQ</a>
+        <a class="nav-link" href="{% url 'about' %}">About & FAQ</a>
       </li>
     </ul>
 	  <form>
@@ -52,7 +53,6 @@
 		  </form>
   </div>
 </nav>
-    </head>
         <title>
           {% block title_block %}
           {% endblock %}
