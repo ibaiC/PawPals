@@ -37,6 +37,7 @@ def edit(request):
     return response
 
 def show_shelter(request, shelter_slug):
+    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
     context_dict = {'shelters': shelters_list}
     try:
         shelter = Shelter.objects.get(slug=shelter_slug)
@@ -50,7 +51,6 @@ def show_shelter(request, shelter_slug):
     return render(request, 'pawpals/shelter.html', context_dict)
 
 def show_dog(request, dog_slug):
-    context_dict = {'shelters': shelters_list}
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
@@ -93,8 +93,7 @@ def register(request):
     return render(request,'pawpals/register.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
-                   'registered': registered,
-                   'shelters': shelters_list})
+                   'registered': registered})
 
 def user_login(request):
     if request.method == 'POST':
@@ -112,7 +111,7 @@ def user_login(request):
         else:
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'pawpals/login.html')
+        return render(request, 'pawpals/login.html', {'shelters': shelters_list})
 
 @login_required
 def user_logout(request):
