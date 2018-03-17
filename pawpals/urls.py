@@ -3,6 +3,7 @@ from pawpals import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    url(r'^$', views.base, name='base'),
     url(r'^$', views.home, name='home'),
     url(r'^about', views.about, name='about'),
     url(r'^login/$',auth_views.LoginView.as_view(template_name='pawpals/login.html'),name='login'),
