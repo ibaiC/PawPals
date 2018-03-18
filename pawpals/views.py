@@ -51,18 +51,10 @@ def show_shelter(request, shelter_slug):
     return render(request, 'pawpals/shelter.html', context_dict)
 
 def show_dog(request, dog_slug):
-<<<<<<< HEAD
     context_dict = {}
-=======
->>>>>>> d0b41dc207b6d297fc7aaa5dc36566633081088f
-
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
-<<<<<<< HEAD
-=======
-
->>>>>>> d0b41dc207b6d297fc7aaa5dc36566633081088f
 
     except Dog.DoesNotExist:
         context_dict = {}

@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 import numpy as np
 
 # default values
@@ -88,13 +90,16 @@ class Dog(models.Model):
                                        ("M", "Medium"),
                                        ("L", "Large")))
     gender = models.CharField(max_length = 1, choices = (("M", "Male"),
-                                                         ("F", "Female"),
-                                                         ("N", "Neutered")))
+                                                         ("F", "Female")))
                                          
     is_puppy = models.BooleanField(default = "False")
     is_childfriendly = models.BooleanField(default = "False")
     
-    slug = models.SlugField(unique = True)
+    # can be blank due to its dependency on primary key
+    # (integrity constraint errors if unique but not blank upon save)
+    #slug = models.SlugField(unique = True, blank = True, null = True)
+
+
 
     def save(self, *args, **kwargs):
 
@@ -112,20 +117,75 @@ class Dog(models.Model):
         
         self.difficulty = avg_difficulty
 
+
         # if called upon object creation, save first, so pk is created and is not None in slug
-        if not(self.id):
-            super(Dog, self).save(*args, **kwargs)
+        #if not(self.id):
+            #print(">>> None: " + str(self.id))
+         #   super().save(*args, **kwargs)
         
-        self.slug = slugify(self.name + "-" + str(self.id))
-        super(Dog, self).save(*args, **kwargs)
+        #print(">>> After slug: " + str(self.id) + " : " + str(self.slug))
+
+        super(Dog,self).save(*args, **kwargs)
+    
+    def clean(self):
+        
+        same_name = Dog.objects.all().filter(name=self.name, dog_shelter = self.dog_shelter).count()
+        
+        if same_name != 0:
+            raise ValidationError("Dog of this name is already in the shelter.")
         
     def __str__(self):
         return self.name
 
+# Sets up slug 
+@receiver(post_save, sender = Dog)
+def update_slug(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.slug = slugify(instance.name + "-" + str(instance.pk))
+        instance.save()
+        
+class Request(models.Model):
+    # relationships
+    requesting_user = models.ForeignKey(StandardUser)
+    request_manager = models.ForeignKey(ShelterManagerUser) 
+    requested_dog = models.ForeignKey(Dog)
+    
+    date = models.DateTimeField(default = timezone.now())
+    status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
+                                                      ("D", "Denied"),
+                                                      ("P", "Pending"),
+                                                      ("C", "Completed"),
+                                                      ("R", "Reviewed")))
+    message = models.CharField(max_length = extended_char_len, blank = True)
+    
+    def __str__(self):
+        dog_name = str(self.requested_dog)
+        user_name = str(self.requesting_user)
+        manger_name = str(self.request_manager)
+
+        return (dog_name  + " - by " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")    
+
+    def save(self, *args, **kwargs):
+        
+        if (Review.objects.all().filter(request = self)) and not(self.status.__eq__("R")):
+            self.status = "R"
+            
+        super(Request, self).save(*args, **kwargs)
+
+    def clean(self):
+        
+        managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
+        managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
+        
+        if self.requested_dog not in managed_dogs:
+            raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
+        
 class Review(models.Model):
     # relationships
     reviewing_user = models.ForeignKey(StandardUser)
     reviewed_dog = models.ForeignKey(Dog)
+    request = models.OneToOneField(Request)
+
     
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
     comment = models.CharField(max_length = extended_char_len)
@@ -133,17 +193,12 @@ class Review(models.Model):
 
     def save(self, *args, **kwargs):
         
-        completed_requests = Request.objects.all().filter(requesting_user = self.reviewing_user,
-                                                          requested_dog = self.reviewed_dog,
-                                                          status = "C"
-                                                    )
-        
-        
-        
         # update dog upon creating/changing review          
         super(Review, self).save(*args, **kwargs)
         
-        # upon creation change request to "Reviewed"
+        # change request to "Reviewed"
+        self.request.status = "R"
+        
         # self.reviewed_dog.
         self.reviewed_dog.save()
         self.reviewed_dog.dog_shelter.save()
@@ -157,11 +212,8 @@ class Review(models.Model):
         complete_requests_num = requests.filter(status = "C").count()
         reviewed_requests_num = requests.filter(status = "R").count()
         
-        
-        if review_num == reviewed_requests_num:
-            raise ValidationError("Dog has already been reviewed by given user.")
-        
-        if complete_requests_num <= 0:
+        # Request must be completed (adding review) or reviewed (editing review)
+        if (self.request.status != "C") or (self.request.status != "R"):
             raise ValidationError("Cannot review dog which request has not been completed.")
 
         
@@ -171,39 +223,3 @@ class Review(models.Model):
 
         return (dog_name  + " (" + self.date.strftime("%B %d, %Y") + ")")
 
-
-class Request(models.Model):
-    # relationships
-    requesting_user = models.ForeignKey(StandardUser)
-    request_manager = models.ForeignKey(ShelterManagerUser) 
-    requested_dog = models.ForeignKey(Dog)
-    review = models.ForeignKey(Review, blank = True, null = True)
-    
-    date = models.DateTimeField(default = timezone.now())
-    status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
-                                                      ("D", "Denied"),
-                                                      ("P", "Pending"),
-                                                      ("C", "Completed")))
-    message = models.CharField(max_length = extended_char_len, blank = True)
-    
-    def __str__(self):
-        dog_name = str(self.requested_dog)
-        user_name = str(self.requesting_user)
-        manger_name = str(self.request_manager)
-
-        return (dog_name  + " - by " + user_name + " (" + self.date.strftime("%B %d, %Y") + ")")    
-
-    def save(self, *args, **kwargs):
-        
-        if (self.review) and not(self.status.__eq__("R")):
-            self.status = "R"
-            
-        super(Request, self).save(*args, **kwargs)
-
-    def clean(self):
-        
-        managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
-        managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
-        
-        if self.requested_dog not in managed_dogs:
-            raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")

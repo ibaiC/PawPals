@@ -171,46 +171,17 @@ def populate():
 
     users = {"jojo2": {"fullname" : "Joseph Joestar",
                        "email" :"jojo2@gmail.com",
-                       "phone_contact" : "+44 000000",
-                       "reviews": {Dog.objects.all().get(id=1) : {"rating": 5,
-                                                                    "comment": "Good doggo!",
-                                                                    "date": "2018-02-01T13:20:30+03:00"
-                                                                    },
-                                   Dog.objects.all().get(id=2): {"rating": 1,
-                                                                   "comment": "Bad doggo!",
-                                                                   "date": "2018-02-11T13:20:30+03:00"
-                                                                   }
-                                   }
-                       },
-        "optiplex": {"fullname" : "Ann Dawn",
-                     "email" : "optiplex@mail.com",
-                     "phone_contact": "+44 11111111",
-                     "reviews": {Dog.objects.all().get(id=3) : {"rating": 2,
-                                                                "comment": "So fluffy!!",
-                                                                "date": "2018-02-10T13:20:30+03:00"
-                                                                },
-                                 Dog.objects.all().get(id=4): {"rating": 3,
-                                                               "comment": "Bites a bit, otherwise great",
-                                                               "date": "2018-03-01T13:20:30+03:00"
-                                                               }
-                                 }
-                     },
-        "lilylith": {"fullname" : "Lily Lithium",
-                     "email" : "llith@mail.com",
-                     "phone_contact" : "+44 222222222",
-                     "reviews": {Dog.objects.all().get(id=5) : {"rating": 5,
-                                                                "comment": "Nice walk.",
-                                                                "date": "2018-03-11T13:20:30+03:00"
-                                                                },
-                                 Dog.objects.all().get(id=6): {"rating": 5,
-                                                               "comment": "Very playful, nice walk.",
-                                                               "date": "2018-03-21T13:20:30+03:00"
-                                                               }
-                                 }
-                     }
-    }
-
-     ### Users and review creation ###
+                       "phone_contact" : "+44 000000"},
+            "optiplex": {"fullname" : "Ann Dawn",
+                        "email" : "optiplex@mail.com",
+                        "phone_contact": "+44 11111111"},
+            "lilylith": {"fullname" : "Lily Lithium",
+                         "email" : "llith@mail.com",
+                         "phone_contact" : "+44 222222222"}
+            }
+    
+    
+    ### Users creation ###
     for user, user_data in users.items():
         u = add_user(is_manager=False,
                      username=user,
@@ -219,28 +190,18 @@ def populate():
                      phone_contact=user_data["phone_contact"]
                      )
 
-        for reviewed_dog, review_data in user_data["reviews"].items():
-            add_review(user=u,
-                       dog=reviewed_dog,
-                       date=review_data["date"],
-                       rating=review_data["rating"],
-                       comment=review_data["comment"]
-                       )
-
-
-
     ### Request creation ###
     requests = {0 : {"user" : StandardUser.objects.all().get(pk = "jojo2"), 
                      "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 1), 
                      "date" : "2018-03-21T13:20:30+03:00",
-                     "confirmation_status" : "P",
+                     "confirmation_status" : "C",
                      "message" : "Hi! Can I walk that doggie next week?"},
                 1 : {"user" : StandardUser.objects.all().get(pk = "jojo2"), 
                      "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 2), 
                      "date" : "2018-03-21T13:20:30+03:00",
-                     "confirmation_status" : "A",
+                     "confirmation_status" : "C",
                      "message" : "Next Friday 11am?"},
                 2 : {"user" : StandardUser.objects.all().get(pk = "lilylith"), 
                      "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
@@ -257,6 +218,34 @@ def populate():
                     date = request["date"], 
                     confirmation_status = request["confirmation_status"], 
                     message = request["message"])
+
+
+    # Reviews creation
+    reviews = {Request.objects.get(pk = 1) : {"user" : requests[0]["user"],
+                                               "dog" : requests[0]["dog"],
+                                               "rating": 5,
+                                               "comment": "Good doggo!",
+                                               "date": "2018-02-01T13:20:30+03:00"},
+               Request.objects.get(pk = 2) : {"user" : requests[1]["user"],
+                                               "dog" : requests[1]["dog"],
+                                               "rating": 4,
+                                               "comment": "Very playful.",
+                                               "date": "2018-02-01T13:20:30+03:00"},
+               Request.objects.get(pk = 3) : {"user" : requests[2]["user"],
+                                               "dog" : requests[2]["dog"],
+                                               "rating": 1,
+                                               "comment": "Very badly behaved.",
+                                               "date": "2018-02-01T13:20:30+03:00"},                               
+            }
+    
+    for request, review_data in reviews.items():
+         add_review(request = request,
+                    user = review_data["user"],
+                   dog=review_data["dog"],
+                   date=review_data["date"],
+                   rating=review_data["rating"],
+                   comment=review_data["comment"]
+                   )
 
 
     ### Print confirmation ###
@@ -310,15 +299,18 @@ def add_shelter(manager, name, bio, webpage, phone_contact, availability_info, l
 
 def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture=None, is_puppy=False, is_childfriendly=False):
     
-    d = Dog.objects.get_or_create(dog_shelter=shelter, name=name)[0]
     
-    d.bio = bio 
+    d = Dog.objects.get_or_create(name=name, dog_shelter=shelter, defaults={"bio" : bio,
+                                                        "breed" : breed,
+                                                        "size" : size})[0]
+
+    #d.bio = bio 
     d.profile_picture = profile_picture  
-    d.breed = breed 
+    #d.breed = breed 
 
     d.difficulty = difficulty
 
-    d.size = size
+    #d.size = size
     d.gender = gender        
     d.is_puppy = is_puppy
     d.is_childfriendly = is_childfriendly
@@ -327,11 +319,9 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
     return d
 
 
-def add_review(user, dog, date, rating, comment):
+def add_review(user, dog, request, date, rating, comment):
     
-    # Note: since user can comment and review after each walk (request status "taken place")
-    #       there can be many reviews by the same user on the same dog but with different DATE
-    rev = Review.objects.get_or_create(reviewing_user=user, reviewed_dog=dog, date=date)[0]
+    rev = Review.objects.get_or_create(reviewing_user=user, reviewed_dog=dog, date=date, request=request)[0]
 
     rev.difficulty_rating = rating
     rev.comment = comment
