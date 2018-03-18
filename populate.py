@@ -1,4 +1,5 @@
 import os
+import profile
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pawpals_project.settings")
 
 import django
@@ -6,24 +7,25 @@ django.setup()
 
 from django.utils import timezone
 from pawpals.models import *
+from django.core.files import File
 
 
 def populate():
     
-    ### Dog Trust data ###
+    ### In Dogs We Trust data ###
     dog_trust_dogs = [
-        {"name" : "Leo",
+        {"name" : "Bailey",
          "bio" : "Very good boy.",
-         "profile_picture" : None,
-         "breed" : "Bulldog",
-         "difficulty" : 3,
-         "size" : "M",
+         "profile_picture" : "bailey.jpg",
+         "breed" : "Chihuahua",
+         "difficulty" : 1,
+         "size" : "S",
          "gender" : "M",
-         "is_puppy" : True,
+         "is_puppy" : False,
          "is_childfriendly" : True},
         {"name" : "Difen",
          "bio" : "Extremely good boy.",
-         "profile_picture" : None,
+         "profile_picture" : "difen.jpg",
          "breed" : "Mongrel",
          "difficulty" : 1,
          "size" : "L",
@@ -31,17 +33,17 @@ def populate():
          "is_puppy" : False,
          "is_childfriendly" : True},
         {"name": "Lisa",
-         "bio": "Fierce lady.",
-         "profile_picture": None,
-         "breed": "Puddle",
+         "bio": "Fluffy lady.",
+         "profile_picture": "lisa.jpg",
+         "breed": "Chow chow",
          "difficulty": 5,
          "size": "S",
          "gender": "F",
-         "is_puppy": False,
-         "is_childfriendly": False},
+         "is_puppy": True,
+         "is_childfriendly": True},
         {"name": "Atos",
          "bio": "Old but strong! Huge. Obedient. Protective.",
-         "profile_picture": None,
+         "profile_picture": "atos.jpg",
          "breed": "Mongrel",
          "difficulty": 1,
          "size": "L",
@@ -50,7 +52,7 @@ def populate():
          "is_childfriendly": True},
         {"name": "Sawa",
          "bio": "Very playful, active, guard dog.",
-         "profile_picture": None,
+         "profile_picture": "sawa.jpg",
          "breed": "Mongrel",
          "difficulty": 5,
          "size": "M",
@@ -61,16 +63,17 @@ def populate():
     
     dog_trust_manager = {"username" : "jsmith",
                         "fullname" : "John Smith",
-                        "phone_contact" : "121212112",
-                        "email" : "jsmith@mail.co.uk"
+                        "phone_contact" : "+44 1111111111",
+                        "email" : "jsmith@mail.co.uk",
+                        "profile_picture" : None
                         }
 
-    ### Blue Cross For Pets data ###
+    ### Big Hearts For Pets data ###
 
-    blue_cross_dogs = [
-        {"name": "Jonathan",
+    hearts_dogs = [
+        {"name": "Bailey",
          "bio": "Calm, loves running.",
-         "profile_picture": None,
+         "profile_picture": "husky.jpg",
          "breed": "Husky",
          "difficulty": 2,
          "size": "L",
@@ -79,17 +82,17 @@ def populate():
          "is_childfriendly": True},
         {"name": "Helix",
          "bio": "Loves purple balls",
-         "profile_picture": None,
+         "profile_picture": "helix.jpg",
          "breed": "Shih-tzu",
          "difficulty": 3,
          "size": "S",
          "gender": "M",
          "is_puppy": False,
          "is_childfriendly": True},
-        {"name": "Speed",
+        {"name": "Orbit",
          "bio": "Loves cuddles and treats.",
-         "profile_picture": None,
-         "breed": "Pug",
+         "profile_picture": "orbit.jpg",
+         "breed": "Jisu-lee",
          "difficulty": 4,
          "size": "M",
          "gender": "N",
@@ -97,7 +100,7 @@ def populate():
          "is_childfriendly": False},
         {"name": "Amino",
          "bio": "Has a long tongue",
-         "profile_picture": None,
+         "profile_picture": "amino.jpg",
          "breed": "Shih-tzu",
          "difficulty": 4,
          "size": "S",
@@ -106,33 +109,173 @@ def populate():
          "is_childfriendly": True},
     ]
 
-    blue_cross_manager = {"username": "abrown",
+    hearts_manager = {"username": "abrown",
                          "fullname": "Anna Brown",
-                         "phone_contact": "1313131313",
-                         "email": "abrown@mail.co.uk"
+                         "phone_contact": "+44 2222222222",
+                         "email": "abrown@mail.co.uk",
+                        "profile_picture" : None
                          }
+    
+    ### Speedwagon Foundation data ###
 
+    speedwagon_dogs = [
+        {"name": "Jonathan",
+         "bio": "Gentle and caring, very loyal.",
+         "profile_picture": "jonathan.jpg",
+         "breed": "Chow chow",
+         "difficulty": 2,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Joseph",
+         "bio": "Playful, very tricky!",
+         "profile_picture": "joseph.jpg",
+         "breed": "Shiba Inu",
+         "difficulty": 5,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": False},
+        {"name": "Jotaro",
+         "bio": "Wary of strangers but has a heart of gold.",
+         "profile_picture": "jotaro.jpg",
+         "breed": "Shiba Inu",
+         "difficulty": 4,
+         "size": "L",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": False},
+        {"name": "Josuke",
+         "bio": "He's just crazy energetic",
+         "profile_picture": "josuke.jpg",
+         "breed": "Mongrel",
+         "difficulty": 4,
+         "size": "M",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Giorno",
+         "bio": "Very charismatic dog",
+         "profile_picture": "giorno.jpg",
+         "breed": "Terrier",
+         "difficulty": 4,
+         "size": "M",
+         "gender": "M",
+         "is_puppy": True,
+         "is_childfriendly": True},
+        {"name": "Jolyne",
+         "bio": "Loves long walks on a beach and warm bubbly baths.",
+         "profile_picture": "jolyne.jpg",
+         "breed": "Mongrel",
+         "difficulty": 4,
+         "size": "M",
+         "gender": "F",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Johnny",
+         "bio": "Tougher than he looks!",
+         "profile_picture": "johnny.jpg",
+         "breed": "Mongrel",
+         "difficulty": 4,
+         "size": "S",
+         "gender": "M",
+         "is_puppy": True,
+         "is_childfriendly": True},
+        {"name": "Josuke",
+         "bio": "The other Josuke, not as energetic but very cute!",
+         "profile_picture": "josuke2.jpg",
+         "breed": "Mongrel",
+         "difficulty": 4,
+         "size": "M",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+    ]
+
+    speedwagon_manager = {"username": "speedwagon",
+                         "fullname": "Robert E. O. Speedwagon",
+                         "phone_contact": "+44 3333333333",
+                         "email": "speedwagon@mail.co.uk",
+                        "profile_picture" : None
+                         }
+    
+    
+    ### Wag&Bark Centre data ###
+
+    wagbark_dogs = [
+        {"name": "Seph",
+         "bio": "Lazy, doesn't like walks.",
+         "profile_picture": "seph.jpg",
+         "breed": "Pug",
+         "difficulty": 2,
+         "size": "S",
+         "gender": "M",
+         "is_puppy": False,
+         "is_childfriendly": True},
+        {"name": "Jaga",
+         "bio": "Always happy to go for a walk.",
+         "profile_picture": "jaga.jpg",
+         "breed": "Retriever",
+         "difficulty": 3,
+         "size": "L",
+         "gender": "F",
+         "is_puppy": False,
+         "is_childfriendly": False},
+    ]
+
+    wagbark_manager = {"username": "wbman",
+                         "fullname": "Rose Goldman",
+                         "phone_contact": "+44 4444444444",
+                         "email": "wagandbark@mail.co.uk",
+                        "profile_picture" : None
+                         }
+    
     ### Shelters ###
 
-    shelters = {"Dog Trust" : {
+    shelters = {"In Dogs We Trust" : {
                     "manager": dog_trust_manager,
                     "dogs": dog_trust_dogs,
-                    "bio": "315 Hamilton Road Uddingston Glasgow G71 7SL",
+                    "bio": "0/1 Doggo Road, Glasgow G0 A00",
                     "webpage": "https://www.dogstrust.org.uk/our-centres/glasgow/",
-                    "phone_contact": "+44 123456789",
+                    "phone_contact": "+44 1111111112",
                     "availability_info": "Everyday 8am-3pm",
                     "location": "Glasgow",
-                    "avg_rating": 4
+                    "avg_rating": 4,
+                    "profile_picture" : "dog_trust.jpg"
                     },
-                "Blue Cross For Pets" : {
-                    "manager": blue_cross_manager,
-                    "dogs": blue_cross_dogs,
-                    "bio": "Rehoming for cats, dogs & rabbits Parklands,Thirsk,YO7 3SE",
+                "Big Hearts For Pets" : {
+                    "manager": hearts_manager,
+                    "dogs": hearts_dogs,
+                    "bio": "Rehoming for cats, dogs & rabbits",
                     "webpage": "https://www.bluecross.org.uk/yorkshire-thirsk-rehoming-centre",
-                    "phone_contact": "+44 987654321",
+                    "phone_contact": "+44 1111111113",
                     "availability_info": "Tuesday - Saturday 8am-3pm",
-                    "location": "Yorkshire",
-                    "avg_rating": 3
+                    "location": "Yorkshire YO B11",
+                    "avg_rating": 3,
+                    "profile_picture" : "hearts.jpg"
+                    },
+                "Speedwagon Foundation" : {
+                    "manager": speedwagon_manager,
+                    "dogs": speedwagon_dogs,
+                    "bio": "The foundation dedicates itself to animal care and environmental conservation.",
+                    "webpage": "https://www.bluecross.org.uk/yorkshire-thirsk-rehoming-centre",
+                    "phone_contact": "+44 1111111114",
+                    "availability_info": "All week 6am-6pm",
+                    "location": "Glasgow, 19 Speedwagon Road, G2 C22",
+                    "avg_rating": 3,
+                    "profile_picture" : "speedwagon.jpg"
+                    },
+                "Wag&Bark Centre" : {
+                    "manager": wagbark_manager,
+                    "dogs": wagbark_dogs,
+                    "bio": "Wag&Bark centre is a small neighbourhood initiative focusing on helping homeless animals from Smallvile area.",
+                    "webpage": "https://www.bluecross.org.uk/yorkshire-thirsk-rehoming-centre",
+                    "phone_contact": "+44 1111111115",
+                    "availability_info": "Wednesday 2pm - 8pm",
+                    "location": "Smallvile",
+                    "avg_rating": 3,
+                    "profile_picture" : None
                     }}
     
     ### Shelter, dog, manager creation ###
@@ -143,8 +286,8 @@ def populate():
                              username=manager_data["username"],
                              fullname=manager_data["fullname"],
                              email=manager_data["email"],
-                             profile_picture=None,
-                             phone_contact=manager_data["phone_contact"])
+                             phone_contact=manager_data["phone_contact"],
+                             profile_picture = manager_data["profile_picture"])
             
         sh = add_shelter(manager=sh_manager,
                          name=shelter,
@@ -153,7 +296,8 @@ def populate():
                          phone_contact=shelter_data["phone_contact"],
                          availability_info=shelter_data["availability_info"],
                          location=shelter_data["location"],
-                         avg_rating=shelter_data["avg_rating"])
+                         avg_rating=shelter_data["avg_rating"],
+                         profile_picture = shelter_data["profile_picture"])
         
         for dog in shelter_data["dogs"]:
             add_dog(shelter=sh,
@@ -164,20 +308,24 @@ def populate():
                     size=dog["size"],
                     gender=dog["gender"],
                     is_puppy=dog["is_puppy"],
-                    is_childfriendly=dog["is_childfriendly"])
+                    is_childfriendly=dog["is_childfriendly"],
+                    profile_picture=dog["profile_picture"])
     
 
     ### Users ###
 
-    users = {"jojo2": {"fullname" : "Joseph Joestar",
-                       "email" :"jojo2@gmail.com",
-                       "phone_contact" : "+44 000000"},
-            "optiplex": {"fullname" : "Ann Dawn",
+    users = {"hendo": {"fullname" : "Henrietta Dobras",
+                       "email" :"hendo@gmail.com",
+                       "phone_contact" : "+44 2222222221",
+                       "profile_picture" : "hendo.jpg"},
+            "yerba4life": {"fullname" : "Elliot Black",
                         "email" : "optiplex@mail.com",
-                        "phone_contact": "+44 11111111"},
+                        "phone_contact": "+44 2222222223",
+                        "profile_picture" : "yerba4life.jpg"},
             "lilylith": {"fullname" : "Lily Lithium",
                          "email" : "llith@mail.com",
-                         "phone_contact" : "+44 222222222"}
+                         "phone_contact" : "+44 2222222224",
+                         "profile_picture" : "lilylith.jpg"},
             }
     
     
@@ -187,17 +335,18 @@ def populate():
                      username=user,
                      fullname=user_data["fullname"],
                      email=user_data["email"],
-                     phone_contact=user_data["phone_contact"]
+                     phone_contact=user_data["phone_contact"],
+                     profile_picture=user_data["profile_picture"]
                      )
 
     ### Request creation ###
-    requests = {0 : {"user" : StandardUser.objects.all().get(pk = "jojo2"), 
+    requests = {0 : {"user" : StandardUser.objects.all().get(pk = "lilylith"), 
                      "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 1), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
                      "message" : "Hi! Can I walk that doggie next week?"},
-                1 : {"user" : StandardUser.objects.all().get(pk = "jojo2"), 
+                1 : {"user" : StandardUser.objects.all().get(pk = "hendo"), 
                      "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 2), 
                      "date" : "2018-03-21T13:20:30+03:00",
@@ -278,9 +427,14 @@ def add_user(is_manager, username, fullname, email, phone_contact, profile_pictu
     user.fullname = fullname
     user.email = email
     user.phone_contact = phone_contact
-    user.profile_picture = profile_picture
     
     user.save()
+    
+    if profile_picture:
+        user.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "users", profile_picture), "rb")))
+    else:
+        user.profile_picture = profile_picture 
+    
     return user
 
 
@@ -294,6 +448,12 @@ def add_shelter(manager, name, bio, webpage, phone_contact, availability_info, l
     sh.location = location
     sh.avg_difficulty_rating = avg_rating
     sh.save()
+    
+    if profile_picture:
+        sh.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "shelters", profile_picture), "rb")))
+    else:
+        sh.profile_picture = profile_picture 
+    
     return sh
 
 
@@ -303,7 +463,7 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
     d = Dog.objects.get_or_create(name=name, dog_shelter=shelter)[0]
 
     d.bio = bio 
-    d.profile_picture = profile_picture  
+      
     d.breed = breed 
     d.difficulty = difficulty
     d.size = size
@@ -312,6 +472,12 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
     d.is_childfriendly = is_childfriendly
 
     d.save()
+    
+    if profile_picture:
+        d.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "dogs", profile_picture), "rb")))
+    else:
+        d.profile_picture = profile_picture 
+    
     return d
 
 

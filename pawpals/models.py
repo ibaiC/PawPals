@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import os
 import numpy as np
 
 # default values
@@ -18,8 +19,12 @@ class AbstractUser(models.Model):
     username = models.CharField(max_length = 128, primary_key = True)
     fullname = models.CharField(max_length = standard_char_len) # name and surname
     email = models.EmailField(unique = True)
-    profile_picture = models.ImageField(upload_to="users_profile_images", blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
+
+    def user_image_path(self, filename):
+        return (os.path.join("user_profile_images", filename))
+
+    profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
 
     class Meta:
         abstract = True;
@@ -40,13 +45,20 @@ class Shelter(models.Model):
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
     bio = models.CharField(max_length = extended_char_len)
     webpage = models.URLField(blank = "True")
-    profile_picture = models.ImageField(upload_to="shelters_profile_images", blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True)
     availability_info = models.CharField(max_length = extended_char_len)
     location = models.CharField(max_length = standard_char_len)
     avg_difficulty_rating = models.IntegerField(default = 5, validators = difficulty_validators)
     
     slug = models.SlugField(unique = True)
+
+    
+    def shelter_image_path(self, filename):
+        return (os.path.join("shelters_profile_picture", filename))
+    
+    profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
+
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -81,7 +93,6 @@ class Dog(models.Model):
     
     name = models.CharField(max_length = standard_char_len)
     bio = models.CharField(max_length = extended_char_len)
-    profile_picture = models.ImageField(upload_to="dogs_profile_images", blank="True")
     breed = models.CharField(max_length = standard_char_len)
     
     difficulty = models.IntegerField(default = 0, validators = difficulty_validators)
@@ -96,6 +107,12 @@ class Dog(models.Model):
     is_childfriendly = models.BooleanField(default = "False")
     
     slug = models.SlugField(unique = True)
+
+    def dog_image_path(self, filename):
+        return (os.path.join("dogs_profile_images", filename))
+
+    profile_picture = models.ImageField(upload_to=dog_image_path, blank="True")
+
 
     def save(self, *args, **kwargs):
 
@@ -126,7 +143,7 @@ class Dog(models.Model):
         
         same_name = Dog.objects.all().filter(name=self.name, dog_shelter = self.dog_shelter).count()
         
-        if same_name != 0:
+        if same_name > 1:
             raise ValidationError("Dog of this name is already in the shelter.")
         
     def __str__(self):
