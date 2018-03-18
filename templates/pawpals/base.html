@@ -21,7 +21,7 @@
 {% endblock %}
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light" style="background-color: #e3f2fd;">
-  <a class="navbar-brand">PawPals</a>
+  <a class="navbar-brand"><img src="BRAND IMAGE LINK HERE" width="30" height="30" alt="">PawPals</a>
 
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -56,14 +56,16 @@
             {% block body_block %}
             {% endblock %}
         </div>
+
+  <nav class="navbar navbar-default  navbar-fixed-bottom" role="navigation">
+    <div class="container text-center">
+        <ul class="navbar-nav mr-auto">
+            PawPals
+        </ul>
+           <ul class="navbar-nav ml-auto">
+        <a class="nav-link" href="#Top">Back To The Top</a>
+           </ul>
+    </div>
+</nav>
     </body>
-
-  <footer class="container">
-    <p class="float-right">
-      <a href="#">Back to top</a>
-    </p>
-    <p class="float-left">&copy; 2018 Pawpals &middot;
-    </p>
-  </footer>
-
 </html>

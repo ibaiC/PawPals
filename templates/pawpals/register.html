@@ -2,29 +2,53 @@
 {% load staticfiles %}
 
 {% block stylesheet_block %}
-    <link rel="stylesheet" type="text/css" href="{% static "styles/register.css" %}">
-{% endblock %}
-{% block title_block %}
-    Register
+  <link rel="stylesheet" type="text/css" href="{% static "styles/register.css" %}">
 {% endblock %}
 
 {% block body_block %}
-<div class ="register">
-<h1 class="title">Register for Pawpals</h1>
-    {% if registered %}
-        Pawpals says:
-        <strong>Thank you for registering!</strong>
-        <a href="{% url 'home' %}">Return to the homepage.</a>
-        <br />
-    {% else %}
-        <div class ="float-center" id="user_form" method="post" action="{% url 'register' %}"
-              enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form_fields">{{ user_form.as_p }}
-            {{ profile_form.as_p }}</div>
-            <!-- Submit button -->
-            <input type="submit" name="submit" value="Register" />
-        </form>
+<div class="container">
+
+    <div class="header_container">
+
+    <h1 class="header" align="center">Please Enter Your Registration Details</h1>
     </div>
-    {% endif %}
-    {% endblock %}
+<form role="form" method="post" action=".">
+{% csrf_token %}
+<div class="form-group" >
+<p class="required"><label class="required" for="id_username">
+Username:</label>
+<input class="form-control" id="id_username" maxlength="30"
+name="username" type="text" />
+<span class="helptext">
+Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
+</span>
+</p>
+<p class="required"><label class="required" for="id_email">
+E-mail:</label>
+<input class="form-control" id="id_email" name="email"
+type="email" />
+</p>
+<p class="required"><label class="required" for="id_password1">
+Password:</label>
+<input class="form-control" id="id_password1" name="password1"
+type="password" />
+</p>
+<p class="required">
+<label class="required" for="id_password2">
+Password confirmation:</label>
+<input class="form-control" id="id_password2" name="password2"
+type="password" />
+<span class="helptext">
+Enter the same password as before, for verification.
+</span>
+</p>
+    <div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary">Personal</button>
+  <button type="button" class="btn btn-secondary">Professional</button>
+</div>
+</div>
+
+<button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+{% endblock %}

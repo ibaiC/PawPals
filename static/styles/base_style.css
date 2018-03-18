@@ -1,14 +1,9 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
-
-.form_fields {
-    position:relative
-    display: table-cell;
-    vertical-align: middle;
-    color: #FF0000;
-}
-
+.form-signin-heading {
+    padding-bottom: 5px;
+    }
 body {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -63,7 +58,9 @@ footer {
   position: absolute;
   bottom: 0;
 }
-
+.footer {
+    text-align: center;
+    }
 .center-cropped {
  /* Do not scale the image */
   object-position: center; /* Center the image within the element */
@@ -81,6 +78,7 @@ h1{padding-bottom: 2rem;
 }
 form-group col-lg-12{text-align: center;
 }
+
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
