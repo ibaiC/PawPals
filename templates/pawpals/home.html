@@ -3,11 +3,36 @@
 {% block title_block %}
 Welcome to PawPals!
 {% endblock %}
-
 {% block body_block %}
-Body
-{% endblock %}
 
-{% block sidebar_block %}
-{% endblock %}
+  <div class="container marketing">
 
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h4 class="featurette-heading" align="center">Welcome To PawPals!
+        </h4>
+        <p class="lead" align="center" vertical-align="center">At PawPals we work to match those who want a dog but don't have the time or money to take care of one.
+        We work alongside dog shelters so that dogs who need love and attention can go on walks and spend quality time with amazing people like you!
+          So what are you waiting for, find yourself a PawPal and go make some memories! </p>
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
+    <div class="row">
+            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+        {% for dog in dogs %}
+      <div class="col-lg-4">
+        <img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+          width="200" height="200">
+        <h3>{{ dog.name }}</h3>
+          <a class="btn btn-secondary" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
+        </p>
+      </div>
+        {% endfor %}
+  </div>
+
+{% endblock %}
