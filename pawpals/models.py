@@ -95,11 +95,7 @@ class Dog(models.Model):
     is_puppy = models.BooleanField(default = "False")
     is_childfriendly = models.BooleanField(default = "False")
     
-    # can be blank due to its dependency on primary key
-    # (integrity constraint errors if unique but not blank upon save)
-    #slug = models.SlugField(unique = True, blank = True, null = True)
-
-
+    slug = models.SlugField(unique = True)
 
     def save(self, *args, **kwargs):
 
@@ -118,14 +114,13 @@ class Dog(models.Model):
         self.difficulty = avg_difficulty
 
 
-        # if called upon object creation, save first, so pk is created and is not None in slug
-        #if not(self.id):
-            #print(">>> None: " + str(self.id))
-         #   super().save(*args, **kwargs)
-        
-        #print(">>> After slug: " + str(self.id) + " : " + str(self.slug))
+        # if called upon object creation, save first, so pk is created and slug in not None
+        if not(self.pk):
+            super().save(*args, **kwargs)
+        else:
+            self.slug = slugify(self.name + "-" + str(self.pk))
+            super(Dog,self).save(*args, **kwargs)
 
-        super(Dog,self).save(*args, **kwargs)
     
     def clean(self):
         
@@ -137,7 +132,7 @@ class Dog(models.Model):
     def __str__(self):
         return self.name
 
-# Sets up slug 
+# Sets up slug upon creation. This workaround deserves cookies and praise. 
 @receiver(post_save, sender = Dog)
 def update_slug(sender, instance, created, *args, **kwargs):
     if created:

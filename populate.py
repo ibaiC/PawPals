@@ -255,7 +255,7 @@ def populate():
     for sh in Shelter.objects.all():
         print(str(sh) + " managed by: " +str(sh.manager))
         for dog in Dog.objects.filter(dog_shelter=sh):
-            print("\t - " + str(dog))
+            print("\t - " + str(dog.pk) + " | " + str(dog))
     print("\n>>> Users and comments")
     for user in StandardUser.objects.all():
         print(str(user) + "'s comments:")
@@ -300,17 +300,13 @@ def add_shelter(manager, name, bio, webpage, phone_contact, availability_info, l
 def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture=None, is_puppy=False, is_childfriendly=False):
     
     
-    d = Dog.objects.get_or_create(name=name, dog_shelter=shelter, defaults={"bio" : bio,
-                                                        "breed" : breed,
-                                                        "size" : size})[0]
+    d = Dog.objects.get_or_create(name=name, dog_shelter=shelter)[0]
 
-    #d.bio = bio 
+    d.bio = bio 
     d.profile_picture = profile_picture  
-    #d.breed = breed 
-
+    d.breed = breed 
     d.difficulty = difficulty
-
-    #d.size = size
+    d.size = size
     d.gender = gender        
     d.is_puppy = is_puppy
     d.is_childfriendly = is_childfriendly
