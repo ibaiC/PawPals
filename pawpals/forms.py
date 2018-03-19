@@ -26,11 +26,11 @@ class ReviewForm(forms.ModelForm):
 
 
 class RequestForm(forms.ModelForm):
-    requestMessage = forms.CharField(max_length = extended_char_len, blank = False)
+    requestMessage = forms.CharField(max_length = extended_char_len)
 
     class Meta:
-        model = RequestForm
-        fields = ('requestMessage')
+        model = Request
+        fields = ('requestMessage',)
 
 ## TODO: edit user, edit shelter, edit dog
 
