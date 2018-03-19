@@ -19,35 +19,25 @@ standard_char_len = 200
 extended_char_len = 500
 difficulty_validators = [MinValueValidator(0), MaxValueValidator(5)]
 
-class AbstractUser(models.Model):
-    username = models.CharField(max_length = 128, primary_key = True)
-    fullname = models.CharField(max_length = standard_char_len) # name and surname
-    email = models.EmailField(unique = True)
-    phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
-
-    #is_manager = models.BooleanField()
-
+class User(AbstractUser):
+    # username, first_name, last_name, email, password, groups, user_permissions, is_staff, is_active, is_superuser, last_login, date_joined
+    is_manager = models.BooleanField("manager status", default=False)
+    is_standard = models.BooleanField("standard user status", default=False)
+    
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, primary_key = True)
+    
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
+    phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
 
-    class Meta:
-        abstract = True;
-
-    def __str__(self):
-        return self.fullname
-
-
-class StandardUser(AbstractUser):
-    pass
-
-class ShelterManagerUser(AbstractUser):
-    pass
 
 class Shelter(models.Model):
     # relationships
-    manager = OneToOneField(ShelterManagerUser)
+    manager = OneToOneField(User)
 
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
     bio = models.CharField(max_length = extended_char_len)
@@ -65,7 +55,9 @@ class Shelter(models.Model):
 
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
 
-
+    def clean(self):
+        if not(self.manager.is_manager):
+            raise ValidationError("User does not have permission to be manager.")
 
     def save(self, *args, **kwargs):
         """
@@ -176,8 +168,9 @@ def update_slug(sender, instance, created, *args, **kwargs):
 
 class Request(models.Model):
     # relationships
-    requesting_user = models.ForeignKey(StandardUser)
-    request_manager = models.ForeignKey(ShelterManagerUser)
+    requesting_user = models.ForeignKey(User, related_name="requesting_user")
+    request_manager = models.ForeignKey(User, related_name="request_manager") 
+
     requested_dog = models.ForeignKey(Dog)
 
     date = models.DateTimeField(default = timezone.now())
@@ -214,16 +207,22 @@ class Request(models.Model):
         if self.requested_dog not in managed_dogs:
             raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
 
+        if not(self.request_manager.is_manager):
+            raise ValidationError("User does not have permission to be manager.")
+        
+        if (self.requesting_user.is_manager):
+            raise ValidationError("User is a manager, cannot add it as requesting user.")
+
 class Review(models.Model):
     # relationships
-    reviewing_user = models.ForeignKey(StandardUser)
+    reviewing_user = models.ForeignKey(User)
     reviewed_dog = models.ForeignKey(Dog)
     request = models.OneToOneField(Request)
 
 
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
     comment = models.CharField(max_length = extended_char_len)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default = timezone.now())
 
     def save(self, *args, **kwargs):
 
@@ -253,7 +252,6 @@ class Review(models.Model):
         # Request must be completed (adding review) or reviewed (editing review)
         if (self.request.status != "C") or (self.request.status != "R"):
             raise ValidationError("Cannot review dog which request has not been completed.")
-
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)
