@@ -1,8 +1,27 @@
-{% extends pawpals/base.html %}
+{% extends 'pawpals/base.html' %}
 
 {% block title_block %}
     Find a suitable dog!
 {% endblock %}
 
 {% block body_block %}
+<div class="fluid-container">
+
+    <hr class="featurette-divider">
+
+    <div class="row">
+            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+        {% for dog in dogs %}
+      <div class="col-lg-3">
+        <img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+          width="200" height="200">
+        <h3>{{ dog.name }}</h3>
+          <a class="btn btn-secondary" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
+        </p>
+
+      </div>
+        {% endfor %}
+  </div>
+
+</div>
 {% endblock %}

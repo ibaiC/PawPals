@@ -21,7 +21,7 @@ def home(request):
     return response
 
 def shelters(request):
-    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')
+    shelters_list = Shelter.objects.all()
     context_dict = {'shelters': shelters_list}
     response = render(request, "pawpals/shelters.html", context_dict)
     return response
@@ -61,6 +61,15 @@ def show_dog(request, dog_slug):
         context_dict = {}
 
     return render(request, 'pawpals/dog.html', context_dict)
+
+def dog_search(request):
+
+    try:
+        dogs_list = Dog.objects.all()
+        context_dict = {'dogs': dogs_list}
+    except Dog.DoesNotExist:
+        context_dict = {}
+    return render(request, 'pawpals/dogSearch.html', context_dict)
 
 def register(request):
     registered = False

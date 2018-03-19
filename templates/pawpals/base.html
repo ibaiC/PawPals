@@ -20,8 +20,8 @@
         <link rel="stylesheet" type="text/css" href="{% static "styles/base_style.css" %}">
 {% endblock %}
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light" style="background-color: #e3f2fd;">
-  <a class="navbar-brand"><img src="BRAND IMAGE LINK HERE" width="30" height="30" alt="">PawPals</a>
+<nav class="navbar navbar-expand-lg fixed-top navbar-light" style="background-color: FFFFFFFF;">
+  <a class="navbar-brand"><img src="{% static "/brand.png" %}" width="30" height="30" alt="">   PawPals</a>
 
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -29,7 +29,7 @@
         <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Dog Search</a>
+        <a class="nav-link" href="{% url 'dogSearch' %}">Dog Search</a>
       </li>
      <li class="nav-item">
         <a class="nav-link" href="{% url 'shelters' %}">Shelters</a>

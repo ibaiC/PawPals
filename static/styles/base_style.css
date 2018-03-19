@@ -4,6 +4,7 @@
 .form-signin-heading {
     padding-bottom: 5px;
     }
+
 body {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -23,9 +24,11 @@ h2{
 h4{
     position: relative;
     left: 30%;
-transform: translateY(-50%);
+transform: translateY(15%);
 }
-
+.standard_shelter {
+    padding-top: 25px;
+    }
 .row featurette {
     width: 300px;
     height: 200px;
@@ -79,6 +82,9 @@ h1{padding-bottom: 2rem;
 form-group col-lg-12{text-align: center;
 }
 
+.row {
+    padding-top: 2rem;
+    }
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -100,7 +106,7 @@ form-group col-lg-12{text-align: center;
 ------------------------- */
 
 .featurette-divider {
-  margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+  margin: 1rem 0; /* Space out the Bootstrap <hr> more */
 }
 
 /* Thin out the marketing headings */
@@ -108,6 +114,7 @@ form-group col-lg-12{text-align: center;
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.05rem;
+  padding-bottom: 2rem;
 }
 
 /* RESPONSIVE CSS

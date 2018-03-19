@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^shelters/(?P<shelter_slug>[\w\-]+)/$', views.show_shelter, name='show_shelter'),
     url(r'^dogs/(?P<dog_slug>[\w\-]+)/$', views.show_dog, name='show_dog'),
     url(r'^edit', views.edit, name='edit'),
+    url(r'^dogsearch/$',views.dog_search, name='dogSearch'),
 ]
