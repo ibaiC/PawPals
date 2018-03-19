@@ -33,3 +33,19 @@ class RequestForm(forms.ModelForm):
         fields = ('requestMessage')
 
 ## TODO: edit user, edit shelter, edit dog
+
+# class UserEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
+#
+#
+# class ShelterEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
+#
+# class DogEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
