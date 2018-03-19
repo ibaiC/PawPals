@@ -61,7 +61,7 @@ class Shelter(models.Model):
 
     
     def shelter_image_path(self, filename):
-        return (os.path.join("shelters_profile_picture", filename))
+        return (os.path.join("shelters_profile_images", filename))
     
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
 
