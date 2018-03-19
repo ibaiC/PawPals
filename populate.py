@@ -340,20 +340,20 @@ def populate():
                      )
 
     ### Request creation ###
-    requests = {0 : {"user" : StandardUser.objects.all().get(pk = "lilylith"), 
-                     "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
+    requests = {0 : {"user" : User.objects.all().get(username = "lilylith"), 
+                     "shelter_manager" : User.objects.all().get(username = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 1), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
                      "message" : "Hi! Can I walk that doggie next week?"},
-                1 : {"user" : StandardUser.objects.all().get(pk = "hendo"), 
-                     "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
+                1 : {"user" : User.objects.all().get(username = "hendo"), 
+                     "shelter_manager" : User.objects.all().get(username = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 2), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
                      "message" : "Next Friday 11am?"},
-                2 : {"user" : StandardUser.objects.all().get(pk = "lilylith"), 
-                     "shelter_manager" : ShelterManagerUser.objects.all().get(pk = "jsmith"), 
+                2 : {"user" : User.objects.all().get(username = "lilylith"), 
+                     "shelter_manager" : User.objects.all().get(username = "jsmith"), 
                      "dog" : Dog.objects.all().get(pk = 3), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
@@ -406,7 +406,7 @@ def populate():
         for dog in Dog.objects.filter(dog_shelter=sh):
             print("\t - " + str(dog.pk) + " | " + str(dog))
     print("\n>>> Users and comments")
-    for user in StandardUser.objects.all():
+    for user in User.objects.all().filter(is_standard = True):
         print(str(user) + "'s comments:")
         for review in Review.objects.filter(reviewing_user = user):
             print("\t - " + str(review))
@@ -420,20 +420,28 @@ def populate():
 def add_user(is_manager, username, fullname, email, phone_contact, profile_picture=None):
     
     if is_manager:
-        user = ShelterManagerUser.objects.get_or_create(username=username)[0]
+        user = User.objects.get_or_create(username=username)[0]
+        user.is_manager = True
+        
     else:
-        user = StandardUser.objects.get_or_create(username=username)[0]
+        user = User.objects.get_or_create(username=username)[0]
+        user.is_standard = True
 
-    user.fullname = fullname
+    # No user in population has more than one name
+    user.first_name = fullname.split(" ")[0]
+    user.last_name = fullname.split(" ")[1]
     user.email = email
-    user.phone_contact = phone_contact
+    
     
     user.save()
     
+    user_profile = UserProfile.objects.get_or_create(user=user)[0]
+    user_profile.phone_contact = phone_contact
+
     if profile_picture:
-        user.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "users", profile_picture), "rb")))
+        user_profile.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "users", profile_picture), "rb")))
     else:
-        user.profile_picture = profile_picture 
+        user_profile.profile_picture = profile_picture 
     
     return user
 
