@@ -19,13 +19,13 @@ standard_char_len = 200
 extended_char_len = 500
 difficulty_validators = [MinValueValidator(0), MaxValueValidator(5)]
 
-class User(AbstractUser):
+class AbstractUser(models.Model):
     username = models.CharField(max_length = 128, primary_key = True)
     fullname = models.CharField(max_length = standard_char_len) # name and surname
     email = models.EmailField(unique = True)
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
 
-    is_manager = models.BooleanField()
+    #is_manager = models.BooleanField()
 
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
@@ -38,13 +38,13 @@ class User(AbstractUser):
     def __str__(self):
         return self.fullname
     
-"""
+
 class StandardUser(AbstractUser):
     pass
 
 class ShelterManagerUser(AbstractUser):
     pass
-"""
+
 class Shelter(models.Model):
     # relationships
     manager = OneToOneField(ShelterManagerUser)
@@ -138,7 +138,7 @@ class Dog(models.Model):
         self.difficulty = avg_difficulty
 
 
-        if not(self.profile_picture):
+       # if not(self.profile_picture):
             
 
         # if called upon object creation, save first, so pk is created and slug in not None

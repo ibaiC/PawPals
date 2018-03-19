@@ -8,5 +8,5 @@ db.sqlite3
 **.pyc
 
 **/media/user_profile_images/
-**/media/shelter_profile_images/
+**/media/shelters_profile_images/
 **/media/dogs_profile_images/
