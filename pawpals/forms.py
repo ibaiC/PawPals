@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from pawpals.models import AbstractUser as UserProfile
+from pawpals.models import *
 
 
 class UserForm(forms.ModelForm):
@@ -15,19 +16,20 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('profile_picture','phone_contact')
 
-# class ReviewForm(forms.ModelForm):
-#     difficulty = forms.IntegerField()
-#     userComment = forms.CharField()
-#     reviewDate = forms.DateTimeField()
-#
-#     class Meta:
-#         model = Review
-#         fields = ('difficulty', 'userComment', 'reviewDate')
-#
-#
-# class RequestForm(forms.ModelForm):
-#     #Need to link dogName to ID
-#     #is dogName + shelterName enough ?
-#     dogShelter = forms.CharField()
-#     dogName = forms.CharField()
-#     timeslot = forms.DateTimeField()
+class ReviewForm(forms.ModelForm):
+    difficulty = forms.IntegerField()
+    userComment = forms.CharField()
+
+    class Meta:
+        model = Review
+        fields = ('difficulty', 'userComment')
+
+
+class RequestForm(forms.ModelForm):
+    requestMessage = forms.CharField(max_length = extended_char_len, blank = False)
+
+    class Meta:
+        model = RequestForm
+        fields = ('requestMessage')
+
+## TODO: edit user, edit shelter, edit dog
