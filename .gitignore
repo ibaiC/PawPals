@@ -6,3 +6,7 @@ db.sqlite3
 **/migrations
 
 **.pyc
+
+**/media/user_profile_images/
+**/media/shelter_profile_images/
+**/media/dogs_profile_images/

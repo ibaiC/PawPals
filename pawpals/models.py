@@ -1,13 +1,17 @@
-from django.db import models
-from django.db.models.fields.related import ManyToManyField, OneToOneField
-from django.template.defaultfilters import slugify, default
-from django.utils import timezone
+import os
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
+from django.db.models.fields.related import ManyToManyField, OneToOneField
 from django.db.models.signals import post_save
+from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
-import os
+from django.template.defaultfilters import slugify, default
+from django.utils import timezone
+
 import numpy as np
+
 
 # default values
 phone_len = 20
@@ -15,11 +19,13 @@ standard_char_len = 200
 extended_char_len = 500
 difficulty_validators = [MinValueValidator(0), MaxValueValidator(5)]
 
-class AbstractUser(models.Model):
+class User(AbstractUser):
     username = models.CharField(max_length = 128, primary_key = True)
     fullname = models.CharField(max_length = standard_char_len) # name and surname
     email = models.EmailField(unique = True)
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
+
+    is_manager = models.BooleanField()
 
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
@@ -32,12 +38,13 @@ class AbstractUser(models.Model):
     def __str__(self):
         return self.fullname
     
+"""
 class StandardUser(AbstractUser):
     pass
 
 class ShelterManagerUser(AbstractUser):
     pass
-
+"""
 class Shelter(models.Model):
     # relationships
     manager = OneToOneField(ShelterManagerUser)
@@ -130,6 +137,9 @@ class Dog(models.Model):
         
         self.difficulty = avg_difficulty
 
+
+        if not(self.profile_picture):
+            
 
         # if called upon object creation, save first, so pk is created and slug in not None
         if not(self.pk):
