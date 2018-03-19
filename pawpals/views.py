@@ -5,10 +5,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from pawpals.models import *
 from datetime import datetime
-from pawpals.forms import UserForm, UserProfileForm
-
+from pawpals.forms import *
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+
 
 def home(request):
     dogs_list = Dog.objects.order_by('-difficulty')[:6]
@@ -30,11 +30,50 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-def edit(request):
+def edit(request, abstractUser_slug):
     response = render (request, 'pawpals/edit.html')
-    AbstractUser= AbstractUser.objects.get(slug=AbstractUser_slug)
+    abstractUser= AbstractUser.objects.get(slug=abstractUser_slug)
     #give information about user
     return response
+
+def review(request, dog_slug):
+    dog = Dog.objects.get(slug=dog_slug)
+    context_dict['dog'] = dog
+    review_form= ReviewForm(data= request.POST)
+    review = review_form.save(commit=False)
+    #from forms
+    #review.reviewing_user = get current user
+    #review.request = get current request
+    review.reviewed_dog = dog
+    review.save()
+    return render (request, 'pawpals/dog.html', context_dict)
+
+
+
+
+
+def request(request, abstarctUser_slug):
+    abstractUser = AbstractUser.objects.get(slug=abstractUser_slug)
+    dog = Dog.objects.get(slug=dog_slug)
+    context_dict['dog'] = dog
+    context_dict['user'] = abstractUser
+    #forms
+    request_form= RequestForm(data= request.POST)
+    request = request_form.save(commit=False)
+    request.requesting_user= abstractUser
+    request.status = P
+
+    shelter = dog.dog_shelter
+    shelter_manager = shelter.manager
+    request.request_manager = shelter_manager
+
+
+
+
+
+    return render (request, 'pawpals/request.html', context_dict)
+
+
 
 def show_shelter(request, shelter_slug):
     shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]

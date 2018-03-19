@@ -68,6 +68,10 @@ class Shelter(models.Model):
 
 
     def save(self, *args, **kwargs):
+        """
+
+        :rtype: object
+        """
         self.slug = slugify(self.name)
 
         sum = 0
@@ -123,6 +127,10 @@ class Dog(models.Model):
 
     def save(self, *args, **kwargs):
 
+        """
+
+        :rtype: object
+        """
         reviews = Review.objects.all().filter(reviewed_dog = self)
 
         if reviews:
@@ -189,6 +197,10 @@ class Request(models.Model):
 
     def save(self, *args, **kwargs):
 
+        """
+
+        :rtype: object
+        """
         if (Review.objects.all().filter(request = self)) and not(self.status.__eq__("R")):
             self.status = "R"
 
@@ -216,6 +228,10 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
 
         # update dog upon creating/changing review
+        """
+
+        :rtype: object
+        """
         super(Review, self).save(*args, **kwargs)
 
         # change request to "Reviewed"

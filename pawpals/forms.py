@@ -20,6 +20,7 @@ class ReviewForm(forms.ModelForm):
     difficulty = forms.IntegerField()
     userComment = forms.CharField()
 
+
     class Meta:
         model = Review
         fields = ('difficulty', 'userComment')
