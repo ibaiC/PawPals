@@ -29,6 +29,10 @@ transform: translateY(15%);
 .standard_shelter {
     padding-top: 25px;
     }
+.shelters_title {
+    margin: 50px;
+    padding-top: 50px;
+    }
 .row featurette {
     width: 300px;
     height: 200px;

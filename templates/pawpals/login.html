@@ -9,7 +9,7 @@
 <link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css"
 rel="stylesheet">
 
-<form class="form-signin" role="form" method="post" action=".">
+<form class="form-signin" role="form" method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <h2 class="form-signin-heading">Sign In</h2>
 <label for="inputUsername" class="sr-only">Username</label>

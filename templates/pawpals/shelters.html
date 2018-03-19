@@ -1,5 +1,5 @@
 {% extends 'pawpals/base.html' %}
-{% load staticfiles %}
+
 {% block title_block %}
     Shelters
 {% endblock %}
@@ -7,19 +7,21 @@
 {
 
 {% block body_block %}
-<div id="standard_shelter">
-<br/>
-    <!-- /END THE FEATURETTES -->
 
+
+<div class="fluid-container" id="standard_shelter">
+    <br/>
+<h1 id="shelters_title">View Available Shelters</h1>
+<hr class="featurette-divider">
     <div class="row">
             <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
         {% for shelter in shelters %}
       <div class="col-lg-4">
-        <img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ shelter.profile_picture }}" alt="Generic Image"
+        <img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ shelter.profile_picture }}" alt="Default"
           width="200" height="200">
         <h3>{{ shelter.name }}</h3>
           <a class="btn btn-secondary" href="{% url 'show_shelter' shelter.slug %}" role="button">View Shelter &raquo;</a>
-        </p>
+
       </div>
         {% endfor %}
   </div>

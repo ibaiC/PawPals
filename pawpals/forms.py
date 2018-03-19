@@ -14,3 +14,37 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('profile_picture','phone_contact')
+
+class ReviewForm(forms.ModelForm):
+    difficulty = forms.IntegerField()
+    userComment = forms.CharField()
+
+    class Meta:
+        model = Review
+        fields = ('difficulty', 'userComment')
+
+
+class RequestForm(forms.ModelForm):
+    requestMessage = forms.CharField(max_length = extended_char_len)
+
+    class Meta:
+        model = Request
+        fields = ('requestMessage',)
+
+## TODO: edit user, edit shelter, edit dog
+
+# class UserEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
+#
+#
+# class ShelterEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
+#
+# class DogEditingForm(forms.ModelForm):
+#
+#
+#     class Meta:
