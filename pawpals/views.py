@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
+from pawpals.decorators import manager_required, standardUser_required
 from .filters import DogFilter
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
@@ -117,7 +118,7 @@ def dog_search(request):
     dog_list = Dog.objects.all()
     dog_filter = DogFilter(request.GET, queryset = dog_list)
     return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
-    
+
 
 def register(request):
     registered = False
@@ -178,7 +179,7 @@ def user_logout(request):
 def visitor_cookie_handler(request):
 
     visits = int(get_server_side_cookie(request, 'visits', '1'))
-   
+
     last_visit_cookie = get_server_side_cookie(request,'last_visit',
                                                str(datetime.now()))
     last_visit_time = datetime.strptime(last_visit_cookie[:-7],
@@ -192,7 +193,7 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
 
     # Update/set the visits cookie
-    request.session['visits'] = visits    
+    request.session['visits'] = visits
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
