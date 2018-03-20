@@ -429,11 +429,11 @@ def populate():
 def add_user(is_manager, username, fullname, password,email, phone_contact, profile_picture=None):
     
     if is_manager:
-        user = User.objects.get_or_create(username=username, password=password)[0]
+        user = User.objects.get_or_create(username=username)[0]
         user.is_manager = True
         
     else:
-        user = User.objects.get_or_create(username=username, password=password)[0]
+        user = User.objects.get_or_create(username=username)[0]
         user.is_standard = True
 
     # No user in population has more than one name
@@ -441,6 +441,7 @@ def add_user(is_manager, username, fullname, password,email, phone_contact, prof
     user.last_name = fullname.split(" ")[1]
     user.email = email
     
+    user.set_password(password)
     
     user.save()
     
