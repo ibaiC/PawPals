@@ -1,72 +1,85 @@
-{% extends 'pawpals/base.html' %}
-{% load staticfiles %}
+{% extends 'pawpals/base.html' %} 
+{% load staticfiles %} 
+
 {% block stylesheet_block %}
-<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
-{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
+{% endblock %} 
 
-{% block title_block %}
-    {{ dog.name }}
-{% endblock %}
-
+{% block title_block %} 
+	{{ dog.name }} 
+{% endblock %} 
 
 {% block body_block %}
-<h1> {{dog.name}}</h1>
+<h1>{{dog.name}}</h1>
 <div class="row">
-            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
-      <div class="col-lg-4">
-       {% if dog.profile_picture %}
-			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
-		          width="200" height="200">
-	   {% else %}
-			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
-	   {% endif %}
-        <h3>{{ dog.name }}</h3>
-          <a class="btn btn-secondary" href="#" role="button">See Reviews &raquo;</a>
-      </div>
-    <div class="row">
-    <div class="col-sm-3">
+	<!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+	<div class="col-lg-4">
+		{% if dog.profile_picture %} 
+			<img class="rectangle center-cropped"
+			src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+			alt="Generic placeholder image" width="200" height="200"> 
+		{% else %} 
+			<img class="rectangle center-cropped" src="{% static "
+			default_dog.png" %}" alt="Default" width="200" height="200"> 
+		{% endif %}
+		
+		<h3>{{ dog.name }}</h3>
+		<a class="btn btn-secondary" href="#" role="button">See Reviews&raquo;</a>
+		
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
 
-        <h4>Bio</h4>
-        <p>{{ dog.bio }}</p>
+			<h4>Bio</h4>
+			<p>{{ dog.bio }}</p>
 
-      </div>
-    <div class="col-sm-3">
+		</div>
+		<div class="col-sm-3">
 
-        <h4>Breed</h4>
-        <p>{{ dog.breed }}</p>
+			<h4>Breed</h4>
+			<p>{{ dog.breed }}</p>
 
-      </div>
+		</div>
 
-    <div class="col-sm-3">
+		<div class="col-sm-3">
 
-        <h4>Breed</h4>
-        <p>{{ dog.size }}</p>
+			<h4>Size</h4>
+			<p>{{ dog.get_size_display }}</p>
 
-      </div>
-    <div class="col-sm-3">
+		</div>
+		<div class="col-sm-3">
 
-        <h4>Breed</h4>
-        <p>{{ dog.gender }}</p>
+			<h4>Display</h4>
+			<p>{{ dog.get_gender_display }}</p>
 
-      </div>
-    <div class="col-sm-3">
+		</div>
+		<div class="col-sm-3">
 
-        <h4>Puppy?</h4>
-        <p>{{ dog.is_puppy }}
-        </p>
-      </div>
-        <div class="col-sm-3">
+			<h4>Puppy</h4>
+			<p>
+				{% if dog.is_puppy %}
+					Yes
+				{% else %} 
+					No
+				{% endif %}
+			</p>
+		</div>
+		<div class="col-sm-3">
 
-        <h4>Child Friendly?</h4>
-        <p>{{ dog.is_childfriendly }}
-        </p>
-      </div>
-        <div class="col-sm-3">
+			<h4>Child Friendly</h4>
+			<p>
+				{% if dog.is_childfriendly %}
+					Yes
+				{% else %} 
+					No
+				{% endif %}
+			</p>
+		</div>
+		<div class="col-sm-3">
 
-        <h4>Overall Difficulty</h4>
-        <p>{{ dog.difficulty }}/5
-        </p>
-      </div>
-</div>
+			<h4>Overall Difficulty</h4>
+			<p>{{ dog.difficulty }}/5</p>
+		</div>
+	</div>
 
 {% endblock %}
