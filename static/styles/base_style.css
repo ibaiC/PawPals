@@ -1,10 +1,27 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
+input[type=text], input[type=password] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+}
+
 .form-signin-heading {
     padding-bottom: 5px;
     }
-
 
 body {
   padding-top: 2rem;
@@ -24,7 +41,7 @@ h2{
 
 h4{
     position: relative;
-    left: 30%;
+    left: 40%;
 transform: translateY(15%);
 }
 .standard_shelter {
@@ -50,7 +67,7 @@ p {
     display: block;
     text-align: center;
     position: relative;
-    left: 30%;
+    left: 40%;
 }
 body {
   min-height: 100vh;

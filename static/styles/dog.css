@@ -13,6 +13,12 @@ h3 {
      display: table-cell;
     vertical-align: middle;
      }
+p {
+text-align: center;
+right: 10px;
+}
 
 
-
+h4 {
+    text-align: center;
+    }
