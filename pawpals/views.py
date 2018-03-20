@@ -168,7 +168,7 @@ def user_login(request):
         else:
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'pawpals/login.html', {'shelters': shelters_list})
+        return render(request, 'pawpals/login.html', {})
 
 @login_required
 def user_logout(request):

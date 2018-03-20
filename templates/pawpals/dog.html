@@ -1,11 +1,68 @@
 {% extends 'pawpals/base.html' %}
+{% load staticfiles %}
+{% block stylesheet_block %}
+<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
+{% endblock %}
 
 {% block title_block %}
     {{ dog.name }}
 {% endblock %}
+
+
 {% block body_block %}
-    Welcome to {{ dog.name }}'s page !!! </br>
-    {{ dog.name }}'s breed is: {{ dog.breed }} </br>
-    Gender: {{ dog.gender }} </br>
-    Size: {{ dog.size }}
+<h1> {{dog.name}}</h1>
+<div class="row">
+            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+      <div class="col-lg-4">
+        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+          width="400" height="400">
+        <h3>{{ dog.name }}</h3>
+          <a class="btn btn-secondary" href="#" role="button">See Reviews &raquo;</a>
+      </div>
+    <div class="row">
+    <div class="col-sm-3">
+
+        <h4>Bio</h4>
+        <p>{{ dog.bio }}</p>
+
+      </div>
+    <div class="col-sm-3">
+
+        <h4>Breed</h4>
+        <p>{{ dog.breed }}</p>
+
+      </div>
+
+    <div class="col-sm-3">
+
+        <h4>Breed</h4>
+        <p>{{ dog.size }}</p>
+
+      </div>
+    <div class="col-sm-3">
+
+        <h4>Breed</h4>
+        <p>{{ dog.gender }}</p>
+
+      </div>
+    <div class="col-sm-3">
+
+        <h4>Puppy?</h4>
+        <p>{{ dog.is_puppy }}
+        </p>
+      </div>
+        <div class="col-sm-3">
+
+        <h4>Child Friendly?</h4>
+        <p>{{ dog.is_childfriendly }}
+        </p>
+      </div>
+        <div class="col-sm-3">
+
+        <h4>Overall Difficulty</h4>
+        <p>{{ dog.difficulty }}/5
+        </p>
+      </div>
+</div>
+
 {% endblock %}
