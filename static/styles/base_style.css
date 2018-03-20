@@ -5,6 +5,7 @@
     padding-bottom: 5px;
     }
 
+
 body {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -89,6 +90,16 @@ form-group col-lg-12{text-align: center;
 .row {
     padding-top: 2rem;
     }
+    
+.search_button {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	
+	height: 40px;
+ 	width: 300px;
+	
+}
+
 
 /* MARKETING CONTENT
 -------------------------------------------------- */

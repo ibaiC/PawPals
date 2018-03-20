@@ -3,9 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
+from .filters import DogFilter
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -101,7 +103,7 @@ def show_dog(request, dog_slug):
 
     return render(request, 'pawpals/dog.html', context_dict)
 
-def dog_search(request):
+"""def dog_search(request):
 
     try:
         dogs_list = Dog.objects.all()
@@ -109,6 +111,13 @@ def dog_search(request):
     except Dog.DoesNotExist:
         context_dict = {}
     return render(request, 'pawpals/dogSearch.html', context_dict)
+"""
+
+def dog_search(request):
+    dog_list = Dog.objects.all()
+    dog_filter = DogFilter(request.GET, queryset = dog_list)
+    return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
+    
 
 def register(request):
     registered = False
