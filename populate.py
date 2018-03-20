@@ -225,6 +225,15 @@ def populate():
          "gender": "F",
          "is_puppy": False,
          "is_childfriendly": False},
+        {"name": "Eter",
+         "bio": "Too shy to take picture of!",
+         "profile_picture": None,
+         "breed": "Mongrel",
+         "difficulty": 3,
+         "size": "S",
+         "gender": "F",
+         "is_puppy": False,
+         "is_childfriendly": True}
     ]
 
     wagbark_manager = {"username": "wbman",
