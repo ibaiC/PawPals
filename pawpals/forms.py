@@ -16,36 +16,34 @@ class UserProfileForm(forms.ModelForm):
         fields = ('profile_picture','phone_contact')
 
 class ReviewForm(forms.ModelForm):
-    difficulty = forms.IntegerField()
-    userComment = forms.CharField()
-
-
     class Meta:
         model = Review
-        fields = ('difficulty', 'userComment')
+        fields = ('difficulty_rating', 'comment')
 
 
 class RequestForm(forms.ModelForm):
-    requestMessage = forms.CharField(max_length = extended_char_len)
-
     class Meta:
         model = Request
-        fields = ('requestMessage',)
+        fields = ('message',)
 
 ## TODO: edit user, edit shelter, edit dog
 
-# class UserEditingForm(forms.ModelForm):
-#
-#
-#     class Meta:
-#
-#
-# class ShelterEditingForm(forms.ModelForm):
-#
-#
-#     class Meta:
-#
-# class DogEditingForm(forms.ModelForm):
-#
-#
-#     class Meta:
+class UserEditingForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(), required=False)
+    email = forms.EmailField(required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ('profile_picture', 'phone_contact')
+
+class ShelterEditingForm(forms.ModelForm):
+    manager = forms.CharField()
+
+    class Meta:
+        model = Shelter
+        fields = ('name', 'bio', 'webpage', 'phone_contact', 'availability_info', 'location', 'profile_picture')
+
+class DogEditingForm(forms.ModelForm):
+    class Meta:
+        model = Dog
+        fields = ('name', 'bio', 'breed', 'difficulty', 'size', 'gender', 'is_puppy', 'is_childfriendly', 'profile_picture')
