@@ -63,6 +63,7 @@ def populate():
     
     dog_trust_manager = {"username" : "jsmith",
                         "fullname" : "John Smith",
+                        "password" : "lovealldoggos12",
                         "phone_contact" : "+44 1111111111",
                         "email" : "jsmith@mail.co.uk",
                         "profile_picture" : None
@@ -113,7 +114,8 @@ def populate():
                          "fullname": "Anna Brown",
                          "phone_contact": "+44 2222222222",
                          "email": "abrown@mail.co.uk",
-                        "profile_picture" : None
+                        "profile_picture" : None,
+                        "password" : "heartsandspades12",
                          }
     
     ### Speedwagon Foundation data ###
@@ -197,7 +199,8 @@ def populate():
                          "fullname": "Robert E. O. Speedwagon",
                          "phone_contact": "+44 3333333333",
                          "email": "speedwagon@mail.co.uk",
-                        "profile_picture" : None
+                        "profile_picture" : None,
+                        "password" : "eveniamafraid12",
                          }
     
     
@@ -228,7 +231,8 @@ def populate():
                          "fullname": "Rose Goldman",
                          "phone_contact": "+44 4444444444",
                          "email": "wagandbark@mail.co.uk",
-                        "profile_picture" : None
+                        "profile_picture" : None,
+                        "password" : "woofwoof12",
                          }
     
     ### Shelters ###
@@ -287,7 +291,8 @@ def populate():
                              fullname=manager_data["fullname"],
                              email=manager_data["email"],
                              phone_contact=manager_data["phone_contact"],
-                             profile_picture = manager_data["profile_picture"])
+                             profile_picture = manager_data["profile_picture"],
+                             password=manager_data["password"])
             
         sh = add_shelter(manager=sh_manager,
                          name=shelter,
@@ -317,15 +322,18 @@ def populate():
     users = {"hendo": {"fullname" : "Henrietta Dobras",
                        "email" :"hendo@gmail.com",
                        "phone_contact" : "+44 2222222221",
-                       "profile_picture" : "hendo.jpg"},
+                       "profile_picture" : "hendo.jpg",
+                       "password" : "rainydays12"},
             "yerba4life": {"fullname" : "Elliot Black",
                         "email" : "optiplex@mail.com",
                         "phone_contact": "+44 2222222223",
-                        "profile_picture" : "yerba4life.jpg"},
+                        "profile_picture" : "yerba4life.jpg",
+                       "password" : "poezja12"},
             "lilylith": {"fullname" : "Lily Lithium",
                          "email" : "llith@mail.com",
                          "phone_contact" : "+44 2222222224",
-                         "profile_picture" : "lilylith.jpg"},
+                         "profile_picture" : "lilylith.jpg",
+                       "password" : "cobaltrose12"}
             }
     
     
@@ -336,7 +344,8 @@ def populate():
                      fullname=user_data["fullname"],
                      email=user_data["email"],
                      phone_contact=user_data["phone_contact"],
-                     profile_picture=user_data["profile_picture"]
+                     profile_picture=user_data["profile_picture"],
+                     password=user_data["password"]
                      )
 
     ### Request creation ###
@@ -417,14 +426,14 @@ def populate():
 
 
 
-def add_user(is_manager, username, fullname, email, phone_contact, profile_picture=None):
+def add_user(is_manager, username, fullname, password,email, phone_contact, profile_picture=None):
     
     if is_manager:
-        user = User.objects.get_or_create(username=username)[0]
+        user = User.objects.get_or_create(username=username, password=password)[0]
         user.is_manager = True
         
     else:
-        user = User.objects.get_or_create(username=username)[0]
+        user = User.objects.get_or_create(username=username, password=password)[0]
         user.is_standard = True
 
     # No user in population has more than one name

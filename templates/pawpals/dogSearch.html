@@ -1,4 +1,4 @@
-{% extends 'pawpals/base.html' %}
+i{% extends 'pawpals/base.html' %}
 
 {% block title_block %}
     Find a suitable dog!
@@ -12,9 +12,9 @@
 
 	<div>
 		<form method="get">
-			{{ filter.form.as_table }}
+			<div>{{ filter.form.as_ul }}</div>
 			<br/>
-			<button class="search_button" type="submit">Search</button>
+			<button class="btn btn-default" type="submit">Search</button>
 		</form>
 	</div>
 

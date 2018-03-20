@@ -9,6 +9,8 @@ from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify, default
 from django.utils import timezone
+from django.db.models import Q
+
 
 import numpy as np
 
@@ -34,6 +36,8 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
 
+    def __str__(self):
+        return self.user.username
 
 class Shelter(models.Model):
     # relationships
@@ -110,6 +114,8 @@ class Dog(models.Model):
     is_childfriendly = models.BooleanField(default = "False")
 
     slug = models.SlugField(unique = True)
+    
+    completed_request_count = models.IntegerField(default=0) 
 
     def dog_image_path(self, filename):
         return (os.path.join("dogs_profile_images", filename))
@@ -138,8 +144,7 @@ class Dog(models.Model):
         self.difficulty = avg_difficulty
 
 
-       # if not(self.profile_picture):
-
+        self.completed_request_count = Request.objects.all().filter(Q(requested_dog=self) & (Q(status="C") | Q(status="R"))).count()
 
         # if called upon object creation, save first, so pk is created and slug in not None
         if not(self.pk):
@@ -198,6 +203,7 @@ class Request(models.Model):
             self.status = "R"
 
         super(Request, self).save(*args, **kwargs)
+        self.requested_dog.save()
 
     def clean(self):
 
