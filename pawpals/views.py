@@ -13,7 +13,7 @@ from .filters import DogFilter
 
 
 def home(request):
-    dogs_list = Dog.objects.order_by('-difficulty')[:6]
+    dogs_list = Dog.objects.order_by('completed_request_count')[:6]
     context_dict = {'dogs': dogs_list}
 
     visitor_cookie_handler(request)

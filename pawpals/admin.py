@@ -9,6 +9,8 @@ class DogAdmin(admin.ModelAdmin):
 class ShelterAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
+admin.site.register(User)
+admin.site.register(UserProfile)
 admin.site.register(Dog, DogAdmin)
 admin.site.register(Shelter, ShelterAdmin)
 admin.site.register(Review)
