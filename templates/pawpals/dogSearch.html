@@ -1,4 +1,6 @@
 {% extends 'pawpals/base.html' %}
+{% load staticfiles %} 
+
 
 {% block title_block %}
     Find a suitable dog!
@@ -25,8 +27,15 @@
             <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
         {% for dog in filter.qs %}
       <div class="col-lg-3">
-        <img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
-          width="200" height="200">
+      
+      					{% if dog.profile_picture %}
+							<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+							          width="200" height="200">
+          				{% else %}
+							<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
+						{% endif %}
+      
+        
         <h3>{{ dog.name }}</h3>
           <a class="btn btn-secondary" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
         </p>

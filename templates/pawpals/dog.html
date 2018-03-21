@@ -1,15 +1,16 @@
-{% extends 'pawpals/base.html' %}
-{% load staticfiles %}
+{% extends 'pawpals/base.html' %} 
+{% load staticfiles %} 
+
 {% block stylesheet_block %}
-<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
-{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
+{% endblock %} 
 
-{% block title_block %}
-    {{ dog.name }}
-{% endblock %}
-
+{% block title_block %} 
+	{{ dog.name }} 
+{% endblock %} 
 
 {% block body_block %}
+<<<<<<< HEAD
 <h1> {{dog.name}}</h1>
 <div class="row">
             <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
@@ -64,5 +65,110 @@
         </p>
       </div>
 </div>
+=======
+>>>>>>> 699b5263a0f867447d7e6372a2371b89147e0019
 
+	<h1>{{dog.name}}</h1>
+	
+	<div class="row">
+		<div class="col-lg-4">
+			{% if dog.profile_picture %} 
+				<img class="rectangle center-cropped"
+				src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+				alt="Generic placeholder image" width="200" height="200"> 
+			{% else %} 
+				<img class="rectangle center-cropped" src="{% static "
+				default_dog.png" %}" alt="Default" width="200" height="200"> 
+			{% endif %}
+			
+			<h3>{{ dog.name }}</h3>
+			
+			<a id = "show_reviews_button" class="btn btn-secondary" href="#" role="button">See Reviews&raquo;</a>
+			
+		</div>
+		
+		<div class="row">
+		
+			<div class="col-sm-3">
+				<h4>Bio</h4>
+				<p>{{ dog.bio }}</p>
+	
+			</div>
+			
+			<div class="col-sm-3">
+				<h4>Breed</h4>
+				<p>{{ dog.breed }}</p>
+			</div>
+
+			<div class="col-sm-3">
+				<h4>Size</h4>
+				<p>{{ dog.get_size_display }}</p>
+			</div>
+			
+			<div class="col-sm-3">
+				<h4>Display</h4>
+				<p>{{ dog.get_gender_display }}</p>
+			</div>
+			
+			<div class="col-sm-3">
+				<h4>Puppy</h4>
+				<p>
+					{% if dog.is_puppy %}
+						Yes
+					{% else %} 
+						No
+					{% endif %}
+				</p>
+			</div>
+			
+			<div class="col-sm-3">
+				<h4>Child Friendly</h4>
+				<p>
+					{% if dog.is_childfriendly %}
+						Yes
+					{% else %} 
+						No
+					{% endif %}
+				</p>
+			</div>
+			
+			<div class="col-sm-3">
+				<h4>Overall Difficulty</h4>
+				<p>{{ dog.difficulty }}/5</p>
+			</div>
+		</div>
+	</div>
+
+	<div id = "review_block">
+	</div>
+
+<script>
+$(document).ready(function(){
+    $("#show_reviews_button").click(function(){
+    	 $.ajax({
+    		 url: "{% url "show_reviews" %}",
+    		 data: {"dog_slug" : "{{ dog.slug }}" },
+    		 success: function(result){
+				print_reviews(result);
+			}
+    		 
+    	 }).fail(function() {
+    		 document.getElementById("review_block").innerHTML = "No reviews to show.";
+    	 });
+    });
+});
+
+function print_reviews(reviews) {
+    var out = "";
+	var review_list = reviews["reviews"]
+    var i;
+    for(i = 0; i < review_list.length; i++) {
+        out += '<p>' + review_list[i].username + "</br>";
+        out += review_list[i].rating + "</br>";
+        out += review_list[i].comment + "</br>";
+        out += review_list[i].date + '</p>';
+    }
+    document.getElementById("review_block").innerHTML = out;
+}
+  </script>
 {% endblock %}
