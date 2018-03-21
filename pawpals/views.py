@@ -103,21 +103,32 @@ def show_dog(request, dog_slug):
 
     return render(request, 'pawpals/dog.html', context_dict)
 
-"""def dog_search(request):
-
-    try:
-        dogs_list = Dog.objects.all()
-        context_dict = {'dogs': dogs_list}
-    except Dog.DoesNotExist:
-        context_dict = {}
-    return render(request, 'pawpals/dogSearch.html', context_dict)
-"""
-
 def dog_search(request):
     dog_list = Dog.objects.all()
     dog_filter = DogFilter(request.GET, queryset = dog_list)
     return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
+ 
+def show_reviews(request):
+    dog_slug = request.GET.get("dog_slug", None)
+    dog = Dog.objects.get(slug = dog_slug)
     
+    data = {
+        "reviews": []
+        }
+    
+    for review in Review.objects.all().filter(reviewed_dog = dog):
+        user_profile = UserProfile(user = review.reviewing_user)
+        new_review = {"username" : review.reviewing_user.username,
+                      "rating" : review.difficulty_rating,
+                      "comment" : review.comment,
+                      "date" : review.date,
+                      #"user_picture" : user_profile.profile_picture
+                      }
+        data["reviews"].append(new_review)
+        
+    print(data)  
+    return JsonResponse(data)
+        
 
 def register(request):
     registered = False

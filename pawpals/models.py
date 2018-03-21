@@ -256,7 +256,7 @@ class Review(models.Model):
         reviewed_requests_num = requests.filter(status = "R").count()
 
         # Request must be completed (adding review) or reviewed (editing review)
-        if (self.request.status != "C") or (self.request.status != "R"):
+        if (self.request.status != "C") and (self.request.status != "R"):
             raise ValidationError("Cannot review dog which request has not been completed.")
 
     def __str__(self):
