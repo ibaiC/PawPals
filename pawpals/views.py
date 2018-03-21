@@ -41,9 +41,32 @@ def edit(request, abstractUser_slug):
     #give information about user
     return response
 
-def review(request, dog_slug):
-    dog = Dog.objects.get(slug=dog_slug)
+def review(request):
+    context_dict = {}
+    request_object_pk = request.GET.get("pk")
+    request_object = Request.objects.get(pk=request_object_pk)
+    
+    is_updated = request.GET.get("is_updated")
+    
+    dog = request_object.requested_dog
+    
     context_dict['dog'] = dog
+    
+    requests_list = Request.objects.all().filter(request_manager = request.user).order_by('date')
+    
+    if request.method == 'POST':
+        instance = get_object_or_404(Review, request = request_object)
+        form = ReviewForm(request.POST or None, instance=instance)
+        if form.is_valid():
+            
+            review = form.save(commit=False)
+            review.request = request_object
+            
+            return HttpResponseRedirect(reverse('requests'))
+    else:
+        form = RequestStatusForm()
+    
+    
     review_form= ReviewForm(data= request.POST)
     review = review_form.save(commit=False)
     #from forms
@@ -59,7 +82,7 @@ def show_requests(request):
     context_dict = {}
     if request.user.is_manager:
         
-        requests_list = Request.objects.all().filter(request_manager = request.user)
+        requests_list = Request.objects.all().filter(request_manager = request.user).order_by('date')
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
             form = RequestStatusForm(request.POST or None, instance=instance)
@@ -71,7 +94,7 @@ def show_requests(request):
             form = RequestStatusForm()
 
     else:
-        requests_list = Request.objects.all().filter(requesting_user = request.user)
+        requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('date')
         form = RequestStatusForm()
 
     context_dict['form'] = form

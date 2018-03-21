@@ -42,15 +42,20 @@
 					
 						{% if request.status == "C" %}						
 							<th>
-								<a class="btn btn-secondary" role="button">Review walk</a>
+								<a class="btn btn-secondary" href = "{% url 'review' %}" role="button" type="submit">Review walk</a>
+								<input type='hidden' value='{{ request.pk }}' name='request_object'>
+								<input type='hidden' value='False' name='is_updated'>
 							</th>
 						{% elif request.status == "R" %}
 							<th>
-								<a class="btn btn-secondary" role="button">Update review</a>
+								<a class="btn btn-secondary" href = "{% url 'review' %}" role="button" type="submit">Update review</a>
+								<input type='hidden' value='{{ request.pk }}' name='request_object'>
+								<input type='hidden' value='True' name='is_updated'>
+								
 							</th>
 						{% else %}
 							<th>
-								<a class="btn btn-secondary" role="button">Grey this one out</a>
+								<a id = "disabled_review" title = "Cannot review walk that has not been completed." class="btn btn-secondary" role="button">Review walk</a>
 							</th>
 							
 						{% endif %}
