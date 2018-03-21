@@ -17,7 +17,11 @@ p {
 text-align: center;
 right: 10px;
 }
-
+.exam {
+    vertical-align: middle;
+    text_align:center;
+        margin-left:50px;
+        }
 
 h4 {
     text-align: center;

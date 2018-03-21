@@ -1,16 +1,57 @@
 {% extends 'pawpals/base.html' %}
-
+{% load staticfiles %}
+{% block stylesheet_block %}
+	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
+{% endblock %}
 {% block title_block %}
     {{ shelter.name }}
 {% endblock %}
 {% block body_block %}
-    This is {{ shelter.name }}'s bio: {{ shelter.bio }} </br>
-    This is {{ shelter.name }}'s webpage: <a href="{{ shelter.webpage }}">{{ shelter.name }}</a> </br>
-    This is {{ shelter.name }}'s location: {{ shelter.location }} </br>
-    All dogs
-    <ul>
-    {% for d in dog %}
-        <li>{{ d.name }}</li>
-    {% endfor %}
-    </ul>
+
+	<h1>{{shelter.name}}</h1>
+
+
+	<div class="row">
+        <br/>
+		<div class="col-lg-4">
+			{% if shelter.profile_picture %}
+				<img class="rectangle center-cropped"
+				src="{{ MEDIA_URL }}{{ shelter.profile_picture }}"
+				alt="Generic placeholder image" width="400" height="400">
+			{% else %}
+				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Default" width="400" height="400">
+			{% endif %}
+             <button id="paws" class="btn btn-default" data-toggle="collapse" data-target="#search">PawPals&raquo;</button>
+        </div>
+        <div class="col-lg-4">
+            Bio: {{ shelter.bio }}
+
+    </div>
+        <div class="row"></div>
+
+</div>
+ <p>
+        This is {{ shelter.name }}'s webpage: <a href="{{ shelter.webpage }}">{{ shelter.name }}</a>
+    <br/>
+        This is {{ shelter.name }}'s location: {{ shelter.location }}
+    </p>
+<div id="search" class="collapse">
+		    <div class="row">
+            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+        {% for dogs in dog %}
+      <div class="col-lg-4">
+	        {% if dogs.profile_picture %}
+				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dogs.profile_picture }}" alt="Generic placeholder image"
+				          width="200" height="200">
+		     {% else %}
+				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
+			{% endif %}
+        <h3>{{ dog.name }}</h3>
+          <a class="btn btn-secondary" href="{% url 'show_dog' dogs.slug %}" role="button">View dog &raquo;</a>
+        </p>
+      </div>
+        {% endfor %}
+	</div>
+</div>
+
 {% endblock %}
