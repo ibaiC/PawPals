@@ -360,21 +360,39 @@ def populate():
     ### Request creation ###
     requests = {0 : {"user" : User.objects.all().get(username = "lilylith"), 
                      "shelter_manager" : User.objects.all().get(username = "jsmith"), 
-                     "dog" : Dog.objects.all().get(pk = 1), 
+                     "dog" : Dog.objects.all().get(pk = 10), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
                      "message" : "Hi! Can I walk that doggie next week?"},
                 1 : {"user" : User.objects.all().get(username = "hendo"), 
                      "shelter_manager" : User.objects.all().get(username = "jsmith"), 
-                     "dog" : Dog.objects.all().get(pk = 2), 
+                     "dog" : Dog.objects.all().get(pk = 10), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
                      "message" : "Next Friday 11am?"},
                 2 : {"user" : User.objects.all().get(username = "lilylith"), 
                      "shelter_manager" : User.objects.all().get(username = "jsmith"), 
-                     "dog" : Dog.objects.all().get(pk = 3), 
+                     "dog" : Dog.objects.all().get(pk = 11), 
                      "date" : "2018-03-21T13:20:30+03:00",
                      "confirmation_status" : "C",
+                     "message" : "Usual?"},
+                3 : {"user" : User.objects.all().get(username = "lilylith"), 
+                     "shelter_manager" : User.objects.all().get(username = "speedwagon"), 
+                     "dog" : Dog.objects.all().get(pk = 12), 
+                     "date" : "2018-03-21T13:20:30+03:00",
+                     "confirmation_status" : "C",
+                     "message" : "Usual?"},
+                4 : {"user" : User.objects.all().get(username = "lilylith"), 
+                     "shelter_manager" : User.objects.all().get(username = "speedwagon"), 
+                     "dog" : Dog.objects.all().get(pk = 13), 
+                     "date" : "2018-03-21T13:20:30+03:00",
+                     "confirmation_status" : "A",
+                     "message" : "Usual?"},
+                5 : {"user" : User.objects.all().get(username = "lilylith"), 
+                     "shelter_manager" : User.objects.all().get(username = "speedwagon"), 
+                     "dog" : Dog.objects.all().get(pk = 14), 
+                     "date" : "2018-03-21T13:20:30+03:00",
+                     "confirmation_status" : "P",
                      "message" : "Usual?"},
                 }
     
@@ -388,27 +406,27 @@ def populate():
 
 
     # Reviews creation
-    reviews = {Request.objects.get(pk = 1) : {"user" : requests[0]["user"],
-                                               "dog" : requests[0]["dog"],
+    reviews = {Request.objects.get(pk = 1) : {
                                                "rating": 5,
                                                "comment": "Good doggo!",
                                                "date": "2018-02-01T13:20:30+03:00"},
-               Request.objects.get(pk = 2) : {"user" : requests[1]["user"],
-                                               "dog" : requests[1]["dog"],
+               Request.objects.get(pk = 2) : {
                                                "rating": 4,
                                                "comment": "Very playful.",
                                                "date": "2018-02-01T13:20:30+03:00"},
-               Request.objects.get(pk = 3) : {"user" : requests[2]["user"],
-                                               "dog" : requests[2]["dog"],
+               Request.objects.get(pk = 3) : {
                                                "rating": 1,
                                                "comment": "Very badly behaved.",
-                                               "date": "2018-02-01T13:20:30+03:00"},                               
+                                               "date": "2018-02-01T13:20:30+03:00"},
+               Request.objects.get(pk = 4) : {
+                                               "rating": 5,
+                                               "comment": "So sweet!",
+                                               "date": "2018-02-01T13:20:30+03:00"},
+                               
             }
     
     for request, review_data in reviews.items():
          add_review(request = request,
-                    user = review_data["user"],
-                   dog=review_data["dog"],
                    date=review_data["date"],
                    rating=review_data["rating"],
                    comment=review_data["comment"]
@@ -423,9 +441,9 @@ def populate():
         print(str(sh) + " managed by: " +str(sh.manager))
         for dog in Dog.objects.filter(dog_shelter=sh):
             print("\t - " + str(dog.pk) + " | " + str(dog))
-    print("\n>>> Users and comments")
+    print("\n>>> Users and reviews")
     for user in User.objects.all().filter(is_standard = True):
-        print(str(user) + "'s comments:")
+        print(str(user) + "'s reviews:")
         for review in Review.objects.filter(reviewing_user = user):
             print("\t - " + str(review))
     print("\n>>> Requests: ")    
@@ -508,10 +526,11 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
     return d
 
 
-def add_review(user, dog, request, date, rating, comment):
+def add_review(request, date, rating, comment):
     
-    rev = Review.objects.get_or_create(reviewing_user=user, reviewed_dog=dog, date=date, request=request)[0]
+    rev = Review.objects.get_or_create(request=request)[0]
 
+    rev.date = date
     rev.difficulty_rating = rating
     rev.comment = comment
     
