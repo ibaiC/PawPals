@@ -221,10 +221,10 @@ class Request(models.Model):
 
 class Review(models.Model):
     # relationships
-    reviewing_user = models.ForeignKey(User)
-    reviewed_dog = models.ForeignKey(Dog)
     request = models.OneToOneField(Request)
 
+    reviewing_user = models.ForeignKey(User) 
+    reviewed_dog = models.ForeignKey(Dog) 
 
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
     comment = models.CharField(max_length = extended_char_len)
@@ -232,11 +232,10 @@ class Review(models.Model):
 
     def save(self, *args, **kwargs):
 
-        # update dog upon creating/changing review
-        """
+        self.reviewing_user = self.request.requesting_user
+        self.reviewed_dog = self.request.requested_dog
 
-        :rtype: object
-        """
+        # update dog upon creating/changing review
         super(Review, self).save(*args, **kwargs)
 
         # change request to "Reviewed"
@@ -247,14 +246,7 @@ class Review(models.Model):
         self.reviewed_dog.dog_shelter.save()
 
     def clean(self):
-        # User can only review dog if their request was completed
-        # User can only make as many reviews as completed requests
-        reviews_num = Review.objects.all().filter(reviewing_user = self.reviewing_user, reviewed_dog = self.reviewed_dog).count()
-        requests = Request.objects.all().filter(requesting_user = self.reviewing_user,
-                                                    requested_dog = self.reviewed_dog)
-        complete_requests_num = requests.filter(status = "C").count()
-        reviewed_requests_num = requests.filter(status = "R").count()
-
+        
         # Request must be completed (adding review) or reviewed (editing review)
         if (self.request.status != "C") and (self.request.status != "R"):
             raise ValidationError("Cannot review dog which request has not been completed.")

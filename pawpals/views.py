@@ -8,6 +8,8 @@ from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
 from .filters import DogFilter
+from django.conf import settings
+
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -69,10 +71,6 @@ def request(request, abstarctUser_slug):
     shelter_manager = shelter.manager
     request.request_manager = shelter_manager
 
-
-
-
-
     return render (request, 'pawpals/request.html', context_dict)
 
 
@@ -93,6 +91,7 @@ def show_shelter(request, shelter_slug):
 
 def show_dog(request, dog_slug):
     context_dict = {}
+
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
@@ -117,16 +116,15 @@ def show_reviews(request):
         }
 
     for review in Review.objects.all().filter(reviewed_dog = dog):
-        user_profile = UserProfile(user = review.reviewing_user)
+        user_profile = UserProfile.objects.get(user = review.reviewing_user)
         new_review = {"username" : review.reviewing_user.username,
                       "rating" : review.difficulty_rating,
                       "comment" : review.comment,
                       "date" : review.date,
-                      #"user_picture" : user_profile.profile_picture
+                      "profile_picture" : user_profile.profile_picture.path
                       }
         data["reviews"].append(new_review)
 
-    print(data)
     return JsonResponse(data)
 
 

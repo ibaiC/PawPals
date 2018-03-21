@@ -22,3 +22,8 @@ right: 10px;
 h4 {
     text-align: center;
     }
+
+    /* Show reviews */
+#review_block div {
+	text-align: left;
+}
