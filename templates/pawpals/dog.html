@@ -1,6 +1,10 @@
 {% extends 'pawpals/base.html' %} 
 {% load staticfiles %} 
 
+{% block javascript_block %}
+	<script type="text/javascript" src="{% static 'js/pawpals-ajax.js' %}"></script>
+{% endblock %}
+
 {% block stylesheet_block %}
 	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
 {% endblock %} 
@@ -8,6 +12,8 @@
 {% block title_block %} 
 	{{ dog.name }} 
 {% endblock %} 
+
+
 
 {% block body_block %}
 
@@ -25,8 +31,8 @@
 			{% endif %}
 			
 			<h3>{{ dog.name }}</h3>
-			
-			<a id = "show_reviews_button" class="btn btn-secondary" href="#" role="button">See Reviews&raquo;</a>
+			<!-- AJAX NOT WORKING WILL FIX LATER -->
+			<a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews&raquo;</a>
 			
 		</div>
 		
@@ -85,35 +91,4 @@
 	<div id = "review_block">
 	</div>
 
-<script>
-$(document).ready(function(){
-    $("#show_reviews_button").click(function(){
-    	 $.ajax({
-    		 url: "{% url "show_reviews" %}",
-    		 data: {"dog_slug" : "{{ dog.slug }}" },
-    		 success: function(result){
-				print_reviews(result);
-			}
-    		 
-    	 }).fail(function() {
-    		 document.getElementById("review_block").innerHTML = "No reviews to show.";
-    	 });
-    });
-});
-
-function print_reviews(reviews) {
-    var out = "";
-	var review_list = reviews["reviews"]
-    var i;
-    for(i = 0; i < review_list.length; i++) {
-        out += "<div class='review'><h4>" + review_list[i].username + "</h4></br>";
-        out += "Date: " + review_list[i].date + '</br>';
-        out += "How difficult was the walk?: " + review_list[i].rating + "/5</br>";
-        out += "Comment: " + review_list[i].comment + "</br>";
-        out += "<img class='rectangle center-cropped' src='{{ MEDIA_URL }}" + review_list[i].profile_picture + "' alt='Generic placeholder image' width='200' height='200'></div>"
-
-    }
-    document.getElementById("review_block").innerHTML = out;
-}
-  </script>
 {% endblock %}

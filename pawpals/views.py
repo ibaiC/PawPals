@@ -71,10 +71,6 @@ def request(request, abstarctUser_slug):
     shelter_manager = shelter.manager
     request.request_manager = shelter_manager
 
-
-
-
-
     return render (request, 'pawpals/request.html', context_dict)
 
 
@@ -129,7 +125,6 @@ def show_reviews(request):
                       }
         data["reviews"].append(new_review)
         
-    print(data)  
     return JsonResponse(data)
         
 

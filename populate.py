@@ -407,19 +407,19 @@ def populate():
 
     # Reviews creation
     reviews = {Request.objects.get(pk = 1) : {
-                                               "rating": 5,
+                                               "rating": 1,
                                                "comment": "Good doggo!",
                                                "date": "2018-02-01T13:20:30+03:00"},
                Request.objects.get(pk = 2) : {
-                                               "rating": 4,
+                                               "rating": 2,
                                                "comment": "Very playful.",
                                                "date": "2018-02-01T13:20:30+03:00"},
                Request.objects.get(pk = 3) : {
-                                               "rating": 1,
+                                               "rating": 5,
                                                "comment": "Very badly behaved.",
                                                "date": "2018-02-01T13:20:30+03:00"},
                Request.objects.get(pk = 4) : {
-                                               "rating": 5,
+                                               "rating": 3,
                                                "comment": "So sweet!",
                                                "date": "2018-02-01T13:20:30+03:00"},
                                
@@ -541,7 +541,7 @@ def add_review(request, date, rating, comment):
     
 def add_request(user, shelter_manager, dog, date, confirmation_status, message):
     
-    req = Request.objects.get_or_create(requesting_user=user, request_manager=shelter_manager, requested_dog=dog)[0]
+    req = Request.objects.get_or_create(requesting_user=user, request_manager=shelter_manager, requested_dog=dog, date=date)[0]
     
     req.date = date
     
