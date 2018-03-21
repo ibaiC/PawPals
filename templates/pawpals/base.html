@@ -46,6 +46,7 @@
           {% if user.is_authenticated %}
           <a class="btn btn-outline-success" href="{% url 'logout' %}" role="button">Sign Out</a>
           <a class="btn btn-outline-info" href="{% url 'edit' %}" role="button">View Profile</a>
+          <a class="btn btn-outline-info" href="{% url 'requests' %}" role="button">Manage Requests</a>
           {% else %}
     <a class="btn btn-outline-success" href="{% url 'login' %}" role="button">Sign In</a>
     <a class="btn btn-outline-info" href="{% url 'register' %}" role="button">Sign Up</a>

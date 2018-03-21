@@ -33,6 +33,10 @@
 			<!-- AJAX NOT WORKING WILL FIX LATER -->
 			<a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews&raquo;</a>
 			
+			{% if user.is_authenticated %}
+				<a id = "request_button" class="btn btn-secondary" onclick="" role="button">Request a walk&raquo;</a>
+			{% endif %}
+		
 		</div>
 		
 		<div class="row">
@@ -85,6 +89,10 @@
 				<p>{{ dog.difficulty }}/5</p>
 			</div>
 		</div>
+	</div>
+
+	<div id = "request_block">
+		{{ user_form.as_p }}
 	</div>
 
 	<div id = "review_block">
