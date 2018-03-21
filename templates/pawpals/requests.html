@@ -1,0 +1,83 @@
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %} 
+
+
+{% block title_block %}
+    Manage your requests
+{% endblock %}
+
+{% block body_block %}
+	
+	<table style = "width:100%">
+	
+		<tr>
+			<th>Requested Dog</th>
+			<th>Message</th>
+			<th>Date</th>
+			<th>Status</th>
+			{% if user.is_standard %}
+				<th>Review</th>
+			{% endif %}
+			
+			{% if user.is_manager %}
+				<th>Change status</th>
+			{% endif %}
+			
+		</tr>	
+			
+		{% for request in requests %}
+		
+			<div class = "request">
+				<tr>
+					<th>
+						<a href="{% url 'show_dog' request.requested_dog.slug %}">
+							{{ request.requested_dog }}
+						</a>
+					</th>
+					<th>{{ request.message }}</th>
+					<th>{{ request.date }}</th>
+					<th>{{ request.get_status_display }}</th>
+					
+					{% if user.is_standard %}
+					
+						{% if request.status == "C" %}						
+							<th>
+								<a class="btn btn-secondary" role="button">Review walk</a>
+							</th>
+						{% elif request.status == "R" %}
+							<th>
+								<a class="btn btn-secondary" role="button">Update review</a>
+							</th>
+						{% else %}
+							<th>
+								<a class="btn btn-secondary" role="button">Grey this one out</a>
+							</th>
+							
+						{% endif %}
+					{% endif %}
+					
+						{% if user.is_manager %}
+							
+							<form id="status_update" method="post" action="">
+								{% csrf_token %}
+				        		<th>{{ form.as_ul }}</th>
+				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
+				        		<th><button class="btn btn-primary" type="submit" name="submit">Change</button></th>	
+				        	</form>
+			        	
+						{% endif %}
+						
+				</tr>
+			</div>
+			
+		{% endfor %}
+		
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		
+
+	</table>
+
+{% endblock %}

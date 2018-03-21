@@ -9,6 +9,7 @@ from datetime import datetime
 from pawpals.forms import *
 from .filters import DogFilter
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
@@ -52,12 +53,35 @@ def review(request, dog_slug):
     review.save()
     return render (request, 'pawpals/dog.html', context_dict)
 
+@login_required
+def show_requests(request):
+    
+    context_dict = {}
+    if request.user.is_manager:
+        
+        requests_list = Request.objects.all().filter(request_manager = request.user)
+        if request.method == 'POST':
+            instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
+            form = RequestStatusForm(request.POST or None, instance=instance)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('requests'))
 
+        else:
+            form = RequestStatusForm()
 
+    else:
+        requests_list = Request.objects.all().filter(requesting_user = request.user)
+        form = RequestStatusForm()
 
+    context_dict['form'] = form
+    context_dict['requests'] = requests_list
+    
+    return render(request, 'pawpals/requests.html', context_dict)
 
-def request(request, abstarctUser_slug):
-    abstractUser = AbstractUser.objects.get(slug=abstractUser_slug)
+@login_required
+def request(request):
+    #user = 
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
     context_dict['user'] = abstractUser
@@ -72,7 +96,6 @@ def request(request, abstarctUser_slug):
     request.request_manager = shelter_manager
 
     return render (request, 'pawpals/request.html', context_dict)
-
 
 
 def show_shelter(request, shelter_slug):
