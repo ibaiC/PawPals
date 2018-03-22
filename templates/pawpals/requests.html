@@ -50,16 +50,16 @@
 
 							<td>
 
-								<a class="btn btn-secondary" href = "{% url 'add_review' request.pk %}" role="button">Review walk</a>
+								<a class="btn btn-success" href="{% url 'add_review' request.pk %}" role="button">Review walk</a>
 							</td>
 						{% elif request.status == "R" %}
 							<td>
-								<a class="btn btn-secondary" href = "{% url 'edit_review' request.pk %}" role="button">Update review</a>
+								<a class="btn btn-info" href="{% url 'edit_review' request.pk %}" role="button">Update review</a>
 
 							</td>
 						{% else %}
 							<td>
-								<a class="btn btn-secondary disabled" role="button" aria-disabled="true">Update Review</a>
+								<a class="btn btn-secondary disabled" href="{% url 'edit_review' request.pk %}" role="button" aria-disabled="true">Write Review</a>
 							</td>
 							
 						{% endif %}
