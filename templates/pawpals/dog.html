@@ -16,18 +16,26 @@
 
 
 {% block body_block %}
-<h1> {{dog.name}}</h1>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <div class="row">
 
       <div class="col-lg-4">
+          {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
           width="400" height="400">
-        <h3>{{ dog.name }}</h3>
-          <a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
-
+          			{% else %}
+          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="400" height="400">
+			{% endif %}
+        <h2> {{dog.name}}</h2>
+          <a id = "show_reviews_button" class="btn btn-outline-info" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
 		  {% if user.is_authenticated %}
             {% if user.is_standard %}
-				<a id = "request_button" class="btn btn-secondary" href="{% url 'request' dog.slug %}" role="button">Request a Walk&raquo;</a>
+				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}" role="button">Request a Walk</a>
 			{% endif %}
           {% endif %}
       </div>
@@ -84,7 +92,6 @@
 			<p>{{ dog.difficulty }}/5</p>
 
       </div>
-
 
 		<div id = "request_block">
 		{{ user_form.as_p }}

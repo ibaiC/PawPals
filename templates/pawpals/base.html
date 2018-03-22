@@ -23,33 +23,33 @@
         <link rel="stylesheet" type="text/css" href="{% static "styles/base_style.css" %}">
 {% endblock %}
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light" style="background-color: FFFAFA;">
-  <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static "/brand.png" %}" width="30" height="30" alt="">   PawPals</a>
+<nav class="navbar navbar-expand-lg fixed-top bg-dark" style="background-color: FFFAFA;">
+  <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{% static "/brand.png" %}" width="30" height="30" alt="">   PawPals</a>
 
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'dogSearch' %}">Dog Search</a>
+        <a class="nav-link text-white" href="{% url 'dogSearch' %}">Dog Search</a>
       </li>
      <li class="nav-item">
-        <a class="nav-link" href="{% url 'shelters' %}">Shelters</a>
+        <a class="nav-link text-white" href="{% url 'shelters' %}">Shelters</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'about' %}">About & FAQ</a>
+        <a class="nav-link text-white" href="{% url 'about' %}">About & FAQ</a>
       </li>
     </ul>
 	  <form>
       <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
-          <a class="btn btn-outline-success" href="{% url 'logout' %}" role="button">Sign Out</a>
-          <a class="btn btn-outline-info" href="{% url 'edit' %}" role="button">View Profile</a>
-          <a class="btn btn-outline-info" href="{% url 'requests' %}" role="button">Manage Requests</a>
+          <a class="btn btn-outline-danger text-white" href="{% url 'logout' %}" role="button">Sign Out</a>
+          <a class="btn btn-outline-primary text-white" href="{% url 'edit' %}" role="button">Edit Profile</a>
+          <a class="btn btn-outline-info text-white" href="{% url 'requests' %}" role="button">Manage Requests</a>
           {% else %}
-    <a class="btn btn-outline-success" href="{% url 'login' %}" role="button">Sign In</a>
-    <a class="btn btn-outline-info" href="{% url 'register' %}" role="button">Sign Up</a>
+    <a class="btn btn-outline-success text-white" href="{% url 'login' %}" role="button">Sign In</a>
+    <a class="btn btn-outline-info text-white" href="{% url 'register' %}" role="button">Sign Up</a>
           {% endif %}
       </ul>
 		  </form>
@@ -66,13 +66,13 @@
             {% endblock %}
         </div>
 <footer>
-  <nav class="navbar navbar-default  navbar-sticky-bottom" role="navigation">
+  <nav class="navbar navbar-default  navbar-sticky-bottom bg-dark" role="navigation">
     <div class="container text-center">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto text-white">
             PawPals
         </ul>
            <ul class="navbar-nav ml-auto">
-        <a class="nav-link" href="#Top">Back To The Top</a>
+        <a class="nav-link text-white" href="#Top">Back To The Top</a>
            </ul>
     </div>
 </nav>

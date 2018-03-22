@@ -49,15 +49,17 @@
 						{% if request.status == "C" %}						
 
 							<td>
+
 								<a class="btn btn-secondary" href = "{% url 'add_review' request.pk %}" role="button">Review walk</a>
 							</td>
 						{% elif request.status == "R" %}
 							<td>
 								<a class="btn btn-secondary" href = "{% url 'edit_review' request.pk %}" role="button">Update review</a>
+
 							</td>
 						{% else %}
 							<td>
-								<a class="btn btn-secondary" title = "You can add a review after you complete the walk." role="button">Grey this one out</a>
+								<a class="btn btn-secondary disabled" role="button" aria-disabled="true">Update Review</a>
 							</td>
 							
 						{% endif %}
@@ -69,7 +71,7 @@
 								{% csrf_token %}
 				        		<td>{{ form.as_ul }}</td>
 				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
-				        		<td><button class="btn btn-primary" type="submit" name="submit">Change</button></td>
+								<td><button class="btn btn-outline-primary" type="submit" name="submit">Change</button></td>
 				        	</form>
 			        	
 						{% endif %}

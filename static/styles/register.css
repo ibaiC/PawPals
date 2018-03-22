@@ -1,8 +1,10 @@
-.container {
-    padding-top: 75px;
-    padding-bottom: 2rem;
-    }
 
+div {
+    text-align: center;
+    }
 h1 {
+    text-align: center;
+    padding-top: 75px;
+
     padding-bottom: 50px;
     }
