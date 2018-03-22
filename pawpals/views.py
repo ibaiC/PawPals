@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
+from pawpals.decorators import *
 from .filters import DogFilter
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -35,12 +36,18 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-def edit(request, abstractUser_slug):
-    response = render (request, 'pawpals/edit.html')
-    abstractUser= AbstractUser.objects.get(slug=abstractUser_slug)
-    #give information about user
-    return response
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        form = UserEditingForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('home') ) #Goes to home after valid form submitted
+    else:
+        form = UserEditingForm()    #provide a blank form if request is GET type
+    return render(request, 'pawpals/edit.html', {'form': form})
 
+@login_required
+@standardUser_required
 def review(request, dog_slug):
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
@@ -80,17 +87,31 @@ def show_requests(request):
     return render(request, 'pawpals/requests.html', context_dict)
 
 @login_required
+<<<<<<< HEAD
 def request(request, dog_slug):
+=======
+@standardUser_required
+def request(request):
+>>>>>>> b8b1ac2196f5014a5e4c7884e2c2bc6b2139d5f1
     #user =
     context_dict={}
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
+<<<<<<< HEAD
     context_dict['user'] = request.user
     #forms
     request_form= RequestForm(data= request.POST)
     request_object = request_form.save(commit=False)
     request_object.requesting_user= request.user
     request_object.status = "P"
+=======
+    context_dict['user'] = User
+    #forms
+    request_form= RequestForm(data= request.POST)
+    request = request_form.save(commit=False)
+    request.requesting_user= User
+    request.status = P
+>>>>>>> b8b1ac2196f5014a5e4c7884e2c2bc6b2139d5f1
 
     shelter = dog.dog_shelter
     shelter_manager = shelter.manager
