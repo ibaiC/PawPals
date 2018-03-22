@@ -12,7 +12,6 @@
 
 
 	<div class="row">
-        <br/>
 		<div class="col-lg-4">
 			{% if shelter.profile_picture %}
 				<img class="rectangle center-cropped"
@@ -21,13 +20,16 @@
 			{% else %}
 				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Default" width="400" height="400">
 			{% endif %}
+            <div>
              <button id="paws" class="btn btn-default" data-toggle="collapse" data-target="#search">PawPals&raquo;</button>
+            </div>
         </div>
-        <div class="col-lg-4">
-            Bio: {{ shelter.bio }}
-
+        <div class="row">
+        <div class="col-sm-12">
+            <h4>Bio</h4>
+           <article>{{ shelter.bio }}</article>
     </div>
-
+        </div>
 </div>
  <p>
         This is {{ shelter.name }}'s webpage: <a href="{{ shelter.webpage }}">{{ shelter.name }}</a>

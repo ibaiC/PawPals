@@ -25,14 +25,15 @@
         <h3>{{ dog.name }}</h3>
           <a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
 		  {% if user.is_authenticated %}
-				<a id = "request_button" class="btn btn-secondary" href="{% url 'walkRequest' %}" role="button">Request a Walk&raquo;</a>
+				<a id = "request_button" class="btn btn-secondary" href="{% url 'request' dog.slug %}" role="button">Request a Walk&raquo;</a>
 			{% endif %}
       </div>
     <div class="row">
-    <div class="col-lg-4">
+
+    <div class="col-sm-3">
 
         <h4>Bio</h4>
-		<p>{{ dog.bio }}</p>
+		<article>{{ dog.bio }}</article>
 
      </div>
     <div class="col-sm-3">
@@ -80,7 +81,7 @@
 			<p>{{ dog.difficulty }}/5</p>
 
       </div>
-</div>
+
 
 		<div id = "request_block">
 		{{ user_form.as_p }}
@@ -89,4 +90,5 @@
 	<div id = "review_block">
 	</div>
 </div>
+    </div>
 {% endblock %}

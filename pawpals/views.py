@@ -86,36 +86,28 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-@login_required
-<<<<<<< HEAD
-def request(request, dog_slug):
-=======
+
+
 @standardUser_required
-def request(request):
->>>>>>> b8b1ac2196f5014a5e4c7884e2c2bc6b2139d5f1
+def request(request, dog_slug):
+
     #user =
     context_dict={}
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
-<<<<<<< HEAD
+
     context_dict['user'] = request.user
     #forms
     request_form= RequestForm(data= request.POST)
     request_object = request_form.save(commit=False)
     request_object.requesting_user= request.user
     request_object.status = "P"
-=======
-    context_dict['user'] = User
-    #forms
-    request_form= RequestForm(data= request.POST)
-    request = request_form.save(commit=False)
-    request.requesting_user= User
-    request.status = P
->>>>>>> b8b1ac2196f5014a5e4c7884e2c2bc6b2139d5f1
 
     shelter = dog.dog_shelter
     shelter_manager = shelter.manager
-    request.request_manager = shelter_manager
+    request_object.request_manager = shelter_manager
+
+    request_object.save()
 
     return render(request, 'pawpals/request.html', context_dict)
 
