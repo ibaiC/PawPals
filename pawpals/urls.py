@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^about', views.about, name='about'),
 
     url(r'^login/$', views.user_login, name='login'),
+    url(r'^login/requests/$', views.show_requests, name='requests'),
+
     url(r'^register/$',views.register,name='register'),
     url(r'^logout/', auth_views.logout, {'next_page': 'home'}, name='logout'),    #redirects to homepage
 
@@ -16,5 +18,6 @@ urlpatterns = [
     url(r'^dogs/(?P<dog_slug>[\w\-]+)/$', views.show_dog, name='show_dog'),
     url(r'^edit', views.edit, name='edit'),
     url(r'^dogsearch/$',views.dog_search, name='dogSearch'),
-    url(r'^ajax/show_reviews/', views.show_reviews, name = "show_reviews")
+    url(r'^ajax/show_reviews/', views.show_reviews, name = "show_reviews"),
+
 ]

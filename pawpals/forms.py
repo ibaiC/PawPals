@@ -26,6 +26,12 @@ class RequestForm(forms.ModelForm):
         model = Request
         fields = ('message',)
 
+class RequestStatusForm(forms.ModelForm):
+    
+    
+    class Meta:
+        model = Request
+        fields = ('status',)
 ## TODO: edit user, edit shelter, edit dog
 
 class UserEditingForm(forms.ModelForm):

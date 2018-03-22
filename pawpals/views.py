@@ -8,7 +8,13 @@ from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
 from .filters import DogFilter
+<<<<<<< HEAD
 from pawpals.decorators import *
+=======
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+
+>>>>>>> eec5c8ae4a27282b3215c6cb9d2100723be822df
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -55,9 +61,40 @@ def review(request, dog_slug):
     return render (request, 'pawpals/dog.html', context_dict)
 
 @login_required
+<<<<<<< HEAD
 @standardUser_required
 def request(request, tUser_slug):
     user = User.objects.get(slug=User_slug)
+=======
+def show_requests(request):
+    
+    context_dict = {}
+    if request.user.is_manager:
+        
+        requests_list = Request.objects.all().filter(request_manager = request.user)
+        if request.method == 'POST':
+            instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
+            form = RequestStatusForm(request.POST or None, instance=instance)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('requests'))
+
+        else:
+            form = RequestStatusForm()
+
+    else:
+        requests_list = Request.objects.all().filter(requesting_user = request.user)
+        form = RequestStatusForm()
+
+    context_dict['form'] = form
+    context_dict['requests'] = requests_list
+    
+    return render(request, 'pawpals/requests.html', context_dict)
+
+@login_required
+def request(request):
+    #user = 
+>>>>>>> eec5c8ae4a27282b3215c6cb9d2100723be822df
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
     context_dict['user'] = user
@@ -72,7 +109,6 @@ def request(request, tUser_slug):
     request.request_manager = shelter_manager
 
     return render (request, 'pawpals/request.html', context_dict)
-
 
 
 def show_shelter(request, shelter_slug):
@@ -91,6 +127,7 @@ def show_shelter(request, shelter_slug):
 
 def show_dog(request, dog_slug):
     context_dict = {}
+
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
@@ -115,16 +152,15 @@ def show_reviews(request):
         }
 
     for review in Review.objects.all().filter(reviewed_dog = dog):
-        user_profile = UserProfile(user = review.reviewing_user)
+        user_profile = UserProfile.objects.get(user = review.reviewing_user)
         new_review = {"username" : review.reviewing_user.username,
                       "rating" : review.difficulty_rating,
                       "comment" : review.comment,
                       "date" : review.date,
-                      #"user_picture" : user_profile.profile_picture
+                      "profile_picture" : user_profile.profile_picture.path
                       }
         data["reviews"].append(new_review)
 
-    print(data)
     return JsonResponse(data)
 
 

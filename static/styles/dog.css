@@ -8,17 +8,28 @@ h3 {
     text-align: center;
     transform: translateX(-10%);
     }
+
 .col-lg-4 {
     margin-left: 50px;
      display: table-cell;
     vertical-align: middle;
      }
-p {
-text-align: center;
-right: 10px;
-}
 
+p {
+    text-align: center;
+    right: 10px;
+}
+.exam {
+    vertical-align: middle;
+    text-align:center;
+        margin-left:50px;
+        }
 
 h4 {
     text-align: center;
     }
+
+    /* Show reviews */
+#review_block div {
+	text-align: left;
+}
