@@ -1,24 +1,32 @@
-{% extends 'pawpals/base.html' %}
+{% extends 'pawpals/base.html' %} 
 
-{% block title_block %}
-Edit Your Profile!
-{% endblock %}
+{% block title_block %} 
+Edit Your Profile! 
+{% endblock %} 
 
 {% block body_block %}
-<h1 id="edit">Edit Your Profile</h1>
-<div class="container">
-  <form method="post" novalidate>
-    {% csrf_token %}
- {{ form.as_ul }}
-
-
-
-  {% if user.is_manager %}
-  <!-- MANAGER FORM GOES HERE -->
-  {% endif %}
-        <button type="submit">Submit</button>
-  </form>
-</div>
-
+	<h1 id="edit">Edit Your Profile</h1>
+	
+	<div class="container">
+		<form method="post" novalidate>
+			{% csrf_token %} 
+			{{ user_form.as_ul }} 
+			{{ user_profile_form.as_ul }}
+			{% if user.is_manager %}
+			
+				{{ shelter_form.as_ul }}
+				
+				<p>
+				{% for dog in dogs %}
+				
+					{{ dog.name }}
+				
+				{% endfor %}
+				</p>
+				
+			{% endif %}
+			<button type="submit">Submit</button>
+		</form>
+	</div>
 
 {% endblock %}

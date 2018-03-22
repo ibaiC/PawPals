@@ -34,12 +34,15 @@ class RequestStatusForm(forms.ModelForm):
         fields = ('status',)
 
 class UserEditingForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(), required=False)
-    email = forms.EmailField(required=False)
-
     class Meta:
         model = UserProfile
         fields = ('profile_picture', 'phone_contact')
+
+class UserCoreEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username',)
+
 
 class ShelterEditingForm(forms.ModelForm):
     manager = forms.CharField()

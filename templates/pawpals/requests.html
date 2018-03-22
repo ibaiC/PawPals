@@ -1,6 +1,9 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %} 
 
+{% block javascript_block %}
+	<script type="text/javascript" src="{% static 'js/info_functionality.js' %}"></script>
+{% endblock %}
 
 {% block title_block %}
     Manage your requests
@@ -54,7 +57,7 @@
 							</td>
 						{% else %}
 							<td>
-								<a class="btn btn-secondary" role="button">Grey this one out</a>
+								<a class="btn btn-secondary" title = "You can add a review after you complete the walk." role="button">Grey this one out</a>
 							</td>
 							
 						{% endif %}

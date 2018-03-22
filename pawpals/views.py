@@ -38,13 +38,59 @@ def about(request):
 
 @login_required
 def edit(request):
-    if request.method == 'POST':
-        form = UserEditingForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect(reverse('home') ) #Goes to home after valid form submitted
-    else:
-        form = UserEditingForm()    #provide a blank form if request is GET type
-    return render(request, 'pawpals/edit.html', {'form': form})
+        
+    context_dict = {}
+    user_form = UserCoreEditForm(instance = request.user)
+    user_profile_form = UserEditingForm(instance = UserProfile.objects.get(user = request.user))
+    
+    context_dict["user_form"] = user_form
+    context_dict["user_profile_form"] = user_profile_form
+
+    if request.user.is_manager:
+        
+        shelter = Shelter.objects.get(manager = request.user)
+        dogs = Dog.objects.all().filter(dog_shelter = shelter)
+        context_dict["dogs"] = dogs
+        
+        shelter_form = ShelterEditingForm(instance = shelter)
+        context_dict["shelter_form"] = shelter_form
+        
+        
+    if request.method == "POST":
+        
+        user_form = UserCoreEditForm(request.POST, instance = request.user)
+        user_profile_form = UserEditingForm(request.POST, instance = UserProfile.objects.get(user = request.user))
+
+        if request.user.is_manager:
+            shelter_form = ShelterEditingForm(request.POST, instance = shelter)
+
+            if shelter_form.is_valid():
+                
+                shelter = form.save(commit = False)
+                shelter.save()
+            else:
+                print(shelter_form.errors)
+
+            
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user = user_form.save()
+            user.save()
+            profile = user_profile_form.save(commit=False)
+            
+            profile.user = user
+
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
+
+            profile.save()
+            
+            return redirect("edit")
+        else:
+            print (user_form.errors)
+            print (user_profile_form.errors)
+            
+    
+    return render(request, 'pawpals/edit.html', context_dict)
 
 
 @login_required
@@ -173,11 +219,10 @@ def request(request, dog_slug):
 
 
 def show_shelter(request, shelter_slug):
-    shelters_list = Shelter.objects.order_by('-avg_difficulty_rating')[:5]
-    context_dict = {'shelters': shelters_list}
+    context_dict = {}
     try:
         shelter = Shelter.objects.get(slug=shelter_slug)
-        dog_list = Dog.objects.all()
+        dog_list = Dog.objects.all().filter(dog_shelter = shelter)
         context_dict['shelter'] = shelter
         context_dict['dog'] = dog_list
 
