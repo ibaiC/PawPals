@@ -25,11 +25,11 @@ class User(AbstractUser):
     # username, first_name, last_name, email, password, groups, user_permissions, is_staff, is_active, is_superuser, last_login, date_joined
     is_manager = models.BooleanField("manager status", default=False)
     is_standard = models.BooleanField("standard user status", default=False)
-    
-    
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key = True)
-    
+
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
 
@@ -114,8 +114,8 @@ class Dog(models.Model):
     is_childfriendly = models.BooleanField(default = "False")
 
     slug = models.SlugField(unique = True)
-    
-    completed_request_count = models.IntegerField(default=0) 
+
+    completed_request_count = models.IntegerField(default=0)
 
     def dog_image_path(self, filename):
         return (os.path.join("dogs_profile_images", filename))
@@ -174,7 +174,7 @@ def update_slug(sender, instance, created, *args, **kwargs):
 class Request(models.Model):
     # relationships
     requesting_user = models.ForeignKey(User, related_name="requesting_user")
-    request_manager = models.ForeignKey(User, related_name="request_manager") 
+    request_manager = models.ForeignKey(User, related_name="request_manager")
 
     requested_dog = models.ForeignKey(Dog)
 
@@ -215,7 +215,7 @@ class Request(models.Model):
 
         if not(self.request_manager.is_manager):
             raise ValidationError("User does not have permission to be manager.")
-        
+
         if (self.requesting_user.is_manager):
             raise ValidationError("User is a manager, cannot add it as requesting user.")
 

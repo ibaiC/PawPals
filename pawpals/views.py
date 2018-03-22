@@ -8,6 +8,7 @@ from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
 from .filters import DogFilter
+from pawpals.decorators import *
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -32,12 +33,15 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-def edit(request, abstractUser_slug):
+@login_required
+def edit(request, user_slug):
     response = render (request, 'pawpals/edit.html')
-    abstractUser= AbstractUser.objects.get(slug=abstractUser_slug)
+    user= User.objects.get(slug=user_slug)
     #give information about user
     return response
 
+@login_required
+@standardUser_required
 def review(request, dog_slug):
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
@@ -50,28 +54,22 @@ def review(request, dog_slug):
     review.save()
     return render (request, 'pawpals/dog.html', context_dict)
 
-
-
-
-
-def request(request, abstarctUser_slug):
-    abstractUser = AbstractUser.objects.get(slug=abstractUser_slug)
+@login_required
+@standardUser_required
+def request(request, tUser_slug):
+    user = User.objects.get(slug=User_slug)
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
-    context_dict['user'] = abstractUser
+    context_dict['user'] = user
     #forms
     request_form= RequestForm(data= request.POST)
     request = request_form.save(commit=False)
-    request.requesting_user= abstractUser
+    request.requesting_user= user
     request.status = P
 
     shelter = dog.dog_shelter
     shelter_manager = shelter.manager
     request.request_manager = shelter_manager
-
-
-
-
 
     return render (request, 'pawpals/request.html', context_dict)
 
