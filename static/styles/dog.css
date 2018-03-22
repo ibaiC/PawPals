@@ -45,3 +45,23 @@ h4 {
 #review_block div {
 	text-align: left;
 }
+body {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  height: 100%;
+  position: relative;
+}
+
+footer {
+    padding-top: 50px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
+body {
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+  text-align: center;
+}

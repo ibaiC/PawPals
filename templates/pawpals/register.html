@@ -18,8 +18,8 @@
     {% else %}
     <p>
     <div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-secondary">Personal</button>
-  <button type="button" class="btn btn-secondary">Professional</button>
+  <button type="button" class="btn btn-light">Personal</button>
+  <button type="button" class="btn btn-dark">Professional</button>
 </div>
 </p>
 <form id="user_form" method="post" action="{% url 'register' %}"
@@ -28,7 +28,7 @@
     <div>{{ user_form.as_p }}</div>
 
 
-<button type="submit" class="btn btn-default">Submit</button>
+<button type="submit" class="btn btn-outline-success">Submit</button>
 </form>
     {% endif %}
 </div>
