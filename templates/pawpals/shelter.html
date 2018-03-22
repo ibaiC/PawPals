@@ -21,7 +21,8 @@
 				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Default" width="400" height="400">
 			{% endif %}
             <div>
-             <button id="paws" class="btn btn-default" data-toggle="collapse" data-target="#search">PawPals&raquo;</button>
+                <br/>
+             <button id="paws" class="btn btn-info" data-toggle="collapse" data-target="#search">PawPals</button>
             </div>
         </div>
         <div class="row">
@@ -36,9 +37,9 @@
     <br/>
         This is {{ shelter.name }}'s location: {{ shelter.location }}
     </p>
-<div id="search" class="collapse">
+    <div id="search" class="collapse">
 		    <div class="row">
-            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+
         {% for dogs in dog %}
       <div class="col-lg-2">
 	        {% if dogs.profile_picture %}
@@ -47,8 +48,9 @@
 		     {% else %}
 				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
 			{% endif %}
-        <h3>{{ dog.name }}</h3>
-          <a class="btn btn-secondary" href="{% url 'show_dog' dogs.slug %}" role="button">View dog &raquo;</a>
+        <h3>{{ dogs.name }}</h3>
+          <p>
+          <a id="paw" class="btn btn-secondary" href="{% url 'show_dog' dogs.slug %}" role="button">View dog &raquo;</a>
         </p>
       </div>
         {% endfor %}

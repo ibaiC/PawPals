@@ -45,15 +45,15 @@
 					
 						{% if request.status == "C" %}						
 							<td>
-								<a class="btn btn-secondary" role="button">Review walk</a>
+								<a class="btn btn-success" role="button">Review walk</a>
 							</td>
 						{% elif request.status == "R" %}
 							<td>
-								<a class="btn btn-secondary" role="button">Update review</a>
+								<a class="btn btn-info" role="button">Update review</a>
 							</td>
 						{% else %}
 							<td>
-								<a class="btn btn-secondary" role="button">Grey this one out</a>
+								<a class="btn btn-secondary disabled" role="button" aria-disabled="true">Update Review</a>
 							</td>
 							
 						{% endif %}
@@ -65,7 +65,7 @@
 								{% csrf_token %}
 				        		<td>{{ form.as_ul }}</td>
 				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
-				        		<td><button class="btn btn-primary" type="submit" name="submit">Change</button></td>
+								<td><button class="btn btn-outline-primary" type="submit" name="submit">Change</button></td>
 				        	</form>
 			        	
 						{% endif %}

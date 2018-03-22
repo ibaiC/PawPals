@@ -20,6 +20,9 @@ Welcome to PawPals!
       </div>
     </div>
 <div>
+    <br/>
+    <br/>
+    <br/>
     <hr class="featurette-divider">
 
 <h1 class="featurette-heading" align="center">Dogs That Need Some Love!
@@ -38,7 +41,7 @@ Welcome to PawPals!
 				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
 			{% endif %}
         <h3>{{ dog.name }}</h3>
-          <a class="btn btn-secondary" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
+          <a class="btn btn-outline-dark" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
         </p>
       </div>
         {% endfor %}

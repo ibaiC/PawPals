@@ -13,14 +13,14 @@
     <div class="container">
     <hr class="featurette-divider">
     </div>
-    <button class="btn btn-default" data-toggle="collapse" data-target="#search">Search For A Specific PawPal</button>
+    <button class="btn btn-outline-info" data-toggle="collapse" data-target="#search">Search For A Specific PawPal</button>
 	<div id="search" class="collapse">
 <br/>
 		<form method="get">
             <div id="dogsearch" class="container">
 			{{ filter.form.as_table }}
 			<br/>
-			<button class="btn btn-default" type="submit">Search</button>
+			<button class="btn btn-outline-success" type="submit">Search</button>
             </div>
 		</form>
 	</div>
@@ -39,8 +39,8 @@
       
         
         <h3>{{ dog.name }}</h3>
-          <a class="btn btn-secondary" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
-        </p>
+          <a class="btn btn-outline-dark" href="{% url 'show_dog' dog.slug %}" role="button">View dog &raquo;</a>
+
 
       </div>
         {% endfor %}

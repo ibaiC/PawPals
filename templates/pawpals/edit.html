@@ -11,12 +11,11 @@ Edit Your Profile!
     {% csrf_token %}
  {{ form.as_ul }}
 
-
-
   {% if user.is_manager %}
   <!-- MANAGER FORM GOES HERE -->
   {% endif %}
-        <button type="submit">Submit</button>
+    <button class="btn btn-outline-danger" type="submit">Delete User</button>
+        <button class="btn btn-outline-success" type="submit">Submit</button>
   </form>
 </div>
 
