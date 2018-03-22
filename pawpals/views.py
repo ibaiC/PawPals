@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
+from pawpals.decorators import *
 from .filters import DogFilter
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -35,23 +36,15 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-# def edit(request, User_slug):
-#     response = render (request, 'pawpals/edit.html')
-#     User= User.objects.get(slug=User_slug)
-#     #give information about user
-#     return response
-
-def UpdateProfile(UpdateView):
-    model = User
-    fields = ['first_name', 'last_name', 'email', 'password', 'profile_picture', 'phone_contact']
-
-    template_name = 'edit.html'
-    slug_field = 'username'
-    slug_url_kwarg = 'slug'
-
-    response = render(UpdateView, 'pawpals/edit.html')
-    return response
-
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        form = UserEditingForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('home') ) #Goes to home after valid form submitted
+    else:
+        form = UserEditingForm()    #provide a blank form if request is GET type
+    return render(request, 'pawpals/edit.html', {'form': form})
 
 
 @login_required
@@ -116,6 +109,20 @@ def edit_review(request, request_pk):
     return render (request, 'pawpals/review.html', context_dict)
 
 @login_required
+@standardUser_required
+def review(request, dog_slug):
+    dog = Dog.objects.get(slug=dog_slug)
+    context_dict['dog'] = dog
+    review_form= ReviewForm(data= request.POST)
+    review = review_form.save(commit=False)
+    #from forms
+    #review.reviewing_user = get current user
+    #review.request = get current request
+    review.reviewed_dog = dog
+    review.save()
+    return render (request, 'pawpals/dog.html', context_dict)
+
+@login_required
 def show_requests(request):
 
     context_dict = {}
@@ -140,23 +147,30 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-@login_required
-def request(request):
+
+
+@standardUser_required
+def request(request, dog_slug):
+
     #user =
+    context_dict={}
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
-    context_dict['user'] = User
+
+    context_dict['user'] = request.user
     #forms
     request_form= RequestForm(data= request.POST)
-    request = request_form.save(commit=False)
-    request.requesting_user= User
-    request.status = P
+    request_object = request_form.save(commit=False)
+    request_object.requesting_user= request.user
+    request_object.status = "P"
 
     shelter = dog.dog_shelter
     shelter_manager = shelter.manager
-    request.request_manager = shelter_manager
+    request_object.request_manager = shelter_manager
 
-    return render (request, 'pawpals/request.html', context_dict)
+    request_object.save()
+
+    return render(request, 'pawpals/request.html', context_dict)
 
 
 def show_shelter(request, shelter_slug):

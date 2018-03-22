@@ -28,10 +28,10 @@ class RequestForm(forms.ModelForm):
         fields = ('message',)
 
 class RequestStatusForm(forms.ModelForm):
+
     class Meta:
         model = Request
         fields = ('status',)
-## TODO: edit user, edit shelter, edit dog
 
 class UserEditingForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), required=False)

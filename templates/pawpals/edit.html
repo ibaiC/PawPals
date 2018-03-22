@@ -1,13 +1,24 @@
 {% extends 'pawpals/base.html' %}
 
 {% block title_block %}
-Welcome to edit!
+Edit Your Profile!
 {% endblock %}
 
 {% block body_block %}
-edit Body
-<strong>This is the edit page<strong>
-{% endblock %}
+<h1 id="edit">Edit Your Profile</h1>
+<div class="container">
+  <form method="post" novalidate>
+    {% csrf_token %}
+ {{ form.as_ul }}
 
-{% block sidebar_block %}
+
+
+  {% if user.is_manager %}
+  <!-- MANAGER FORM GOES HERE -->
+  {% endif %}
+        <button type="submit">Submit</button>
+  </form>
+</div>
+
+
 {% endblock %}

@@ -73,7 +73,7 @@ def populate():
 
     hearts_dogs = [
         {"name": "Bailey",
-         "bio": "Calm, loves running.",
+         "bio": "Calm, loves running. Calm, loves running.Calm, loves runningCalm, loves runningCalm, loves runningCalm, loves runningCalm, loves running   ",
          "profile_picture": "husky.jpg",
          "breed": "Husky",
          "difficulty": 2,
@@ -249,7 +249,7 @@ def populate():
     shelters = {"In Dogs We Trust" : {
                     "manager": dog_trust_manager,
                     "dogs": dog_trust_dogs,
-                    "bio": "0/1 Doggo Road, Glasgow G0 A00",
+                    "bio": "0/1 Doggo Road, Glasgow G0",
                     "webpage": "https://www.dogstrust.org.uk/our-centres/glasgow/",
                     "phone_contact": "+44 1111111112",
                     "availability_info": "Everyday 8am-3pm",
