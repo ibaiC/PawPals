@@ -3,8 +3,9 @@ h1 {
     padding-top: 75px;
     padding-bottom: 25px;
      }
+
 article {
-    column-width: 200px;}
+    column-width: 150px;}
 h3 {
     text-align: center;
     transform: translateX(-10%);

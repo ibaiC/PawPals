@@ -24,9 +24,12 @@
           width="400" height="400">
         <h3>{{ dog.name }}</h3>
           <a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
+
 		  {% if user.is_authenticated %}
+            {% if user.is_standard %}
 				<a id = "request_button" class="btn btn-secondary" href="{% url 'request' dog.slug %}" role="button">Request a Walk&raquo;</a>
 			{% endif %}
+          {% endif %}
       </div>
     <div class="row">
 
@@ -51,7 +54,7 @@
       </div>
     <div class="col-sm-3">
 
-        <h4>Breed</h4>
+        <h4>Gender</h4>
 		<p>{{ dog.get_gender_display }}</p>
 
       </div>

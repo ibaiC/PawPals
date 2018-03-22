@@ -38,7 +38,9 @@ body::after {
   display: block;
   height: 50px;
   }
-
+.profile {
+    padding-top: 75px;
+    }
 footer {
   position: absolute;
   bottom: 0;
@@ -48,6 +50,7 @@ footer {
 h1{
     text-align: center;
     margin:0px;
+    padding-top: 50px;
 }
 h2{
     text-align: center;
