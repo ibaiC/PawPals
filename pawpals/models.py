@@ -241,11 +241,7 @@ class Review(models.Model):
         self.reviewed_dog.save()
         self.reviewed_dog.dog_shelter.save()
 
-    def clean(self):
-        
-        # Request must be completed (adding review) or reviewed (editing review)
-        if (self.request.status != "C") and (self.request.status != "R"):
-            raise ValidationError("Cannot review dog which request has not been completed.")
+   
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)

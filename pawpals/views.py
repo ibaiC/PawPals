@@ -57,21 +57,24 @@ def UpdateProfile(UpdateView):
 @login_required
 def add_review(request, request_pk):
     request_object = Request.objects.get(pk = request_pk)
+    
     form = ReviewForm()
+    
     context_dict = {}
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
+        form.request = request_object
 
         if form.is_valid():
             review = form.save(commit = False)
-            review.request = Review.objects.get(request = request_object)
+            #review.request = Review.objects.get(request = request_object)
             review.save()
 
             return redirect("requests")
         else:
             print (form.errors)
-
+            
     context_dict["form"] = form
     context_dict["review"] = None
     context_dict["dog"] = request_object.requested_dog

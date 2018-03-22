@@ -46,11 +46,11 @@
 						{% if request.status == "C" %}						
 
 							<td>
-								<a class="btn btn-secondary" role="button">Review walk</a>
+								<a class="btn btn-secondary" href = "{% url 'add_review' request.pk %}" role="button">Review walk</a>
 							</td>
 						{% elif request.status == "R" %}
 							<td>
-								<a class="btn btn-secondary" role="button">Update review</a>
+								<a class="btn btn-secondary" href = "{% url 'edit_review' request.pk %}" role="button">Update review</a>
 							</td>
 						{% else %}
 							<td>
