@@ -8,13 +8,9 @@ from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
 from .filters import DogFilter
-<<<<<<< HEAD
-from pawpals.decorators import *
-=======
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 
->>>>>>> eec5c8ae4a27282b3215c6cb9d2100723be822df
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -39,15 +35,12 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-@login_required
-def edit(request, user_slug):
+def edit(request, abstractUser_slug):
     response = render (request, 'pawpals/edit.html')
-    user= User.objects.get(slug=user_slug)
+    abstractUser= AbstractUser.objects.get(slug=abstractUser_slug)
     #give information about user
     return response
 
-@login_required
-@standardUser_required
 def review(request, dog_slug):
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
@@ -61,16 +54,11 @@ def review(request, dog_slug):
     return render (request, 'pawpals/dog.html', context_dict)
 
 @login_required
-<<<<<<< HEAD
-@standardUser_required
-def request(request, tUser_slug):
-    user = User.objects.get(slug=User_slug)
-=======
 def show_requests(request):
-    
+
     context_dict = {}
     if request.user.is_manager:
-        
+
         requests_list = Request.objects.all().filter(request_manager = request.user)
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
@@ -88,20 +76,19 @@ def show_requests(request):
 
     context_dict['form'] = form
     context_dict['requests'] = requests_list
-    
+
     return render(request, 'pawpals/requests.html', context_dict)
 
 @login_required
 def request(request):
-    #user = 
->>>>>>> eec5c8ae4a27282b3215c6cb9d2100723be822df
+    #user =
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
-    context_dict['user'] = user
+    context_dict['user'] = abstractUser
     #forms
     request_form= RequestForm(data= request.POST)
     request = request_form.save(commit=False)
-    request.requesting_user= user
+    request.requesting_user= abstractUser
     request.status = P
 
     shelter = dog.dog_shelter
