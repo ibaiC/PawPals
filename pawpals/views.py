@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from pawpals.models import *
 from datetime import datetime
 from pawpals.forms import *
+from pawpals.decorators import *
 from .filters import DogFilter
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -35,23 +36,18 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-# def edit(request, User_slug):
-#     response = render (request, 'pawpals/edit.html')
-#     User= User.objects.get(slug=User_slug)
-#     #give information about user
-#     return response
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        form = UserEditingForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('home') ) #Goes to home after valid form submitted
+    else:
+        form = UserEditingForm()    #provide a blank form if request is GET type
+    return render(request, 'pawpals/edit.html', {'form': form})
 
-def UpdateProfile(UpdateView):
-    model = User
-    fields = ['first_name', 'last_name', 'email', 'password', 'profile_picture', 'phone_contact']
-
-    template_name = 'edit.html'
-    slug_field = 'username'
-    slug_url_kwarg = 'slug'
-
-    response = render(UpdateView, 'pawpals/edit.html')
-    return response
-
+@login_required
+@standardUser_required
 def review(request, dog_slug):
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
@@ -91,6 +87,7 @@ def show_requests(request):
     return render(request, 'pawpals/requests.html', context_dict)
 
 @login_required
+@standardUser_required
 def request(request):
     #user =
     dog = Dog.objects.get(slug=dog_slug)
