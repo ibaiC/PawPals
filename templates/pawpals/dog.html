@@ -26,10 +26,9 @@
 
       <div class="col-lg-4">
           {% if dog.profile_picture %}
-        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
-          width="400" height="400">
+        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
           			{% else %}
-          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="400" height="400">
+          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
 			{% endif %}
         <h2> {{dog.name}}</h2>
           <a id = "show_reviews_button" class="btn btn-outline-info" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
