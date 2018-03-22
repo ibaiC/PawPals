@@ -313,6 +313,7 @@ def register(request):
                    'registered': registered})
 
 def user_login(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -326,7 +327,8 @@ def user_login(request):
             else:
                 return HttpResponse("Your PawPals account is disabled.")
         else:
-            return HttpResponse("Invalid login details supplied.")
+            context_dict = {'error': 'The username or password you have entered is invalid'}
+            return render(request, 'pawpals/login.html', context_dict)
     else:
         return render(request, 'pawpals/login.html', {})
 

@@ -9,7 +9,15 @@
 {% block body_block %}
 
 	<h1>{{shelter.name}}</h1>
-
+<p>
+<strong>Webpage:</strong> <a href="{{ shelter.webpage }}">{{ shelter.name }}</a>
+    <br/>
+        {{ shelter.location }}
+     <br/>
+        {{ shelter.phone_contact }}
+    <br/>
+    <br/>
+    </p>
 
 	<div class="row">
 		<div class="col-lg-4">
@@ -26,17 +34,26 @@
             </div>
         </div>
         <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-4">
             <h4>Bio</h4>
            <article>{{ shelter.bio }}</article>
     </div>
+            <div class="col-sm-4">
+
+        <h4>Availability</h4>
+		<p>{{ shelter.availability_info }}</p>
+
+      </div>
+            <div class="col-sm-4">
+
+        <h4>Average Difficulty Rating of PawPals</h4>
+		<p>{{ shelter.avg_difficulty_rating }}</p>
+
+      </div>
+
         </div>
 </div>
- <p>
-        This is {{ shelter.name }}'s webpage: <a href="{{ shelter.webpage }}">{{ shelter.name }}</a>
-    <br/>
-        This is {{ shelter.name }}'s location: {{ shelter.location }}
-    </p>
+
     <div id="search" class="collapse">
 		    <div class="row">
 
