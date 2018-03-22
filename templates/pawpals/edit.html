@@ -5,7 +5,6 @@ Edit Your Profile!
 {% endblock %} 
 
 {% block body_block %}
-<<<<<<< HEAD
 	<h1 id="edit">Edit Your Profile</h1>
 	
 	<div class="container">
@@ -17,10 +16,13 @@ Edit Your Profile!
 			
 				{{ shelter_form.as_ul }}
 				
-				<p>
-				{% for dog in dogs %}
+				DOGS BELOW
 				
-					{{ dog.name }}
+				<p>
+				
+				{% for form in dog_formset %}
+				
+					{{ dog_form.as_table }}
 				
 				{% endfor %}
 				</p>

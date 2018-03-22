@@ -11,6 +11,8 @@ from pawpals.decorators import *
 from .filters import DogFilter
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.forms import formset_factory
+
 
 
 #from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
@@ -38,7 +40,7 @@ def about(request):
 
 @login_required
 def edit(request):
-        
+
     context_dict = {}
     user_form = UserCoreEditForm(instance = request.user)
     user_profile_form = UserEditingForm(instance = UserProfile.objects.get(user = request.user))
@@ -51,10 +53,14 @@ def edit(request):
         shelter = Shelter.objects.get(manager = request.user)
         dogs = Dog.objects.all().filter(dog_shelter = shelter)
         context_dict["dogs"] = dogs
-        
+
         shelter_form = ShelterEditingForm(instance = shelter)
         context_dict["shelter_form"] = shelter_form
-        
+
+        DogFormSet = formset_factory(DogEditingForm)
+        dog_formset = DogFormSet()
+
+        context_dict["dog_formset"] = dog_formset
         
     if request.method == "POST":
         
@@ -64,13 +70,22 @@ def edit(request):
         if request.user.is_manager:
             shelter_form = ShelterEditingForm(request.POST, instance = shelter)
 
+            dog_forms = []
+            for dog in dogs:    
+                dog_form = DogEditingForm(request.POST, instance = dog)                
+                dog_forms.append(dog_form)
+
+            for dog_form in dog_forms:
+                if dog_form.is_valid():
+                    dog = dog_form.save(commit = False)
+                    dog.save()
+
             if shelter_form.is_valid():
                 
                 shelter = form.save(commit = False)
                 shelter.save()
             else:
                 print(shelter_form.errors)
-
             
         if user_form.is_valid() and user_profile_form.is_valid():
             user = user_form.save()
@@ -89,7 +104,6 @@ def edit(request):
             print (user_form.errors)
             print (user_profile_form.errors)
             
-    
     return render(request, 'pawpals/edit.html', context_dict)
 
 
@@ -104,9 +118,6 @@ def add_review(request, request_pk):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         
-        
-        #review.request = request_object
-
         if form.is_valid():
             review = form.save(commit = False)
     
@@ -136,7 +147,6 @@ def edit_review(request, request_pk):
     context_dict = {}
 
     if request.method == 'POST':
-        
         
         form = ReviewForm(instance = existing_review, data = request.POST)
        
@@ -191,7 +201,6 @@ def show_requests(request):
     context_dict['requests'] = requests_list
 
     return render(request, 'pawpals/requests.html', context_dict)
-
 
 
 @standardUser_required

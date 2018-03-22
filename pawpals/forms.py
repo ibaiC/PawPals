@@ -54,4 +54,4 @@ class ShelterEditingForm(forms.ModelForm):
 class DogEditingForm(forms.ModelForm):
     class Meta:
         model = Dog
-        fields = ('name', 'bio', 'breed', 'difficulty', 'size', 'gender', 'is_puppy', 'is_childfriendly', 'profile_picture')
+        fields = ('name', 'bio', 'breed', 'size', 'gender', 'is_puppy', 'is_childfriendly', 'profile_picture')
