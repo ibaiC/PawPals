@@ -42,15 +42,11 @@
 					
 						{% if request.status == "C" %}						
 							<th>
-								<a class="btn btn-secondary" href = "{% url 'review' %}" role="button" type="submit">Review walk</a>
-								<input type='hidden' value='{{ request.pk }}' name='request_object'>
-								<input type='hidden' value='False' name='is_updated'>
+								<a class="btn btn-secondary" href = "{% url 'add_review' request.pk %}" role="button" type="submit">Review walk</a>
 							</th>
 						{% elif request.status == "R" %}
 							<th>
-								<a class="btn btn-secondary" href = "{% url 'review' %}" role="button" type="submit">Update review</a>
-								<input type='hidden' value='{{ request.pk }}' name='request_object'>
-								<input type='hidden' value='True' name='is_updated'>
+								<a class="btn btn-secondary" href = "{% url 'edit_review' request.pk %}" role="button" type="submit">Update review</a>
 								
 							</th>
 						{% else %}

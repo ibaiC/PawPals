@@ -27,8 +27,6 @@ class RequestForm(forms.ModelForm):
         fields = ('message',)
 
 class RequestStatusForm(forms.ModelForm):
-    
-    
     class Meta:
         model = Request
         fields = ('status',)

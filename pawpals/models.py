@@ -195,10 +195,6 @@ class Request(models.Model):
 
     def save(self, *args, **kwargs):
 
-        """
-
-        :rtype: object
-        """
         if (Review.objects.all().filter(request = self)) and not(self.status.__eq__("R")):
             self.status = "R"
 
@@ -226,7 +222,7 @@ class Review(models.Model):
     reviewing_user = models.ForeignKey(User) 
     reviewed_dog = models.ForeignKey(Dog) 
 
-    difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
+    difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators, blank=True)
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField(default = timezone.now())
 

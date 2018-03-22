@@ -41,40 +41,65 @@ def edit(request, abstractUser_slug):
     #give information about user
     return response
 
-def review(request):
+
+
+@login_required
+def add_review(request, request_pk):
+    request_object = Request.objects.get(pk = request_pk)
+    form = ReviewForm()
     context_dict = {}
-    request_object_pk = request.GET.get("pk")
-    request_object = Request.objects.get(pk=request_object_pk)
-    
-    is_updated = request.GET.get("is_updated")
-    
-    dog = request_object.requested_dog
-    
-    context_dict['dog'] = dog
-    
-    requests_list = Request.objects.all().filter(request_manager = request.user).order_by('date')
-    
-    if request.method == 'POST':
-        instance = get_object_or_404(Review, request = request_object)
-        form = ReviewForm(request.POST or None, instance=instance)
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+
         if form.is_valid():
-            
-            review = form.save(commit=False)
-            review.request = request_object
-            
-            return HttpResponseRedirect(reverse('requests'))
-    else:
-        form = RequestStatusForm()
+            review = form.save(commit = False)
+            review.request = Review.objects.get(request = request_object)
+            review.save()
+
+            return redirect("requests")
+        else:
+            print (form.errors)
+
+    context_dict["form"] = form
+    context_dict["review"] = None
+    context_dict["dog"] = request_object.requested_dog
+
+    return render (request, 'pawpals/review.html', context_dict)
+
+
+
+@login_required
+def edit_review(request, request_pk):
+    request_object = Request.objects.get(pk = request_pk)
     
+    existing_review = Review.objects.get(request = request_object)
     
-    review_form= ReviewForm(data= request.POST)
-    review = review_form.save(commit=False)
-    #from forms
-    #review.reviewing_user = get current user
-    #review.request = get current request
-    review.reviewed_dog = dog
-    review.save()
-    return render (request, 'pawpals/dog.html', context_dict)
+    form = ReviewForm(instance = existing_review)
+    context_dict = {}
+
+    if request.method == 'POST':
+        
+        
+        form = ReviewForm(instance = existing_review, data = request.POST)
+        print(">>>>>>")
+       
+        print(form)
+        
+        print(">>>>>>")
+        
+        if form.is_valid():
+            review = form.save(commit = False)
+            review.save()
+            return redirect("requests")
+        else:
+            print (form.errors)
+
+    context_dict["form"] = form
+    context_dict["review"] = Review.objects.get(request = request_object)
+    context_dict["dog"] = request_object.requested_dog
+
+    return render (request, 'pawpals/review.html', context_dict)
 
 @login_required
 def show_requests(request):
