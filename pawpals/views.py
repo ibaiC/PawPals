@@ -57,13 +57,17 @@ def add_review(request, request_pk):
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
-        form.request = request_object
+        
+        
+        #review.request = request_object
 
         if form.is_valid():
             review = form.save(commit = False)
-            #review.request = Review.objects.get(request = request_object)
+    
+            review.request = request_object
+    
             review.save()
-
+    
             return redirect("requests")
         else:
             print (form.errors)
@@ -89,12 +93,7 @@ def edit_review(request, request_pk):
         
         
         form = ReviewForm(instance = existing_review, data = request.POST)
-        print(">>>>>>")
        
-        print(form)
-        
-        print(">>>>>>")
-        
         if form.is_valid():
             review = form.save(commit = False)
             review.save()

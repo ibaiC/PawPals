@@ -10,6 +10,8 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.db.models import Q
+from django.shortcuts import redirect
+
 
 
 import numpy as np
@@ -236,6 +238,7 @@ class Review(models.Model):
 
         # change request to "Reviewed"
         self.request.status = "R"
+        self.request.save()
 
         # self.reviewed_dog.
         self.reviewed_dog.save()

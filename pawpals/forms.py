@@ -19,7 +19,7 @@ class ReviewForm(forms.ModelForm):
         
     class Meta:
         model = Review
-        fields = ('difficulty_rating', 'comment', 'request')
+        fields = ('difficulty_rating', 'comment')
 
 
 class RequestForm(forms.ModelForm):
