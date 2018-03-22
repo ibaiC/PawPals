@@ -27,7 +27,6 @@
             Bio: {{ shelter.bio }}
 
     </div>
-        <div class="row"></div>
 
 </div>
  <p>
@@ -39,7 +38,7 @@
 		    <div class="row">
             <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
         {% for dogs in dog %}
-      <div class="col-lg-4">
+      <div class="col-lg-2">
 	        {% if dogs.profile_picture %}
 				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dogs.profile_picture }}" alt="Generic placeholder image"
 				          width="200" height="200">
