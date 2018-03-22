@@ -35,10 +35,21 @@ def about(request):
     reponse = render(request, 'pawpals/about.html')
     return reponse
 
-def edit(request, abstractUser_slug):
-    response = render (request, 'pawpals/edit.html')
-    abstractUser= AbstractUser.objects.get(slug=abstractUser_slug)
-    #give information about user
+# def edit(request, User_slug):
+#     response = render (request, 'pawpals/edit.html')
+#     User= User.objects.get(slug=User_slug)
+#     #give information about user
+#     return response
+
+def UpdateProfile(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name', 'email', 'password', 'profile_picture', 'phone_contact']
+
+    template_name = 'edit.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'slug'
+
+    response = render(UpdateView, 'pawpals/edit.html')
     return response
 
 def review(request, dog_slug):
@@ -84,11 +95,11 @@ def request(request):
     #user =
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
-    context_dict['user'] = abstractUser
+    context_dict['user'] = User
     #forms
     request_form= RequestForm(data= request.POST)
     request = request_form.save(commit=False)
-    request.requesting_user= abstractUser
+    request.requesting_user= User
     request.status = P
 
     shelter = dog.dog_shelter
