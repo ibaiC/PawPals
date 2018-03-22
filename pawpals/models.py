@@ -244,8 +244,6 @@ class Review(models.Model):
         self.reviewed_dog.save()
         self.reviewed_dog.dog_shelter.save()
 
-   
-
     def __str__(self):
         dog_name = str(self.reviewed_dog)
         user_name = str(self.reviewing_user)

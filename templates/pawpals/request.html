@@ -1,13 +1,14 @@
-{% extends 'pawpals/base.html' %}
+{% extends 'pawpals/base.html' %} 
 
-{% block title_block %}
-Request a Walk!
-{% endblock %}
+{% block title_block %} 
+Request a Walk! 
+{% endblock %} 
 
 {% block body_block %}
+
 <h1>Request a Walk for {{dog.name}}</h1>
 <div class="row">
-
+	
       <div class="col-lg-4">
         {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
@@ -24,7 +25,7 @@ placeholder="Type Your Message Here..." required autofocus>
 <button class="btn btn-lg btn-primary" type="submit"
 value="Submit" />Send Request</button>
 
-                    </form>
-    </div>
+		</form>
+	</div>
 </div>
 {% endblock %}

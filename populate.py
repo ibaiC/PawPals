@@ -479,6 +479,8 @@ def add_user(is_manager, username, fullname, password,email, phone_contact, prof
         user_profile.profile_picture.save(profile_picture, File(open(os.path.join("population_files", "users", profile_picture), "rb")))
     else:
         user_profile.profile_picture = profile_picture 
+        
+    user_profile.save()
     
     return user
 
