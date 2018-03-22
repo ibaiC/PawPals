@@ -80,8 +80,9 @@ def show_requests(request):
     return render(request, 'pawpals/requests.html', context_dict)
 
 @login_required
-def request(request):
-    #user = 
+def request(request, dog_slug):
+    #user =
+    context_dict = {}
     dog = Dog.objects.get(slug=dog_slug)
     context_dict['dog'] = dog
     context_dict['user'] = abstractUser

@@ -1,0 +1,27 @@
+{% extends 'pawpals/base.html' %}
+
+{% block title_block %}
+Request a Walk!
+{% endblock %}
+
+{% block body_block %}
+<h1>Request a Walk for {{dog.name}}</h1>
+<div class="row">
+
+      <div class="col-lg-4">
+        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+          width="400" height="400">
+        <h3>{{ dog.name }}</h3>
+          <a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
+		  {% if user.is_authenticated %}
+				<a id = "request_button" class="btn btn-secondary" href="{% url 'walkRequest' %}" role="button">Request a Walk&raquo;</a>
+			{% endif %}
+      </div>
+    <div class="col-lg-8">
+        <form>
+
+
+
+        </form>
+    </div>
+{% endblock %}
