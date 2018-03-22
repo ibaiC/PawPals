@@ -10,6 +10,8 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.db.models import Q
+from django.shortcuts import redirect
+
 
 
 import numpy as np
@@ -195,10 +197,6 @@ class Request(models.Model):
 
     def save(self, *args, **kwargs):
 
-        """
-
-        :rtype: object
-        """
         if (Review.objects.all().filter(request = self)) and not(self.status.__eq__("R")):
             self.status = "R"
 
@@ -226,7 +224,7 @@ class Review(models.Model):
     reviewing_user = models.ForeignKey(User) 
     reviewed_dog = models.ForeignKey(Dog) 
 
-    difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators)
+    difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators, blank=True)
     comment = models.CharField(max_length = extended_char_len)
     date = models.DateTimeField(default = timezone.now())
 
@@ -240,16 +238,13 @@ class Review(models.Model):
 
         # change request to "Reviewed"
         self.request.status = "R"
+        self.request.save()
 
         # self.reviewed_dog.
         self.reviewed_dog.save()
         self.reviewed_dog.dog_shelter.save()
 
-    def clean(self):
-        
-        # Request must be completed (adding review) or reviewed (editing review)
-        if (self.request.status != "C") and (self.request.status != "R"):
-            raise ValidationError("Cannot review dog which request has not been completed.")
+   
 
     def __str__(self):
         dog_name = str(self.reviewed_dog)

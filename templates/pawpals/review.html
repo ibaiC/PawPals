@@ -1,0 +1,38 @@
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %} 
+
+{% block title_block %}
+    Write a Review
+{% endblock %}
+
+{% block body_block %}
+
+    	{% if dog.profile_picture %}
+			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+			          width="200" height="200">
+      	{% else %}
+			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
+		{% endif %}
+
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if review %}
+        <h1>Edit review</h1>
+	       
+	       <td>{{ form.as_p }}</td>
+        
+        {% else %}
+        <h1>Add review</h1>
+        	
+        	<input type="hidden" name="request">
+        	
+        	<td>{{ form.as_p }}</td>
+     
+	    
+		{% endif %}
+
+      <button type="submit" class="btn btn-default">Submit</button>
+      
+</form>
+{% endblock %}

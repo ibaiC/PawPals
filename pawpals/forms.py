@@ -16,6 +16,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ('profile_picture','phone_contact')
 
 class ReviewForm(forms.ModelForm):
+        
     class Meta:
         model = Review
         fields = ('difficulty_rating', 'comment')
@@ -27,7 +28,6 @@ class RequestForm(forms.ModelForm):
         fields = ('message',)
 
 class RequestStatusForm(forms.ModelForm):
-
 
     class Meta:
         model = Request

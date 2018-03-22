@@ -46,6 +46,67 @@ def edit(request):
         form = UserEditingForm()    #provide a blank form if request is GET type
     return render(request, 'pawpals/edit.html', {'form': form})
 
+
+@login_required
+def add_review(request, request_pk):
+    request_object = Request.objects.get(pk = request_pk)
+    
+    form = ReviewForm()
+    
+    context_dict = {}
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        
+        
+        #review.request = request_object
+
+        if form.is_valid():
+            review = form.save(commit = False)
+    
+            review.request = request_object
+    
+            review.save()
+    
+            return redirect("requests")
+        else:
+            print (form.errors)
+            
+    context_dict["form"] = form
+    context_dict["review"] = None
+    context_dict["dog"] = request_object.requested_dog
+
+    return render (request, 'pawpals/review.html', context_dict)
+
+
+
+@login_required
+def edit_review(request, request_pk):
+    request_object = Request.objects.get(pk = request_pk)
+    
+    existing_review = Review.objects.get(request = request_object)
+    
+    form = ReviewForm(instance = existing_review)
+    context_dict = {}
+
+    if request.method == 'POST':
+        
+        
+        form = ReviewForm(instance = existing_review, data = request.POST)
+       
+        if form.is_valid():
+            review = form.save(commit = False)
+            review.save()
+            return redirect("requests")
+        else:
+            print (form.errors)
+
+    context_dict["form"] = form
+    context_dict["review"] = Review.objects.get(request = request_object)
+    context_dict["dog"] = request_object.requested_dog
+
+    return render (request, 'pawpals/review.html', context_dict)
+
 @login_required
 @standardUser_required
 def review(request, dog_slug):
@@ -65,7 +126,6 @@ def show_requests(request):
 
     context_dict = {}
     if request.user.is_manager:
-
         requests_list = Request.objects.all().filter(request_manager = request.user)
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
@@ -78,7 +138,7 @@ def show_requests(request):
             form = RequestStatusForm()
 
     else:
-        requests_list = Request.objects.all().filter(requesting_user = request.user)
+        requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('date')
         form = RequestStatusForm()
 
     context_dict['form'] = form
