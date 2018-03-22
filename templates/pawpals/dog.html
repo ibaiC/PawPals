@@ -16,86 +16,77 @@
 
 
 {% block body_block %}
-	<h1>{{dog.name}}</h1>
-	
-	<div class="row">
-		<div class="col-lg-4">
-			{% if dog.profile_picture %} 
-				<img class="rectangle center-cropped"
-				src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
-				alt="Generic placeholder image" width="400" height="400">
-			{% else %} 
-				<img class="rectangle center-cropped" src="{% static "
-				default_dog.png" %}" alt="Default" width="400" height="400">
-			{% endif %}
-			
-			<h3>{{ dog.name }}</h3>
-			<!-- AJAX NOT WORKING WILL FIX LATER -->
-			<a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews&raquo;</a>
-			
-			{% if user.is_authenticated %}
-				<a id = "request_button" class="btn btn-secondary" onclick="" role="button">Request a walk&raquo;</a>
-			{% endif %}
-		
-		</div>
-		
-		<div class="row">
-		
-			<div class="col-lg-3">
-				<h4>Bio</h4>
-				<p>{{ dog.bio }}</p>
-	
-			</div>
-			
-			<div class="col-sm-3">
-				<h4>Breed</h4>
-				<p>{{ dog.breed }}</p>
-			</div>
+<h1> {{dog.name}}</h1>
+<div class="row">
 
-			<div class="col-sm-3">
-				<h4>Size</h4>
-				<p>{{ dog.get_size_display }}</p>
-			</div>
-			
-			<div class="col-sm-3">
-				<h4>Display</h4>
-				<p>{{ dog.get_gender_display }}</p>
-			</div>
-			
-			<div class="col-sm-3">
-				<h4>Puppy</h4>
-				<p>
-					{% if dog.is_puppy %}
-						Yes
-					{% else %} 
-						No
-					{% endif %}
-				</p>
-			</div>
-			
-			<div class="col-sm-3">
-				<h4>Child Friendly</h4>
-				<p>
-					{% if dog.is_childfriendly %}
-						Yes
-					{% else %} 
-						No
-					{% endif %}
-				</p>
-			</div>
-			
-			<div class="col-sm-3">
-				<h4>Overall Difficulty</h4>
-				<p>{{ dog.difficulty }}/5</p>
-			</div>
-		</div>
-	</div>
+      <div class="col-lg-4">
+        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+          width="400" height="400">
+        <h3>{{ dog.name }}</h3>
+          <a id = "show_reviews_button" class="btn btn-secondary" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
+		  {% if user.is_authenticated %}
+				<a id = "request_button" class="btn btn-secondary" onclick="" role="button">Request a Walk&raquo;</a>
+			{% endif %}
+      </div>
+    <div class="row">
+    <div class="col-lg-4">
 
-	<div id = "request_block">
+        <h4>Bio</h4>
+		<p>{{ dog.bio }}</p>
+
+     </div>
+    <div class="col-sm-3">
+
+        <h4>Breed</h4>
+		<p>{{ dog.breed }}</p>
+
+      </div>
+
+    <div class="col-sm-3">
+
+        <h4>Size</h4>
+		<p>{{ dog.get_size_display }}</p>
+
+      </div>
+    <div class="col-sm-3">
+
+        <h4>Breed</h4>
+		<p>{{ dog.get_gender_display }}</p>
+
+      </div>
+    <div class="col-sm-3">
+
+        <h4>Puppy?</h4>
+		<p>{% if dog.is_puppy %}
+						Yes
+					{% else %}
+						No
+{% endif %}</p>
+
+      </div>
+        <div class="col-sm-3">
+
+        <h4>Child Friendly?</h4>
+			<p>{% if dog.is_childfriendly %}
+						Yes
+					{% else %}
+						No
+{% endif %}</p>
+
+      </div>
+        <div class="col-sm-3">
+
+        <h4>Overall Difficulty</h4>
+			<p>{{ dog.difficulty }}/5</p>
+
+      </div>
+</div>
+
+		<div id = "request_block">
 		{{ user_form.as_p }}
 	</div>
 
 	<div id = "review_block">
 	</div>
-
+</div>
 {% endblock %}

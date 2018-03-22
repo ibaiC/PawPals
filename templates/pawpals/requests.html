@@ -7,14 +7,17 @@
 {% endblock %}
 
 {% block body_block %}
-	
+
+	<br/>
+<h1>Requests Page</h1>
+<br/>
 	<table style = "width:100%">
 	
 		<tr>
-			<th>Requested Dog</th>
-			<th>Message</th>
-			<th>Date</th>
-			<th>Status</th>
+			<th id="header">Requested Dog</th>
+			<th id="header">Message</th>
+			<th id="header">Date</th>
+			<th id="header">Status</th>
 			{% if user.is_standard %}
 				<th>Review</th>
 			{% endif %}
@@ -29,30 +32,30 @@
 		
 			<div class = "request">
 				<tr>
-					<th>
+					<td>
 						<a href="{% url 'show_dog' request.requested_dog.slug %}">
 							{{ request.requested_dog }}
 						</a>
-					</th>
-					<th>{{ request.message }}</th>
-					<th>{{ request.date }}</th>
-					<th>{{ request.get_status_display }}</th>
+					</td>
+					<td>{{ request.message }}</td>
+					<td>{{ request.date }}</td>
+					<td>{{ request.get_status_display }}</td>
 					
 					{% if user.is_standard %}
 					
 						{% if request.status == "C" %}						
-							<th>
-								<a class="btn btn-secondary" href = "{% url 'add_review' request.pk %}" role="button" type="submit">Review walk</a>
-							</th>
+
+							<td>
+								<a class="btn btn-secondary" role="button">Review walk</a>
+							</td>
 						{% elif request.status == "R" %}
-							<th>
-								<a class="btn btn-secondary" href = "{% url 'edit_review' request.pk %}" role="button" type="submit">Update review</a>
-								
-							</th>
+							<td>
+								<a class="btn btn-secondary" role="button">Update review</a>
+							</td>
 						{% else %}
-							<th>
-								<a id = "disabled_review" title = "Cannot review walk that has not been completed." class="btn btn-secondary" role="button">Review walk</a>
-							</th>
+							<td>
+								<a class="btn btn-secondary" role="button">Grey this one out</a>
+							</td>
 							
 						{% endif %}
 					{% endif %}
@@ -61,9 +64,9 @@
 							
 							<form id="status_update" method="post" action="">
 								{% csrf_token %}
-				        		<th>{{ form.as_ul }}</th>
+				        		<td>{{ form.as_ul }}</td>
 				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
-				        		<th><button class="btn btn-primary" type="submit" name="submit">Change</button></th>	
+				        		<td><button class="btn btn-primary" type="submit" name="submit">Change</button></td>
 				        	</form>
 			        	
 						{% endif %}
@@ -72,13 +75,6 @@
 			</div>
 			
 		{% endfor %}
-		
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		
-
 	</table>
 
 {% endblock %}
