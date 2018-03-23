@@ -1,12 +1,12 @@
 $(function(){
+	
     $("#Pers").click(function(){
-        $("#Prof").removeAttr("active").addAttr("inactive");
-
-    }
-    );
+        $("#Professional").hide();
+    });
+    
     $("#Prof").click(function(){
-        $("#Pers").removeAttr("active").addAttr("inactive");
-        }
-        );
-    }
+        $("#Professional").show();
+    });
+
+});
 

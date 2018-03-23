@@ -1,7 +1,9 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
 
-
+{% block javascript_block %}
+	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock %}
 
 {% block body_block %}
     <div class="header_container">
@@ -13,8 +15,11 @@
         <a href="{% url 'login' %}">Sign In.</a><br />
     {% else %}
 
-  <button id="Pers" class="btn btn-light" data-toggle="collapse" data-target="#Personal">Personal</button>
-  <div id="Personal" class="collapse" value="pers">
+
+  <button id="Pers" class="btn btn-light" >Personal</button>
+  <button id="Prof" class="btn btn-dark" >Professional</button>
+  
+  <div id="Personal">
     <div class="row">
     <div class="col-md-7">
 
@@ -22,20 +27,21 @@
               enctype="multipart/form-data">
 {% csrf_token %}
     {{ user_form.as_p }}
-</form>
+
     </div>
     </div>
 </div>
-  <button id="Prof" class="btn btn-dark" data-toggle="collapse" data-target="#Professional">Professional</button>
-  <div id="Professional" class="collapse" value="prof" disabled="disabled">
+
+
+  <div id="Professional" class="collapse" value="prof" >
       <div class="row">
     <div class="col-md-7">
-<form id="user_form" method="post" action="{% url 'register' %}"
-              enctype="multipart/form-data">
+    
+
 {% csrf_token %}
 
     {{ shelter_form.as_p }}
-    </form>
+</form>
     </div>
 </div>
   </div>

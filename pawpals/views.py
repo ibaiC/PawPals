@@ -309,6 +309,7 @@ def show_reviews(request):
 def register(request):
     registered = False
     
+    
     shelter_form = ShelterEditingForm()
 
     if request.method == 'POST':
@@ -317,7 +318,7 @@ def register(request):
 
         shelter_form = ShelterEditingForm(request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid() and shelter_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
@@ -331,6 +332,7 @@ def register(request):
             profile.save()
             registered = True
             
+        if shelter_form.is_valid():   
             shelter = shelter_form.save(commit = False)
             shelter.manager = user
             
