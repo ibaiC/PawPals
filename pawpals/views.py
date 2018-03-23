@@ -394,8 +394,8 @@ def personal(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'profile_picture' in request.FILES:
+                profile_picture = request.FILES['profile_picture']
 
             profile.save()
             registered = True
