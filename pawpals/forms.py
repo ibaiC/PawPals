@@ -47,7 +47,10 @@ class UserCoreEditForm(forms.ModelForm):
 class ShelterEditingForm(forms.ModelForm):
     class Meta:
         model = Shelter
-        fields = ('name', 'bio', 'webpage', 'phone_contact', 'availability_info', 'location', 'profile_picture')
+        fields = ('name', 'bio', 'webpage', 
+                  'phone_contact', 
+                  'availability_info', 
+                  'location')
 
 class DogEditingForm(forms.ModelForm):
     

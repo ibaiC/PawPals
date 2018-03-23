@@ -60,11 +60,13 @@ class Shelter(models.Model):
         return (os.path.join("shelters_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
-
-    def clean(self):
-        if not(self.manager.is_manager):
-            raise ValidationError("User does not have permission to be manager.")
-
+     
+    """def clean(self):
+            if self.pk:
+                if not(self.manager.is_manager):
+                    raise ValidationError("User does not have permission to be manager.")
+    """
+       
     def save(self, *args, **kwargs):
         """
 
