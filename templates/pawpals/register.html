@@ -1,58 +1,12 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
 
-{% block javascript_block %}
-	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
-{% endblock %}
 
 {% block body_block %}
     <div class="header_container">
 
-    <h1 class="header" align="center">Please Choose Your Account Type & Enter Your Registration Details</h1>
+    <h1 class="header" align="center">Please Choose Your Account Type</h1>
     </div>
-    {% if registered %}
-        <strong>thank you for registering!</strong>
-        <a href="{% url 'login' %}">Sign In.</a><br />
-    {% else %}
-
-
-  <button id="Pers" class="btn btn-light" >Personal</button>
-  <button id="Prof" class="btn btn-dark" >Professional</button>
-  
-  <div id="Personal">
-    <div class="row">
-    <div class="col-md-7">
-
-<form id="user_form" method="post" action="{% url 'register' %}"
-              enctype="multipart/form-data">
-{% csrf_token %}
-    {{ user_form.as_p }}
-
-    </div>
-    </div>
-</div>
-
-<button type="submit" class="btn btn-outline-success">Submit</button>
-  <div id="Professional" class="collapse" value="prof" >
-      <div class="row">
-    <div class="col-md-7">
-    
-
-{% csrf_token %}
-
-    {{ shelter_form.as_p }}
-<button type="submit" class="btn btn-outline-success">Submit</button>
-</form>
-
-            {% endif %}
-    </div>
-</div>
-  </div>
-
-<br/>
-
-
-    <br/>
-    <br/>
-
+    <a class="btn btn-light" href="{% url 'personal' %}" role="button">Personal</a>
+    <a class="btn btn-dark" href="{% url 'professional' %}" role="button">Professional</a>
 {% endblock %}

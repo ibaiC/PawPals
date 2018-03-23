@@ -304,23 +304,56 @@ def show_reviews(request):
         data["reviews"].append(new_review)
 
     return JsonResponse(data)
-
-
-def register(request):
-    registered = False
-    
-    
+def professional(request):
     shelter_form = ShelterEditingForm()
-
+    registered = False
     if request.method == 'POST':
-        user_form= UserForm(data=request.POST)
+        user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
-
         shelter_form = ShelterEditingForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid() and shelter_form.is_valid():
+
+            user = user_form.save()
+            user.set_password(user.password)
+            user.is_manager = True
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+            shelter = shelter_form.save(commit=False)
+            shelter.manager = user
+            registered = True
+            shelter.save()
+            return redirect("login")
+        
+        else:
+            print(user_form.errors, profile_form.errors, shelter_form.errors)
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'pawpals/professional.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered,
+                   'shelter_form': shelter_form,
+                   })
+def personal(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
+            user.is_standard=True
             user.save()
 
             profile = profile_form.save(commit=False)
@@ -331,25 +364,21 @@ def register(request):
 
             profile.save()
             registered = True
-            
-        if shelter_form.is_valid():   
-            shelter = shelter_form.save(commit = False)
-            shelter.manager = user
-            
-            shelter.save()
-
+            return redirect("login")
         else:
-            print(user_form.errors, profile_form.errors, shelter_form.errors)
-
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-
-    return render(request,'pawpals/register.html',
+    return render(request, 'pawpals/personal.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered,
-                   'shelter_form' : shelter_form})
+                   })
+
+def register(request):
+
+    return render(request,'pawpals/register.html')
 
 def user_login(request):
 
