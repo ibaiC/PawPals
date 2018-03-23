@@ -32,7 +32,7 @@
     </div>
 </div>
 
-
+<button type="submit" class="btn btn-outline-success">Submit</button>
   <div id="Professional" class="collapse" value="prof" >
       <div class="row">
     <div class="col-md-7">
@@ -41,14 +41,16 @@
 {% csrf_token %}
 
     {{ shelter_form.as_p }}
+<button type="submit" class="btn btn-outline-success">Submit</button>
 </form>
+
+            {% endif %}
     </div>
 </div>
   </div>
 
 <br/>
-<button type="submit" class="btn btn-outline-success">Submit</button>
-    {% endif %}
+
 
     <br/>
     <br/>
