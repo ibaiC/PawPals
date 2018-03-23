@@ -30,11 +30,11 @@ STATIC_URL = '/static/'
 
 
 # Media directory
-MEDIA_DIR = os.path.join(BASE_DIR, "media")
+MEDIA_DIR = os.path.join(BASE_DIR, "../media/")
 
 # Media settings
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = "/media/"
+MEDIA_URL = "/static/media/"
 LOGIN_URL = "/pawpals/login/"
 LOGIN_REDIRECT_URL = ''    #might need to change to .html
 
