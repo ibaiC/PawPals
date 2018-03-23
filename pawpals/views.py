@@ -116,6 +116,11 @@ def edit(request):
             
     return render(request, 'pawpals/edit.html', context_dict)
 
+def delete_user(request):
+    user = request.user
+    user.delete()
+    logout(request)
+    return redirect("home")
 
 @login_required
 def add_review(request, request_pk):
@@ -305,24 +310,35 @@ def show_reviews(request):
 
     return JsonResponse(data)
 
-
 def register(request):
     registered = False
     
-    
-    shelter_form = ShelterEditingForm()
-
     if request.method == 'POST':
-        user_form= UserForm(data=request.POST)
+        
+        user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
-
         shelter_form = ShelterEditingForm(request.POST)
-
+        
+                
         if user_form.is_valid() and profile_form.is_valid():
+            
             user = user_form.save()
             user.set_password(user.password)
-            user.save()
+            
+            if request.POST.get("is_shelter") == "True":
+                user.is_manager = True
+                if shelter_form.is_valid():   
+                    shelter = shelter_form.save(commit = False)
+                    shelter.manager = user                    
+                    shelter.save()
+                else:
+                    print(shelter_form.errors)
 
+                
+            else:
+                user.is_standard = True
+            
+            user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
 
@@ -332,18 +348,14 @@ def register(request):
             profile.save()
             registered = True
             
-        if shelter_form.is_valid():   
-            shelter = shelter_form.save(commit = False)
-            shelter.manager = user
-            
-            shelter.save()
-
         else:
-            print(user_form.errors, profile_form.errors, shelter_form.errors)
-
+            print(user_form.errors)
+            print(profile_form.errors)
+            
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        shelter_form = ShelterEditingForm()
 
     return render(request,'pawpals/register.html',
                   {'user_form': user_form,

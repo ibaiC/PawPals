@@ -27,12 +27,14 @@
               enctype="multipart/form-data">
 {% csrf_token %}
     {{ user_form.as_p }}
+    {{ profile_form.as_p }}
 
     </div>
     </div>
 </div>
+<input = "shelter_status" type="hidden" name = "is_shelter" value = "False">
 
-<button type="submit" class="btn btn-outline-success">Submit</button>
+
   <div id="Professional" class="collapse" value="prof" >
       <div class="row">
     <div class="col-md-7">
@@ -41,18 +43,19 @@
 {% csrf_token %}
 
     {{ shelter_form.as_p }}
-<button type="submit" class="btn btn-outline-success">Submit</button>
-</form>
 
-            {% endif %}
+
+            
     </div>
 </div>
   </div>
-
+<input = "shelter_status" type="hidden" name = "is_shelter" value = "True">
+<button type="submit" class="btn btn-outline-success">Submit</button>
+</form>
 <br/>
 
 
     <br/>
     <br/>
-
+{% endif %}
 {% endblock %}

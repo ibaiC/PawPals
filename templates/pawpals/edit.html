@@ -45,7 +45,8 @@ Edit Your Profile!
 				<div style="transform: translateX(-40%);">{{ empty_dog_form.as_p }}</div>
 				
 			{% endif %}
-			<button class="btn btn-outline-danger" type="submit">Delete User</button>
+			
+			<button class="btn btn-outline-danger" href="{% url 'delete_user' %}" >Delete Account</button>
         	<button class="btn btn-outline-success" type="submit">Submit</button>
 		</form>
 	</div>
