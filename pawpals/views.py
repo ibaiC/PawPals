@@ -350,9 +350,7 @@ def professional(request):
             user.save()
 
                 
-            else:
-                user.is_standard = True
-            
+
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -361,14 +359,7 @@ def professional(request):
                 profile.picture = request.FILES['picture']
 
             profile.save()
-"""<<<<<<< HEAD
-            registered = True
-            
-        else:
-            print(user_form.errors)
-            print(profile_form.errors)
-            
-======="""
+
             shelter = shelter_form.save(commit=False)
             shelter.manager = user
             registered = True
