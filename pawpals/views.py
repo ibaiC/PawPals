@@ -331,7 +331,7 @@ def professional(request):
             registered = True
             shelter.save()
             return redirect("login")
-        
+
         else:
             print(user_form.errors, profile_form.errors, shelter_form.errors)
     else:
