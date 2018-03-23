@@ -18,8 +18,10 @@
     {% else %}
     <p>
     <div class="btn-group" role="group" aria-label="Basic example">
+    
   <button type="button" class="btn btn-light">Personal</button>
   <button type="button" class="btn btn-dark">Professional</button>
+  
 </div>
 </p>
 <form id="user_form" method="post" action="{% url 'register' %}"
@@ -27,6 +29,7 @@
 {% csrf_token %}
     <div>{{ user_form.as_p }}</div>
 
+{{ shelter_form.as_p }}
 
 <button type="submit" class="btn btn-outline-success">Submit</button>
 </form>
