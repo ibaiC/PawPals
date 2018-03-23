@@ -11,7 +11,7 @@ from pawpals.decorators import *
 from .filters import DogFilter
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.forms import formset_factory
+from django.forms import modelformset_factory
 
 
 
@@ -57,19 +57,9 @@ def edit(request):
         shelter_form = ShelterEditingForm(instance = shelter)
         context_dict["shelter_form"] = shelter_form
 
-        DogFormSet = formset_factory(DogEditingForm)
-        dog_formset = DogFormSet(initial = [{'name': dog.name, 
-                                             'bio': dog.bio, 
-                                             'breed': dog.breed, 
-                                             'size': dog.size, 
-                                             'gender': dog.gender, 
-                                             'is_puppy': dog.is_puppy, 
-                                             'is_childfriendly': dog.is_childfriendly, 
-                                             'profile_picture': dog.profile_picture,
-                                             'form-TOTAL_FORMS': len(dogs),
-                                             'form-INITIAL_FORMS': '0',
-                                             'form-MAX_NUM_FORMS': '', 
-                                             } for dog in dogs])
+        DogFormSet = modelformset_factory(Dog, fields=('name', 'bio', 'breed', 'size','gender', 'is_puppy', 'is_childfriendly', 
+                   'profile_picture'))
+        dog_formset = DogFormSet(queryset=dogs)
         
 
         context_dict["dog_formset"] = dog_formset
@@ -82,18 +72,7 @@ def edit(request):
         if request.user.is_manager:
             shelter_form = ShelterEditingForm(request.POST, instance = shelter)
 
-            dog_formset = DogFormSet(request.POST, initial = [{'name': dog.name, 
-                                             'bio': dog.bio, 
-                                             'breed': dog.breed, 
-                                             'size': dog.size, 
-                                             'gender': dog.gender, 
-                                             'is_puppy': dog.is_puppy, 
-                                             'is_childfriendly': dog.is_childfriendly, 
-                                             'profile_picture': dog.profile_picture,
-                                             'form-TOTAL_FORMS': len(dogs),
-                                             'form-INITIAL_FORMS': '0',
-                                             'form-MAX_NUM_FORMS': '',
-                                             } for dog in dogs])
+            dog_formset = DogFormSet(request.POST, queryset=dogs)
 
             for dog_form in dog_formset:
                 if dog_form.is_valid():
