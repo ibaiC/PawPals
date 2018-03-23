@@ -1,42 +1,50 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
 
-{% block stylesheet_block %}
-  <link rel="stylesheet" type="text/css" href="{% static "styles/register.css" %}">
-{% endblock %}
+
 
 {% block body_block %}
-<div>
-
     <div class="header_container">
 
-    <h1 class="header" align="center">Please Enter Your Registration Details</h1>
+    <h1 class="header" align="center">Please Choose Your Account Type & Enter Your Registration Details</h1>
     </div>
     {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
+        <strong>thank you for registering!</strong>
         <a href="{% url 'login' %}">Sign In.</a><br />
     {% else %}
-    <p>
-    <div class="btn-group" role="group" aria-label="Basic example">
-    
-  <button type="button" class="btn btn-light">Personal</button>
-  <button type="button" class="btn btn-dark">Professional</button>
-    
-</div>
-</p>
+
+  <button id="Pers" class="btn btn-light" data-toggle="collapse" data-target="#Personal">Personal</button>
+  <div id="Personal" class="collapse" value="pers">
+    <div class="row">
+    <div class="col-md-7">
+
 <form id="user_form" method="post" action="{% url 'register' %}"
               enctype="multipart/form-data">
 {% csrf_token %}
-    <div>{{ user_form.as_p }}</div>
-
-{{ shelter_form.as_p }}
-
-<button type="submit" class="btn btn-outline-success">Submit</button>
+    {{ user_form.as_p }}
 </form>
+    </div>
+    </div>
+</div>
+  <button id="Prof" class="btn btn-dark" data-toggle="collapse" data-target="#Professional">Professional</button>
+  <div id="Professional" class="collapse" value="prof" disabled="disabled">
+      <div class="row">
+    <div class="col-md-7">
+<form id="user_form" method="post" action="{% url 'register' %}"
+              enctype="multipart/form-data">
+{% csrf_token %}
+
+    {{ shelter_form.as_p }}
+    </form>
+    </div>
+</div>
+  </div>
+
+<br/>
+<button type="submit" class="btn btn-outline-success">Submit</button>
     {% endif %}
-</div>
-<div class="fluid-container">
+
     <br/>
     <br/>
-</div>
+
 {% endblock %}
