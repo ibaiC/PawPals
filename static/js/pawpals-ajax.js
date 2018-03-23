@@ -26,3 +26,4 @@ function print_reviews(reviews) {
     }
     document.getElementById("review_block").innerHTML = out;
 }
+

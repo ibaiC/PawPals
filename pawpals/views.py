@@ -80,7 +80,7 @@ def edit(request):
                     dog.dog_shelter = shelter
                     dog.save()
                 else:
-                    print(shelter_form.errors)
+                    print(dog_form.errors)
 
             if shelter_form.is_valid():
                 shelter = shelter_form.save(commit = False)
@@ -295,12 +295,16 @@ def show_reviews(request):
 
 def register(request):
     registered = False
+    
+    shelter_form = ShelterEditingForm()
 
     if request.method == 'POST':
         user_form= UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        shelter_form = ShelterEditingForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid() and shelter_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
@@ -313,9 +317,14 @@ def register(request):
 
             profile.save()
             registered = True
+            
+            shelter = shelter_form.save(commit = False)
+            shelter.manager = user
+            
+            shelter.save()
 
         else:
-            print(user_form.errors, profile_form.errors)
+            print(user_form.errors, profile_form.errors, shelter_form.errors)
 
     else:
         user_form = UserForm()
@@ -324,7 +333,8 @@ def register(request):
     return render(request,'pawpals/register.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
-                   'registered': registered})
+                   'registered': registered,
+                   'shelter_form' : shelter_form})
 
 def user_login(request):
 
