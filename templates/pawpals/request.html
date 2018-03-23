@@ -7,22 +7,17 @@ Request a Walk!
 
 {% block body_block %}
 
-<h1>Request a Walk for {{dog.name}}</h1>
-<div class="row">
+<h1 style="padding-top: 100px;">Request a Walk</h1>
 
-	<div class="col-lg-4">
-		{% if dog.profile_picture %} 
-			<img class="rectangle"
-			src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400"
-			height="400" style="padding-left: 20px;">
-		{% else %} <img class="rectangle center-cropped"
-			src="{% static " default_dog.png" %}" width="400" height="400">
+    	{% if dog.profile_picture %}
+			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+			          width="200" height="200">
+      	{% else %}
+			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
 		{% endif %}
-		<h3>{{ dog.name }}</h3>
-	</div>
-	<div class="col-lg-8">
-	
-		<form class="request" role="form" method="post"
+<h3> {{dog.name}}</h3>
+
+<form class="request" role="form" method="post"
 			action="{% url 'request' dog.slug %}">
 			{% csrf_token %}
 
@@ -34,7 +29,7 @@ Request a Walk!
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;"><br />
-			<button class="btn btn-lg btn-primary" type="submit" value="Submit" />
+			<button class="btn btn-lg btn-success" type="submit" value="Submit" />
 			Send Request
 			</button>
 				</div>
