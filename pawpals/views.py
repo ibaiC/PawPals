@@ -111,6 +111,7 @@ def edit(request):
 
 @login_required
 def add_review(request, request_pk):
+    
     request_object = Request.objects.get(pk = request_pk)
     
     form = ReviewForm()
@@ -185,7 +186,7 @@ def show_requests(request):
 
     context_dict = {}
     if request.user.is_manager:
-        requests_list = Request.objects.all().filter(request_manager = request.user)
+        requests_list = Request.objects.all().filter(request_manager = request.user).order_by('-date')
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
             form = RequestStatusForm(request.POST or None, instance=instance)
@@ -197,7 +198,7 @@ def show_requests(request):
             form = RequestStatusForm()
 
     else:
-        requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('date')
+        requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('-date')
         form = RequestStatusForm()
     print(form)
     context_dict['form'] = form
