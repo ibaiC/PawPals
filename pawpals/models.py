@@ -127,10 +127,6 @@ class Dog(models.Model):
 
     def save(self, *args, **kwargs):
 
-        """
-
-        :rtype: object
-        """
         reviews = Review.objects.all().filter(reviewed_dog = self)
 
         if reviews:
