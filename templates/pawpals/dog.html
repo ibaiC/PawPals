@@ -31,7 +31,7 @@
           <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
 			{% endif %}
         <h3> {{dog.name}}</h3>
-          <a id = "show_reviews_button" class="btn btn-outline-info" onclick="get_reviews("{% url 'show_reviews' %}")" role="button">See Reviews &raquo;</a>
+
 		  {% if user.is_authenticated %}
             {% if user.is_standard %}
 				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}" role="button">Request a Walk</a>
@@ -96,8 +96,34 @@
 		{{ user_form.as_p }}
 	</div>
 
-	<div id = "review_block">
-	</div>
+
 </div>
+
     </div>
+<button class="btn btn-outline-info" data-toggle="collapse" data-target="#reviewsButton">See Reviews&raquo;</button>
+          <div id = "reviewsButton" class="collapse">
+              <br/>
+              {% if reviews %}
+              <table style = "width:100%;">
+		<tr>
+			<th id="header">User</th>
+			<th id="header">Message</th>
+			<th id="header">Difficulty Rating</th>
+			<th id="header">Date</th>
+              <div class="container">{{ review.comment }}</div>
+
+        </tr>
+                  {% for review in reviews %}
+                  <tr>
+
+                      <td>{{ review.reviewing_user }}</td>
+                      <td>{{ review.comment }}</td>
+                      <td>{{ review.difficulty_rating }}</td>
+                      <td>{{ review.date }}</td>
+                  </tr>
+                  {% endfor %}
+                  </table>
+                  {% endif %}
+
+          </div>
 {% endblock %}
