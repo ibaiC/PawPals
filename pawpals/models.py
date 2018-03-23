@@ -43,7 +43,7 @@ class UserProfile(models.Model):
 
 class Shelter(models.Model):
     # relationships
-    manager = OneToOneField(User)
+    manager = OneToOneField(User, blank = True)
 
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
     bio = models.CharField(max_length = extended_char_len)

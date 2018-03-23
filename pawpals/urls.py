@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^login/$', views.user_login, name='login'),
     url(r'^login/requests/$', views.show_requests, name='requests'),
     
+    url(r'^delete/$', views.delete_user, name='delete_user'),
+    
     url(r'^add-review/(?P<request_pk>[\w\-]+)$', views.add_review, name="add_review"),
     url(r'^edit-review/(?P<request_pk>[\w\-]+)$', views.edit_review, name="edit_review"),
     
