@@ -18,7 +18,7 @@ Edit Your Profile!
 		</div>
 			{% if user.is_manager %}
 				<h3 style="padding-top: 15px;">Shelter Details Section</h3>
-
+				<br/>
 				{{ shelter_form.as_ul }}
 				<br/>
 				<div class="container">
@@ -38,8 +38,11 @@ Edit Your Profile!
 		</div>
 
 				{% endfor %}
-				
-				{{ empty_dog_form.as_p }}
+
+	<h3 style="padding-top: 5px; padding-bottom:10px;">Add A PawPal</h3>
+	<br/>
+
+				<div style="transform: translateX(-40%);">{{ empty_dog_form.as_p }}</div>
 				
 			{% endif %}
 			<button class="btn btn-outline-danger" type="submit">Delete User</button>
