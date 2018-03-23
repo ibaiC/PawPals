@@ -342,41 +342,34 @@ def professional(request):
         profile_form = UserProfileForm(data=request.POST)
         shelter_form = ShelterEditingForm(request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid() and shelter_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
 
             user = user_form.save()
             user.set_password(user.password)
             user.is_manager = True
             user.save()
 
-                
-            else:
-                user.is_standard = True
-            
-            user.save()
+
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
 
             profile.save()
-"""<<<<<<< HEAD
-            registered = True
-            
-        else:
-            print(user_form.errors)
-            print(profile_form.errors)
-            
-======="""
-            shelter = shelter_form.save(commit=False)
-            shelter.manager = user
-            registered = True
-            shelter.save()
+
+            if shelter_form.is_valid():
+                shelter = shelter_form.save(commit=False)
+                shelter.manager = user
+                shelter.save()
+            else:
+                print(shelter_form.errors)
+                
+            registered = True    
             return redirect("login")
         
         else:
-            print(user_form.errors, profile_form.errors, shelter_form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
