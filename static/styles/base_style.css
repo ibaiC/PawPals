@@ -5,7 +5,9 @@ td {
   width: 200px;
   text-align: center;
 }
-
+.dogs {
+    border: 2px solid black;
+    }
 button {
     background-color: #4CAF50;
     color: white;
