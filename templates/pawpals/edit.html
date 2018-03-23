@@ -1,4 +1,5 @@
 {% extends 'pawpals/base.html' %} 
+{% load staticfiles %}
 
 {% block title_block %} 
 Edit Your Profile! 
@@ -6,29 +7,39 @@ Edit Your Profile!
 
 {% block body_block %}
 	<h1 id="edit">Edit Your Profile</h1>
-	
-	<div class="container">
+	<p class="container">
 		<form method="post" novalidate>
 			{% csrf_token %} 
-			{{ user_form.as_ul }} 
+			{{ user_form.as_ul }}
 			{{ user_profile_form.as_ul }}
+	<br/>
+			<div class="container">
+		<hr class="featurette-divider">
+		</div>
 			{% if user.is_manager %}
-			
+				<h3 style="padding-top: 15px;">Shelter Details Section</h3>
+
 				{{ shelter_form.as_ul }}
-				
-				DOGS BELOW
-				
-				<p>
-				
+				<br/>
+				<div class="container">
+		<hr class="featurette-divider">
+		</div>
+				<h3 style="padding-top: 15px;">Dog Details Section</h3>
+				<br/>
 				{{ dog_formset.management_form }}
 				
 				{% for form in dog_formset %}
-				
-					{{ form.as_table }}
-				
+
+
+			<div style="transform: translateX(-40%);">{{ form.as_p }}</div>
+				<br/>
+			<div class="container">
+		<hr class="featurette-divider" style="padding-top: 35px;">
+		</div>
+
 				{% endfor %}
 				
-				</p>
+
 				
 			{% endif %}
 			<button class="btn btn-outline-danger" type="submit">Delete User</button>
