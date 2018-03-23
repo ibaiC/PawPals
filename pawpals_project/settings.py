@@ -25,16 +25,17 @@ STATIC_ROOT = STATIC_DIR
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-#STATICFILES_DIRS = [STATIC_DIR,]
+#
+STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_URL = '/static/'
 
 
 # Media directory
-MEDIA_DIR = os.path.join(BASE_DIR, "../media/")
+MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
 # Media settings
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = "/static/media/"
+MEDIA_URL = "/media/"
 LOGIN_URL = "/pawpals/login/"
 LOGIN_REDIRECT_URL = ''    #might need to change to .html
 
