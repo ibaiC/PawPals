@@ -95,7 +95,7 @@ class Shelter(models.Model):
 
 class Dog(models.Model):
     # relationships
-    dog_shelter = models.ForeignKey(Shelter)
+    dog_shelter = models.ForeignKey(Shelter, blank = True)
 
     # ID (or pk) is implicitly made by Django
     # id = models.AutoField(primary_key=True)
@@ -158,10 +158,11 @@ class Dog(models.Model):
 
     def clean(self):
 
-        same_name = Dog.objects.all().filter(name=self.name, dog_shelter = self.dog_shelter).count()
-
-        if same_name > 1:
-            raise ValidationError("Dog of this name is already in the shelter.")
+        if self.pk:
+            same_name = Dog.objects.all().filter(name=self.name, dog_shelter = self.dog_shelter).count()
+    
+            if same_name > 1:
+                raise ValidationError("Dog of this name is already in the shelter.")
 
     def __str__(self):
         return self.name
