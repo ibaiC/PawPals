@@ -11,13 +11,16 @@
 
     <form id="user_form" method="post" action="{% url 'professional' %}"
               enctype="multipart/form-data">
+            <h4 class="header" align="center" style="padding-bottom:20px;">Standard User Credentials</h4>
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}
+    <h4 class="header" align="center" style="padding-bottom:20px;">Shelter Information</h4>
     {{ shelter_form.as_p }}
-<button type="submit" class="btn btn-outline-success">Submit</button>
-    </form>
-    </div>
-    </div>
 
+
+    </div>
+    </div>
+    <button type="submit" class="btn btn-outline-success"">Submit</button>
+    </form>
 {% endblock %}

@@ -366,8 +366,9 @@ def professional(request):
                 print(shelter_form.errors)
                 
             registered = True    
+
             return redirect("login")
-        
+
         else:
             print(user_form.errors, profile_form.errors)
     else:
