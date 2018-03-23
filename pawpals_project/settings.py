@@ -21,6 +21,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 # Generate path to static folder
 STATIC_DIR = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = STATIC_DIR
 
 # Media directory
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
