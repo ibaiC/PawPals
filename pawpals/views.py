@@ -118,6 +118,7 @@ def add_review(request, request_pk):
     context_dict = {}
 
     if request.method == "POST":
+        
         form = ReviewForm(request.POST)
         
         if form.is_valid():
@@ -215,8 +216,10 @@ def request(request, dog_slug):
     context_dict['dog'] = dog
     context_dict['user'] = request.user
     
+    form = RequestForm()
     
     if request.method == "POST":
+        
         form = RequestForm(request.POST)
         
         if form.is_valid():
