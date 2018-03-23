@@ -126,7 +126,7 @@ class Dog(models.Model):
 
 
     def save(self, *args, **kwargs):
-
+        
         reviews = Review.objects.all().filter(reviewed_dog = self)
 
         if reviews:
@@ -173,7 +173,7 @@ def update_slug(sender, instance, created, *args, **kwargs):
 class Request(models.Model):
     # relationships
     requesting_user = models.ForeignKey(User, related_name="requesting_user")
-    request_manager = models.ForeignKey(User, related_name="request_manager")
+    request_manager = models.ForeignKey(User, related_name="request_manager", blank = True)
 
     requested_dog = models.ForeignKey(Dog)
 
@@ -201,18 +201,19 @@ class Request(models.Model):
         self.requested_dog.save()
 
     def clean(self):
-
-        managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
-        managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
-
-        if self.requested_dog not in managed_dogs:
-            raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
-
-        if not(self.request_manager.is_manager):
-            raise ValidationError("User does not have permission to be manager.")
-
-        if (self.requesting_user.is_manager):
-            raise ValidationError("User is a manager, cannot add it as requesting user.")
+        
+        if self.pk:
+            managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
+            managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
+    
+            if self.requested_dog not in managed_dogs:
+                raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
+    
+            if not(self.request_manager.is_manager):
+                raise ValidationError("User does not have permission to be manager.")
+    
+            if (self.requesting_user.is_manager):
+                raise ValidationError("User is a manager, cannot add it as requesting user.")
 
 class Review(models.Model):
     # relationships

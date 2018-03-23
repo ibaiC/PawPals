@@ -207,25 +207,33 @@ def show_requests(request):
 
 @standardUser_required
 def request(request, dog_slug):
+    
+    context_dict = {}
 
-    #user =
-    context_dict={}
     dog = Dog.objects.get(slug=dog_slug)
+    
     context_dict['dog'] = dog
-
     context_dict['user'] = request.user
-    #forms
-    request_form= RequestForm(data= request.POST)
-    request_object = request_form.save(commit=False)
-    request_object.requesting_user= request.user
-    request_object.status = "P"
-
-    shelter = dog.dog_shelter
-    shelter_manager = shelter.manager
-    request_object.request_manager = shelter_manager
-
-    request_object.save()
-
+    
+    
+    if request.method == "POST":
+        form = RequestForm(request.POST)
+        
+        if form.is_valid():
+            request_obj = form.save(commit = False)
+            
+            request_obj.requesting_user = request.user
+            request_obj.request_manager = dog.dog_shelter.manager
+            
+            request_obj.requested_dog = dog
+            request_obj.status = "P"
+                
+            request_obj.save()
+    
+            return redirect("requests")
+        else:
+            print (form.errors)
+    
     return render(request, 'pawpals/request.html', context_dict)
 
 

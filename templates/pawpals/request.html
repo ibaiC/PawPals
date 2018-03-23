@@ -1,4 +1,5 @@
 {% extends 'pawpals/base.html' %} 
+{% load staticfiles %} 
 
 {% block title_block %} 
 Request a Walk! 
@@ -9,21 +10,27 @@ Request a Walk!
 <h1>Request a Walk for {{dog.name}}</h1>
 <div class="row">
 
-      <div class="col-lg-4">
-        {% if dog.profile_picture %}
-        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
-          			{% else %}
-          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
-			{% endif %}
-        <h3>{{ dog.name }}</h3>
-      </div>
-    <div class="col-lg-8">
-        <form class="request" role="form" method="post" action="{% url 'request' dog.slug %}">
-        <input type="text" name="Request Message" id="message" class="form-control"
-placeholder="Type Your Message Here..." required autofocus>
-        <br/>
-<button class="btn btn-lg btn-primary" type="submit"
-value="Submit" />Send Request</button>
+	<div class="col-lg-4">
+		{% if dog.profile_picture %} 
+			<img class="rectangle"
+			src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400"
+			height="400"> 
+		{% else %} <img class="rectangle center-cropped"
+			src="{% static " default_dog.png" %}" width="400" height="400">
+		{% endif %}
+		<h3>{{ dog.name }}</h3>
+	</div>
+	<div class="col-lg-8">
+	
+		<form class="request" role="form" method="post"
+			action="{% url 'request' dog.slug %}">
+			{% csrf_token %}
+			<input type="text" name="Request Message" id="message"
+				class="form-control" placeholder="Type Your Message Here..."
+				required autofocus> <br />
+			<button class="btn btn-lg btn-primary" type="submit" value="Submit" />
+			Send Request
+			</button>
 
 		</form>
 	</div>
