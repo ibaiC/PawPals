@@ -177,7 +177,7 @@ class Request(models.Model):
     requesting_user = models.ForeignKey(User, related_name="requesting_user", on_delete=models.CASCADE)
     request_manager = models.ForeignKey(User, related_name="request_manager", blank = True, on_delete=models.CASCADE)
 
-    requested_dog = models.ForeignKey(Dog)
+    requested_dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
 
     date = models.DateTimeField(default = timezone.now())
     status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
