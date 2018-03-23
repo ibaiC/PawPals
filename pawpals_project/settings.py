@@ -38,9 +38,9 @@ LOGIN_REDIRECT_URL = ''    #might need to change to .html
 SECRET_KEY = '&z^91k7q2a^+sv!=79yxz6blj19*u=%4b1)^84-jf)8@vta1@5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', 'epawpals.pythonanywhere.com']
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
