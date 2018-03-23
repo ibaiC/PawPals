@@ -1,0 +1,21 @@
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+<h1 class="header" align="center">Please Fill In Your Details to Register a Personal Account</h1>
+
+    <div class="row">
+    <div class="col-md-7">
+
+    <form id="user_form" method="post" action="{% url 'personal' %}"
+              enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+<button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+    </div>
+    </div>
+
+{% endblock %}

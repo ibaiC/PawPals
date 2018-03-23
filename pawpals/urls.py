@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^edit-review/(?P<request_pk>[\w\-]+)$', views.edit_review, name="edit_review"),
     
     url(r'^register/$',views.register,name='register'),
+    url(r'^professional/$',views.professional,name='professional'),
+    url(r'^personal/$',views.personal,name='personal'),
     url(r'^logout/', auth_views.logout, {'next_page': 'home'}, name='logout'),    #redirects to homepage
 
     url(r'^shelters/(?P<shelter_slug>[\w\-]+)/$', views.show_shelter, name='show_shelter'),
