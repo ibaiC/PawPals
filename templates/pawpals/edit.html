@@ -20,11 +20,14 @@ Edit Your Profile!
 				
 				<p>
 				
+				{{ dog_formset.management_form }}
+				
 				{% for form in dog_formset %}
 				
-					{{ dog_form.as_table }}
+					{{ form.as_table }}
 				
 				{% endfor %}
+				
 				</p>
 				
 			{% endif %}

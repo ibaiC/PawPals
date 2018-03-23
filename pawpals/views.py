@@ -58,7 +58,19 @@ def edit(request):
         context_dict["shelter_form"] = shelter_form
 
         DogFormSet = formset_factory(DogEditingForm)
-        dog_formset = DogFormSet()
+        dog_formset = DogFormSet(initial = [{'name': dog.name, 
+                                             'bio': dog.bio, 
+                                             'breed': dog.breed, 
+                                             'size': dog.size, 
+                                             'gender': dog.gender, 
+                                             'is_puppy': dog.is_puppy, 
+                                             'is_childfriendly': dog.is_childfriendly, 
+                                             'profile_picture': dog.profile_picture,
+                                             'form-TOTAL_FORMS': len(dogs),
+                                             'form-INITIAL_FORMS': '0',
+                                             'form-MAX_NUM_FORMS': '', 
+                                             } for dog in dogs])
+        
 
         context_dict["dog_formset"] = dog_formset
         
@@ -70,19 +82,29 @@ def edit(request):
         if request.user.is_manager:
             shelter_form = ShelterEditingForm(request.POST, instance = shelter)
 
-            dog_forms = []
-            for dog in dogs:    
-                dog_form = DogEditingForm(request.POST, instance = dog)                
-                dog_forms.append(dog_form)
+            dog_formset = DogFormSet(request.POST, initial = [{'name': dog.name, 
+                                             'bio': dog.bio, 
+                                             'breed': dog.breed, 
+                                             'size': dog.size, 
+                                             'gender': dog.gender, 
+                                             'is_puppy': dog.is_puppy, 
+                                             'is_childfriendly': dog.is_childfriendly, 
+                                             'profile_picture': dog.profile_picture,
+                                             'form-TOTAL_FORMS': len(dogs),
+                                             'form-INITIAL_FORMS': '0',
+                                             'form-MAX_NUM_FORMS': '',
+                                             } for dog in dogs])
 
-            for dog_form in dog_forms:
+            for dog_form in dog_formset:
                 if dog_form.is_valid():
                     dog = dog_form.save(commit = False)
+                    dog.dog_shelter = shelter
                     dog.save()
+                else:
+                    print(shelter_form.errors)
 
             if shelter_form.is_valid():
-                
-                shelter = form.save(commit = False)
+                shelter = shelter_form.save(commit = False)
                 shelter.save()
             else:
                 print(shelter_form.errors)
@@ -101,8 +123,9 @@ def edit(request):
             
             return redirect("edit")
         else:
-            print (user_form.errors)
-            print (user_profile_form.errors)
+            
+            print(user_form.errors)
+            print(user_profile_form.errors)
             
     return render(request, 'pawpals/edit.html', context_dict)
 
