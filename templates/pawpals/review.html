@@ -6,7 +6,8 @@
 {% endblock %}
 
 {% block body_block %}
-
+{% if review %}
+        <h1 style="padding-top: 100px;">Edit review</h1>
     	{% if dog.profile_picture %}
 			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
 			          width="200" height="200">
@@ -14,20 +15,33 @@
 			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
 		{% endif %}
 
+		{{ dog.name }}
+
         <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        {% if review %}
-        <h1>Edit review</h1>
-	       
-	       <td>{{ form.as_p }}</td>
+
+		<br/>
+			<div style="transform: translateX(-40%);">{{ form.as_p }}</div>
         
         {% else %}
-        <h1>Add review</h1>
+			<h1 style="padding-top:100px;">Add review</h1>
+{% if dog.profile_picture %}
+			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+			          width="200" height="200">
+      	{% else %}
+			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
+		{% endif %}
+	<br/>
+		{{ dog.name }}
+
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+		<br/>
         	
         	<input type="hidden" name="request">
-        	
-        	<td>{{ form.as_p }}</td>
+
+			<div style="transform: translateX(-40%);">{{ form.as_p }}</div>
      
 	    
 		{% endif %}
