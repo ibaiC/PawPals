@@ -33,7 +33,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key = True, on_delete=models.CASCADE)
 
     def user_image_path(self, filename):
-        return (os.path.join("user_profile_images", filename))
+        return (os.path.join(MEDIA_URL, "user_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
@@ -57,7 +57,7 @@ class Shelter(models.Model):
 
 
     def shelter_image_path(self, filename):
-        return (os.path.join("shelters_profile_images", filename))
+        return (os.path.join(MEDIA_URL, "shelters_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
      
@@ -122,7 +122,7 @@ class Dog(models.Model):
     completed_request_count = models.IntegerField(default=0)
 
     def dog_image_path(self, filename):
-        return (os.path.join("dogs_profile_images", filename))
+        return (os.path.join(MEDIA_URL, "dogs_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=dog_image_path, blank="True")
 
