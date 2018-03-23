@@ -196,7 +196,7 @@ def show_requests(request):
     else:
         requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('date')
         form = RequestStatusForm()
-
+    print(form)
     context_dict['form'] = form
     context_dict['requests'] = requests_list
 
