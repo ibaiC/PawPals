@@ -58,11 +58,13 @@ def edit(request):
         context_dict["shelter_form"] = shelter_form
 
         DogFormSet = modelformset_factory(Dog, fields=('name', 'bio', 'breed', 'size','gender', 'is_puppy', 'is_childfriendly', 
-                   'profile_picture'))
+                   'profile_picture'), extra=0)
         dog_formset = DogFormSet(queryset=dogs)
-        
-
         context_dict["dog_formset"] = dog_formset
+        
+        empty_dog_form = DogEditingForm()
+        context_dict["empty_dog_form"] = empty_dog_form
+
         
     if request.method == "POST":
         
@@ -73,6 +75,12 @@ def edit(request):
             shelter_form = ShelterEditingForm(request.POST, instance = shelter)
 
             dog_formset = DogFormSet(request.POST, queryset=dogs)
+            empty_dog_form = DogEditingForm(request.POST)
+
+            if empty_dog_form.is_valid():
+                dog = empty_dog_form.save(commit = False)
+                dog.dog_shelter = shelter
+                dog.save()
 
             for dog_form in dog_formset:
                 if dog_form.is_valid():
@@ -260,10 +268,12 @@ def show_shelter(request, shelter_slug):
 def show_dog(request, dog_slug):
     context_dict = {}
 
-
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
+        
+        reviews = Review.objects.all().filter(reviewed_dog = dog)
+        context_dict["reviews"] = reviews
 
     except Dog.DoesNotExist:
         context_dict = {}

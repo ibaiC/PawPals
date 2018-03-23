@@ -50,6 +50,7 @@ class ShelterEditingForm(forms.ModelForm):
         fields = ('name', 'bio', 'webpage', 'phone_contact', 'availability_info', 'location', 'profile_picture')
 
 class DogEditingForm(forms.ModelForm):
+    
     class Meta:
         model = Dog
         fields = ('name', 'bio', 'breed', 'size',
