@@ -11,7 +11,7 @@ from django.template.defaultfilters import slugify, default
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import redirect
-
+from django.conf import settings
 
 
 import numpy as np
@@ -33,7 +33,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key = True, on_delete=models.CASCADE)
 
     def user_image_path(self, filename):
-        return (os.path.join(MEDIA_URL, "user_profile_images", filename))
+        return (os.path.join(settings.MEDIA_URL, "user_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
@@ -57,7 +57,7 @@ class Shelter(models.Model):
 
 
     def shelter_image_path(self, filename):
-        return (os.path.join(MEDIA_URL, "shelters_profile_images", filename))
+        return (os.path.join(settings.MEDIA_URL, "shelters_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
      
