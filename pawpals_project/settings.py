@@ -23,6 +23,12 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = STATIC_DIR
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+#STATICFILES_DIRS = [STATIC_DIR,]
+STATIC_URL = '/static/'
+
+
 # Media directory
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
@@ -132,9 +138,3 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-
-STATICFILES_DIRS = [STATIC_DIR,]
-STATIC_URL = '/static/'
