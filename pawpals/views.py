@@ -44,12 +44,12 @@ def edit(request):
     context_dict = {}
     user_form = UserCoreEditForm(instance = request.user)
     user_profile_form = UserEditingForm(instance = UserProfile.objects.get(user = request.user))
-    
+
     context_dict["user_form"] = user_form
     context_dict["user_profile_form"] = user_profile_form
 
     if request.user.is_manager:
-        
+
         shelter = Shelter.objects.get(manager = request.user)
         dogs = Dog.objects.all().filter(dog_shelter = shelter)
         context_dict["dogs"] = dogs
@@ -57,17 +57,17 @@ def edit(request):
         shelter_form = ShelterEditingForm(instance = shelter)
         context_dict["shelter_form"] = shelter_form
 
-        DogFormSet = modelformset_factory(Dog, fields=('name', 'bio', 'breed', 'size','gender', 'is_puppy', 'is_childfriendly', 
+        DogFormSet = modelformset_factory(Dog, fields=('name', 'bio', 'breed', 'size','gender', 'is_puppy', 'is_childfriendly',
                    'profile_picture'), extra=0)
         dog_formset = DogFormSet(queryset=dogs)
         context_dict["dog_formset"] = dog_formset
-        
+
         empty_dog_form = DogEditingForm()
         context_dict["empty_dog_form"] = empty_dog_form
 
-        
+
     if request.method == "POST":
-        
+
         user_form = UserCoreEditForm(request.POST, instance = request.user)
         user_profile_form = UserEditingForm(request.POST, instance = UserProfile.objects.get(user = request.user))
 
@@ -95,25 +95,25 @@ def edit(request):
                 shelter.save()
             else:
                 print(shelter_form.errors)
-            
+
         if user_form.is_valid() and user_profile_form.is_valid():
             user = user_form.save()
             user.save()
             profile = user_profile_form.save(commit=False)
-            
+
             profile.user = user
 
             if 'profile_picture' in request.FILES:
                 profile.profile_picture = request.FILES['profile_picture']
 
             profile.save()
-            
+
             return redirect("edit")
         else:
-            
+
             print(user_form.errors)
             print(user_profile_form.errors)
-            
+
     return render(request, 'pawpals/edit.html', context_dict)
 
 def delete_user(request):
@@ -122,33 +122,47 @@ def delete_user(request):
     logout(request)
     return redirect("home")
 
+#I suggest this method to delete users (won't break foreign keys)
+# def deactivate_user(request):
+#     context_dict = {}
+#
+#     user_object = request.user
+#     username = user_object.username
+#     user = User.object.get(username=username)
+#     user.is_active = False
+#     user.save()
+#     context_dict['msg'] = 'Profile successfully disabled.'
+#
+#     logout(request)
+#     return redirect('home')
+
 @login_required
 def add_review(request, request_pk):
-    
+
     request_object = Request.objects.get(pk = request_pk)
-    
+
     form = ReviewForm()
-    
+
     context_dict = {}
 
 
     if request.method == "POST":
-        
+
 
         form = ReviewForm(request.POST)
-        
-        
+
+
         if form.is_valid():
             review = form.save(commit = False)
-    
+
             review.request = request_object
-    
+
             review.save()
-    
+
             return redirect("requests")
         else:
             print (form.errors)
-            
+
     context_dict["form"] = form
     context_dict["review"] = None
     context_dict["dog"] = request_object.requested_dog
@@ -160,16 +174,16 @@ def add_review(request, request_pk):
 @login_required
 def edit_review(request, request_pk):
     request_object = Request.objects.get(pk = request_pk)
-    
+
     existing_review = Review.objects.get(request = request_object)
-    
+
     form = ReviewForm(instance = existing_review)
     context_dict = {}
 
     if request.method == 'POST':
-        
+
         form = ReviewForm(instance = existing_review, data = request.POST)
-       
+
         if form.is_valid():
             review = form.save(commit = False)
             review.save()
@@ -225,35 +239,35 @@ def show_requests(request):
 
 @standardUser_required
 def request(request, dog_slug):
-    
+
     context_dict = {}
 
     dog = Dog.objects.get(slug=dog_slug)
-    
+
     context_dict['dog'] = dog
     context_dict['user'] = request.user
-    
+
     form = RequestForm()
-    
+
     if request.method == "POST":
-        
+
         form = RequestForm(request.POST)
-        
+
         if form.is_valid():
             request_obj = form.save(commit = False)
-            
+
             request_obj.requesting_user = request.user
             request_obj.request_manager = dog.dog_shelter.manager
-            
+
             request_obj.requested_dog = dog
             request_obj.status = "P"
-                
+
             request_obj.save()
-    
+
             return redirect("requests")
         else:
             print (form.errors)
-    
+
     return render(request, 'pawpals/request.html', context_dict)
 
 
@@ -276,7 +290,7 @@ def show_dog(request, dog_slug):
     try:
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
-        
+
         reviews = Review.objects.all().filter(reviewed_dog = dog)
         context_dict["reviews"] = reviews
 
@@ -313,24 +327,24 @@ def show_reviews(request):
 
 def register(request):
     registered = False
-    
+
     if request.method == 'POST':
-        
+
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
         shelter_form = ShelterEditingForm(request.POST)
-        
-                
+
+
         if user_form.is_valid() and profile_form.is_valid():
-            
+
             user = user_form.save()
             user.set_password(user.password)
-            
+
             if request.POST.get("is_shelter") == "True":
                 user.is_manager = True
-                if shelter_form.is_valid():   
+                if shelter_form.is_valid():
                     shelter = shelter_form.save(commit = False)
-                    shelter.manager = user                    
+                    shelter.manager = user
                     shelter.save()
                 else:
                     print(shelter_form.errors)"""
@@ -364,8 +378,8 @@ def professional(request):
                 shelter.save()
             else:
                 print(shelter_form.errors)
-                
-            registered = True    
+
+            registered = True
 
             return redirect("login")
 
