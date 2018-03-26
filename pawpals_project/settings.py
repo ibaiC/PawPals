@@ -21,13 +21,6 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 # Generate path to static folder
 STATIC_DIR = os.path.join(BASE_DIR, "static")
-STATIC_ROOT = STATIC_DIR
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-#STATICFILES_DIRS = [STATIC_DIR,]
-STATIC_URL = '/static/'
-
 
 # Media directory
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
@@ -45,7 +38,7 @@ LOGIN_REDIRECT_URL = ''    #might need to change to .html
 SECRET_KEY = '&z^91k7q2a^+sv!=79yxz6blj19*u=%4b1)^84-jf)8@vta1@5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'epawpals.pythonanywhere.com']
 
 
@@ -137,4 +130,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+#STATIC_ROOT = STATIC_DIR
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+STATICFILES_DIRS = [STATIC_DIR,]
+STATIC_URL = '/static/'
 
