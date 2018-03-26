@@ -116,25 +116,25 @@ def edit(request):
 
     return render(request, 'pawpals/edit.html', context_dict)
 
-def delete_user(request):
-    user = request.user
-    user.delete()
-    logout(request)
-    return redirect("home")
+# def delete_user(request):
+#     user = request.user
+#     user.delete()
+#     logout(request)
+#     return redirect("home")
 
 #I suggest this method to delete users (won't break foreign keys)
-# def deactivate_user(request):
-#     context_dict = {}
-#
-#     user_object = request.user
-#     username = user_object.username
-#     user = User.object.get(username=username)
-#     user.is_active = False
-#     user.save()
-#     context_dict['msg'] = 'Profile successfully disabled.'
-#
-#     logout(request)
-#     return redirect('home')
+@login_required
+def deactivate_user(request):
+    context_dict = {}
+
+    user = request.user
+    user.is_active = False
+    user.save()
+    context_dict['msg'] = 'Profile successfully disabled.'
+
+    logout(request)
+    #return redirect('home')
+    return render(request, 'pawpals/edit.html', context_dict)
 
 @login_required
 def add_review(request, request_pk):
