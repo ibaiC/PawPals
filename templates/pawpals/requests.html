@@ -11,16 +11,15 @@
 
 {% block body_block %}
 
-	<br/>
-<h1>Requests Page</h1>
-<br/>
+<h1 class="featurette-heading" align="center">Requests Page</h1>
+
 	<table style = "width:100%">
 	
 		<tr>
-			<th id="header">Requested Dog</th>
-			<th id="header">Message</th>
-			<th id="header">Date</th>
-			<th id="header">Status</th>
+			<th>Requested Dog</th>
+			<th>Message</th>
+			<th>Date</th>
+			<th>Status</th>
 			{% if user.is_standard %}
 				<th>Review</th>
 			{% endif %}

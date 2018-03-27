@@ -9,14 +9,17 @@
 {% endblock %}
 {% block body_block %}
 
-	<h1>{{shelter.name}}</h1>
+<h1 align="center" style="font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.05rem;
+  padding-bottom: 2rem;
+font-size: 50px;">{{shelter.name}}</h1>
 <p>
 <strong>Webpage:</strong> <a href="{{ shelter.webpage }}">{{ shelter.name }}</a>
     <br/>
         {{ shelter.location }}
      <br/>
         {{ shelter.phone_contact }}
-    <br/>
     <br/>
     </p>
 
@@ -27,8 +30,8 @@
 			{% else %}
 				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Default" width="400" height="400">
 			{% endif %}
-            <div>
-                <br/>
+            <div style="padding-top:15px;">
+
              <button id="paws" class="btn btn-info" data-toggle="collapse" data-target="#search">Show PawPals</button>
             </div>
 

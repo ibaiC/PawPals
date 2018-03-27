@@ -1,162 +1,76 @@
-/* GLOBAL STYLES
--------------------------------------------------- */
-/* Padding below the footer and lighter body text */
+/* Global Styles */
+
 td {
   width: 200px;
   text-align: center;
 }
-.dogs {
-    border: 2px solid black;
-    }
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 30%;
+
+/*  * General Spacing Formatting *  */
+
+/* Ensures tables fit the size of the window and don't overlap at all */
+td {
+  width: 200px;
+  text-align: center;
 }
-
-.form-signin-heading {
-    padding-bottom: 5px;
+/* Gives rows some extra padding to make things look neat and not cramped */
+.row {
+    padding-top: 2rem;
     }
-
+/* Keeps the main Title on home.html centred */
+h4{
+    position: relative;
+    left: 40%;
+transform: translateY(15%);
+}
+/* Keeps the footer fixed to the bottom of the page when the page elements don't take up the full window height by
+    adjusting body block height and footer positioning*/
 body {
-  padding-top: 2rem;
+padding-top: 2rem;
   padding-bottom: 2rem;
   height: 100%;
+  min-height: 100vh;
   position: relative;
+  margin: 0;
+  text-align: center;
 }
 body::after {
   content: '';
   display: block;
   height: 50px;
   }
-.profile {
-    padding-top: 75px;
-    }
+
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 50px;
 }
-h1{
-    text-align: center;
-    margin:0px;
-    padding-top: 50px;
-}
-h2{
-    text-align: center;
-    margin:0px;
-    padding-top: 15rem;
-}
-
-h4{
-    position: relative;
-    left: 40%;
-transform: translateY(15%);
-}
-.standard_shelter {
-    padding-top: 25px;
-    }
-.shelters_title {
-    margin: 50px;
-    padding-top: 50px;
-    }
-.row featurette {
-    width: 300px;
-    height: 200px;
-
-    padding: 30px;
-    display: table;
-}
-.col-md-7 {
-    display: table-cell;
-    vertical-align: middle;
-}
-h4{text-align: center;}
+/* Keeps the p tag elements centred */
 p {
     display: block;
     text-align: center;
     position: relative;
     left: 40%;
 }
-
-body {
-  min-height: 100vh;
-  position: relative;
-  margin: 0;
-  text-align: center;
-}
-.title {
-    margin-top: 2rem;
-    margin-bottom: 2rem;}
-
-footer {
-  position: absolute;
-  bottom: 0;
-}
-.footer {
+/* Centre align the input elements and the button on the page */
+div {
     text-align: center;
     }
-.center-cropped {
- /* Do not scale the image */
-  object-position: center; /* Center the image within the element */
-  height: 200px;
-  width: 200px;
-}
-.float-center {display: table-cell;
-    vertical-align: middle;
-}
-.register {
-    text-align: center;
-}
-h1{padding-bottom: 2rem;
-    text-align: center;
-}
-form-group col-lg-12{text-align: center;
+/* Mostly just for login page, spaces out the button and resizes to match that of the input element sizes */
+button {
+    padding: 14px 20px;
+    margin: 8px 0;
+    width: 30%;
 }
 
-.row {
-    padding-top: 2rem;
-    }
-    
-.search_button {
-	margin-top: 2rem;
-	margin-bottom: 2rem;
-	
-	height: 40px;
- 	width: 300px;
-	
-}
+/*  * Featurette Elements *  */
 
-
-/* MARKETING CONTENT
--------------------------------------------------- */
-
-/* Center align the text within the three columns below the carousel */
-.marketing .col-lg-4 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.marketing h2 {
-  font-weight: 400;
-}
-.marketing .col-lg-4 p {
-  margin-right: 0.75rem;
-  margin-left: 0.75rem;
-}
-
-/* Featurettes
-------------------------- */
-
+/* Space out the divider more */
 .featurette-divider {
-  margin: 1rem 0; /* Space out the Bootstrap <hr> more */
+  margin: 1rem 0;
 }
 
-/* Thin out the marketing headings */
+/* Thin out the main headings */
 .featurette-heading {
   font-weight: 300;
   line-height: 1;
@@ -164,16 +78,9 @@ form-group col-lg-12{text-align: center;
   padding-bottom: 2rem;
 }
 
-/* RESPONSIVE CSS
--------------------------------------------------- */
+/* Responsive CSS */
 
 @media (min-width: 40em) {
-  /* Bump up size of carousel content */
-  .carousel-caption p {
-    margin-bottom: 1.25rem;
-    font-size: 1.25rem;
-    line-height: 1.4;
-  }
 
   .featurette-heading {
     font-size: 50px;
@@ -182,6 +89,6 @@ form-group col-lg-12{text-align: center;
 
 @media (min-width: 62em) {
   .featurette-heading {
-    margin-top: 5rem;
+
   }
 }

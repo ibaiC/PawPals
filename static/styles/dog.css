@@ -1,27 +1,4 @@
-h1 {
-    text-align: center;
-    padding-top: 75px;
-    padding-bottom: 25px;
-     }
-
-#article {
-    column-width: 150px;}
-h2 {
-    text-align: center;
-    transform: translateX(-10%);
-    }
-h3 {
-    text-align: center;
-    padding-bottom: 15px;
-    }
-
-
-.col-lg-1 {
-     display: table-cell;
-    vertical-align: middle;
-    transform: translateX:(-50%);
-     }
-
+/* Grid formatting  to create the '<X>' pattern the information takes*/
 .col-sm-2 {
     transform:translateX(200%);
      display: table-cell;
@@ -32,26 +9,18 @@ h3 {
      display: table-cell;
     vertical-align: middle;
      }
-p {
-    text-align: center;
-    right: 10px;
-}
-.exam {
-    vertical-align: middle;
-    text-align:center;
-        margin-left:50px;
-        }
 
-h4 {
-    text-align: center;
+/* Text and header formatting to adjust spacing */
+h1 {
+    padding-bottom: 25px;
+     }
+
+h3 {
+    padding-bottom: 15px;
     }
 
-    /* Show reviews */
-review_block div {
-	text-align: left;
-}
-
-
+/* Base formatting for the structure and layout of the entire page, keeps footer fixed regardless of window size
+    and adjust elements in the body to position properly and not overlap */
 footer {
   padding-top:25px;
   position: absolute;

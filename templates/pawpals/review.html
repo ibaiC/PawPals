@@ -7,37 +7,39 @@
 
 {% block body_block %}
 {% if review %}
-        <h1 style="padding-top: 100px;">Edit review</h1>
+	<h1 class="featurette-heading" align="center">Edit review</h1>
+<div>
     	{% if dog.profile_picture %}
 			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
 			          width="200" height="200">
       	{% else %}
 			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
 		{% endif %}
-	<br/>
+</div>
 		{{ dog.name }}
 
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data" style="padding-top:20px;">
         {% csrf_token %}
 
-		<br/>
-			<div style="transform: translateX(-40%);">{{ form.as_p }}</div>
+
+			<div style="transform: translateX(-40%)">{{ form.as_p }}</div>
         
         {% else %}
-			<h1 style="padding-top:100px;">Add review</h1>
+			<h1>Add review</h1>
+			<div>
 {% if dog.profile_picture %}
 			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
 			          width="200" height="200">
       	{% else %}
 			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
 		{% endif %}
-	<br/>
+			</div>
 		{{ dog.name }}
 
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data" style="padding-top:20px;">
         {% csrf_token %}
 
-		<br/>
+
         	
         	<input type="hidden" name="request">
 
@@ -49,4 +51,5 @@
       <button type="submit" class="btn btn-default">Submit</button>
       
 </form>
+		</form>
 {% endblock %}
