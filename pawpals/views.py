@@ -118,6 +118,24 @@ def edit(request):
 
     return render(request, 'pawpals/edit.html', context_dict)
 
+# Completely eliminates a dog from database
+@login_required
+@manager_required
+def remove_dog(request, dog_slug):
+    context_dict = {}
+
+    shelter = Shelter.objects.get(manager = request.user)
+    context_dict["shelter"] = shelter
+
+    dog = Dog.objects.get(slug=dog_slug)
+    context_dict["dog"] = dog
+
+    dog.delete()
+    dog.save()
+    context_dict['msg'] = 'Dog profile successfully removed'
+
+    return render(request, 'pawpals/edit.html', context_dict)
+
 
 # This method of deleting users is better than outright deleting the user instance
 # from the database as if the username is in use as a foreign key, deleting a user instance
@@ -296,6 +314,9 @@ def show_dog(request, dog_slug):
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
 
+        reviews = Review.objects.all().filter(reviewed_dog = dog)
+        context_dict["reviews"] = reviews
+
     except Dog.DoesNotExist:
         context_dict = {}
 
@@ -305,6 +326,26 @@ def dog_search(request):
     dog_list = Dog.objects.all()
     dog_filter = DogFilter(request.GET, queryset = dog_list)
     return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
+
+def show_reviews(request):
+    dog_slug = request.GET.get("dog_slug", None)
+    dog = Dog.objects.get(slug = dog_slug)
+
+    data = {
+        "reviews": []
+        }
+
+    for review in Review.objects.all().filter(reviewed_dog = dog):
+        user_profile = UserProfile.objects.get(user = review.reviewing_user)
+        new_review = {"username" : review.reviewing_user.username,
+                      "rating" : review.difficulty_rating,
+                      "comment" : review.comment,
+                      "date" : review.date,
+                      "profile_picture" : user_profile.profile_picture.path
+                      }
+        data["reviews"].append(new_review)
+
+    return JsonResponse(data)
 
 def professional(request):
     shelter_form = ShelterEditingForm()

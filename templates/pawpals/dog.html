@@ -1,5 +1,5 @@
-{% extends 'pawpals/base.html' %} 
-{% load staticfiles %} 
+{% extends 'pawpals/base.html' %}
+{% load staticfiles %}
 
 {% block javascript_block %}
 	<script type="text/javascript" src="{% static 'js/pawpals-ajax.js' %}"></script>
@@ -7,11 +7,11 @@
 
 {% block stylesheet_block %}
 	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
-{% endblock %} 
+{% endblock %}
 
-{% block title_block %} 
-	{{ dog.name }} 
-{% endblock %} 
+{% block title_block %}
+	{{ dog.name }}
+{% endblock %}
 
 
 
@@ -32,6 +32,7 @@
 
 			{% endif %}
           {% endif %}
+
 
     <div class="row" >
 
@@ -93,12 +94,23 @@
 
 </div>
 
+{% if user.is_authenticated %}
+			{% if user.is_manager %}
+					{% if dog.dog_shelter == shelter.name %}
+
+			<button class="button" href="{% url 'remove_dog' %}" >Delete Dog</button>
+
+{% endif %}
+			{% endif %}
+					{% endif %}
+
+
 <button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
           <div id = "reviewsButton" class="collapse">
 
               <div>
-              
-              
+
+
               <div id="review_block"></div>
 
           </div>

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from pawpals.models import *
 
-
+# Using Django's base User model
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -15,8 +15,9 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('profile_picture','phone_contact')
 
+# All forms from here inherit the fields from the model specified in class Meta.
 class ReviewForm(forms.ModelForm):
-        
+
     class Meta:
         model = Review
         fields = ('difficulty_rating', 'comment')
@@ -47,16 +48,16 @@ class UserCoreEditForm(forms.ModelForm):
 class ShelterEditingForm(forms.ModelForm):
     class Meta:
         model = Shelter
-        fields = ('name', 'bio', 'webpage', 
-                  'phone_contact', 
-                  'availability_info', 
+        fields = ('name', 'bio', 'webpage',
+                  'phone_contact',
+                  'availability_info',
                   'location')
 
 class DogEditingForm(forms.ModelForm):
-    
+
     class Meta:
         model = Dog
         fields = ('name', 'bio', 'breed', 'size',
-                   'gender', 'is_puppy', 
-                   'is_childfriendly', 
+                   'gender', 'is_puppy',
+                   'is_childfriendly',
                    'profile_picture')
