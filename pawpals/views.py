@@ -152,7 +152,7 @@ def deactivate_user(request):
 
     #logout and deactivate user user
     logout(request)
-    return redirect('deactivate_user')
+    return redirect('home')
     #return render(request, 'pawpals/edit.html', context_dict)
 
 #Allows standard user to add a review of a dog
@@ -161,7 +161,7 @@ def add_review(request, request_pk):
 
     request_object = Request.objects.get(pk = request_pk)
 
-    #get an instance of the review form
+    #get an instance of the empty review form
     form = ReviewForm()
 
     context_dict = {}
@@ -259,11 +259,12 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-@login_required
+
 @standardUser_required
 def request(request, dog_slug):
 
     context_dict = {}
+
 
     dog = Dog.objects.get(slug=dog_slug)
 
@@ -310,7 +311,7 @@ def show_shelter(request, shelter_slug):
 def show_dog(request, dog_slug):
     context_dict = {}
     show_delete = False
-  
+
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
@@ -323,15 +324,15 @@ def show_dog(request, dog_slug):
             if request.user.is_manager:
                 shelter = Shelter.objects.all().filter(manager = request.user)
                 dogs = Dog.objects.all().filter(dog_shelter = shelter)
-            
+
                 if dog in dogs:
                     show_delete = True
-                
+
     except Dog.DoesNotExist:
         context_dict = {}
 
 
-    context_dict["show_delete"] = show_delete    
+    context_dict["show_delete"] = show_delete
 
     return render(request, 'pawpals/dog.html', context_dict)
 
@@ -365,7 +366,7 @@ def professional(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
         shelter_form = ShelterEditingForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -407,14 +408,13 @@ def professional(request):
                    'profile_form': profile_form,
                    'registered': registered,
                    'shelter_form': shelter_form,
-                   'profile_picture': profile_picture
                    })
-    
+
 def personal(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -440,7 +440,6 @@ def personal(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered,
-                   'profile_picture': profile_picture
                    })
 
 def register(request):

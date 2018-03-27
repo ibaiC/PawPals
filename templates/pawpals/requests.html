@@ -40,6 +40,8 @@
 							{{ request.requested_dog }}
 						</a>
 					</td>
+					<td><a href="{% url 'show_shelter' request.requested_dog.slug %}">
+						</a>{{ request.shelter }}</td>
 					<td>{{ request.message }}</td>
 					<td>{{ request.date }}</td>
 					<td>{{ request.get_status_display }}</td>
