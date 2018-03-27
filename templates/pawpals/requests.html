@@ -12,10 +12,11 @@
 {% block body_block %}
 
 <h1 class="featurette-heading">Requests Page</h1>
-
+<!-- A table is used to display the requests in a neat and orderly way -->
 	<table id="table">
 	
 		<tr>
+			<!-- table headings -->
 			<th>Requested Dog</th>
 			<th>Message</th>
 			<th>Date</th>
@@ -31,7 +32,7 @@
 		</tr>	
 			
 		{% for request in requests %}
-		
+		<!-- data entries in the table -->
 			<div class = "request">
 				<tr>
 					<td>
@@ -42,9 +43,11 @@
 					<td>{{ request.message }}</td>
 					<td>{{ request.date }}</td>
 					<td>{{ request.get_status_display }}</td>
-					
+					<!-- if the user is logged in and is a standard user... -->
 					{% if user.is_standard %}
-					
+					<!-- Check what status this request is at, and depending on the status of the request, either write
+					a review update your review or if the status isn't at a point which allows you to do either of
+					those things, disable the review button -->
 						{% if request.status == "C" %}						
 
 							<td>
@@ -63,7 +66,7 @@
 							
 						{% endif %}
 					{% endif %}
-					
+					<!-- if the logged in user is a manager then allow them to change the status of a request -->
 						{% if user.is_manager %}
 
 							<form id="status_update" method="post" action="">

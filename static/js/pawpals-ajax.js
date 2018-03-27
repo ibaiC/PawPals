@@ -47,14 +47,14 @@ function print_reviews(reviews) {
 }
 
 
-function get_dogs(shelter_pk, view_url, default_picture) {
+function get_dogs(shelter_pk, view_url, default_picture, dog_profile_url) {
 	
 	$("dog_block").toggle();
 	$.ajax({
 		 url: view_url,
 		 data: {"shelter_pk" : shelter_pk},
 		 success: function(result){
-			print_dogs(result, default_picture);
+			print_dogs(result, default_picture, dog_profile_url);
 		}
 	 });
 }
@@ -81,7 +81,7 @@ function print_dogs(dogs, default_picture, dog_profile_url) {
     		}
     		
     		out += "<h3>" + dogs_list[i].name + "</h3><p>"
-            out += "<a class='btn btn-outline-dark' href='/pawpals/dogs/" + dogs_list[i].slug + "' role='button'>View dog &raquo;</a>";
+            out += "<a class='btn btn-outline-dark' href='" + dog_profile_url + dogs_list[i].slug + "' role='button'>View dog &raquo;</a>";
     		out += "</p></div>";
         	
         	out += "</div>";

@@ -259,7 +259,7 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-
+@login_required
 @standardUser_required
 def request(request, dog_slug):
 
@@ -394,7 +394,7 @@ def professional(request):
                    'profile_form': profile_form,
                    'registered': registered,
                    'shelter_form': shelter_form,
-                   'profile_picture': profile_picture'
+                   'profile_picture': 'profile_picture',
                    })
 def personal(request):
     registered = False

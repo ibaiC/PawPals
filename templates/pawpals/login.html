@@ -1,8 +1,10 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
+
 {% block javascript_block %}
 	<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
 {% endblock %}
+
 {% block title_block %}
     Login
 {% endblock %}
@@ -10,19 +12,19 @@
 {% block body_block %}
 <div class="container">
 <form class="form-signin" role="form" method="post" action="{% url 'login' %}">
+    <!-- standard login form that validates a user-->
 {% csrf_token %}
-<br/>
-    <br/>
-    <br/>
-    <br/>
-<h1 class="featurette-heading" align="center">Sign In</h1>
+
+<h1 class="featurette-heading" id="login_header">Sign In</h1>
 
 {% if error %}
 <p id="login"><strong>{{ error }}</strong></p>
     {% endif %}
-    <br/>
+
     <div class="container">
 <label for="inputUsername" class="sr-only">Username</label>
+<!-- If Sign In button is pressed without a username entered, a prompt will appear asking the user to enter this
+                                                                                                            field -->
 <input type="text" name="username" id="user" class="form-control"
 placeholder="Username" required autofocus>
 <label for="inputPassword" class="sr-only">Password</label>

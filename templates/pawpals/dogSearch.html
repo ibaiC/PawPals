@@ -13,6 +13,8 @@
     <div class="container">
     <hr class="featurette-divider">
     </div>
+    <!-- provides functionality to filter through every dog in the database based on the given criteria to then present
+    the matching dogs -->
     <button class="btn btn-outline-info" data-toggle="collapse" data-target="#search">Search For A Specific PawPal</button>
 	<div id="search" class="collapse">
 		<form method="get">
@@ -24,7 +26,8 @@
 	</div>
 
     <div class="row">
-            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+            <!-- Uses information passed in the model to create a nice grid layout of all the dogs which can be filtered
+             using the 'search' button -->
         {% for dog in filter.qs %}
       <div class="col-lg-3 col-sm-3">
       

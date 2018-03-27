@@ -7,9 +7,9 @@ Welcome to PawPals!
 {% endblock %}
 {% block body_block %}
 
-  <div class="container marketing">
+  <div class="container">
 
-    <div class="row featurette">
+    <div class="row">
       <div class="col-md-7">
         <h4 class="featurette-heading">Welcome To PawPals!
         </h4>
@@ -22,7 +22,8 @@ Welcome to PawPals!
 <div>
 
     <hr class="featurette-divider">
-
+<!-- grid 2x3 grid layout that displays dogs that have been walked/reviewed the least by extracting information in the
+    view passed by the database -->
 <h1 class="featurette-heading">Dogs That Need Some Love!
         </h1>
 </div>
@@ -32,10 +33,12 @@ Welcome to PawPals!
         {% for dog in dogs %}
       <div class="col-lg-4">
 	        {% if dog.profile_picture %}
-				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Generic placeholder image"
+				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+                     alt="Generic placeholder image"
 				          width="200" height="200">
 		     {% else %}
-				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Default" width="200" height="200">
+				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}"
+          alt="Default" width="200" height="200">
 			{% endif %}
         <h3>{{ dog.name }}</h3>
 

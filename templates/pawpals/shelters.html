@@ -7,14 +7,14 @@
 
 {% block body_block %}
 
-	<div class="fluid-container" id="standard_shelter">
+	<div class="fluid-container">
 
 		<h1 class="featurette-heading">View Available Shelters</h1>
 		<div class="container">
 		<hr class="featurette-divider">
 		</div>
 			<div class="row">
-			<!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+			<!-- Displays every shelter in the database in a nice grid format for easy navigation -->
 				{% for shelter in shelters %}
 					<div class="col-lg-3">
 					

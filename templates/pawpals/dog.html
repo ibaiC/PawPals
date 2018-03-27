@@ -16,7 +16,7 @@
 
 
 {% block body_block %}
-
+    <!-- displays the profile picture in the database for the dog, if there isn't one, provides a default image -->
           {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
           			{% else %}
@@ -24,15 +24,18 @@
 			{% endif %}
 <div>
         <h3> {{dog.name}}</h3>
+    <!-- allows a standard user that is logged in to request a walk -->
 		  {% if user.is_authenticated %}
             {% if user.is_standard %}
 
-				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}" role="button">Request a Walk</a>
+				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}"
+                   role="button">Request a Walk</a>
 </div>
 
 			{% endif %}
           {% endif %}
 
+<!-- Displays the information of the dog in a nice pattern -->
 
     <div class="row" >
 
@@ -94,6 +97,8 @@
 
 </div>
 
+<!-- Using AJAX, this button displays the reviews left on this specific dog -->
+
 {% if user.is_authenticated %}
 			{% if user.is_manager %}
 					{% if dog.dog_shelter == shelter.name %}
@@ -106,6 +111,7 @@
 
 
 <button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
+
           <div id = "reviewsButton" class="collapse">
 
               <div>
