@@ -153,7 +153,6 @@ def deactivate_user(request):
     #logout and deactivate user user
     logout(request)
     return redirect('home')
-    #return render(request, 'pawpals/edit.html', context_dict)
 
 #Allows standard user to add a review of a dog
 @login_required
