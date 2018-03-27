@@ -45,7 +45,7 @@ Edit Your Profile!
 
 			{% endif %}
 <!-- deletetion of account functionality, and an option to save any changes that has been made to a profile -->
-			<button class="btn btn-outline-danger" href="{% url 'deactivate_user' %}" >Delete Account</button>
+			<a class="btn btn-outline-danger" id="delete" href="{% url 'deactivate_user' %}" >Delete Account</a>
         	<button class="btn btn-outline-success" type="submit">Submit</button>
 		</form>
 	</div>
