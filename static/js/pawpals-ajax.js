@@ -67,25 +67,42 @@ function print_dogs(dogs, default_picture, dog_profile_url) {
     if (dogs_list.length != 0) {
     	console.log("yes");
 
-        
-    	for(i = 0; i < dogs_list.length; i++) {
-    	
-    		out += "<div class='col-sm-4'>";
-    	
-    		// image
-    		if (dogs_list[i].profile_picture) {
-            	out += "<img class='rectangle center-cropped' src='/media/" + dogs_list[i].profile_picture + "' alt='Dog picture' width='200' height='200'>";
 
-    		} else {
-    			out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
-    		}
-    		
-    		out += "<h3>" + dogs_list[i].name + "</h3><p>"
+
+        for(i = 0; i < dogs_list.length; i++) {
+            (if (i == 0) {
+
+            out += "<div class='row'>"
+            out += "<div class='col-sm-3'>";
+            }
+
+            else {
+	            if (i%3 == 0) {
+	                out += "<div class='row'>"
+
+                    out += "</row>";
+                 }
+                }
+            // image
+            if (dogs_list[i].profile_picture) {
+                out += "<img class='rectangle center-cropped' src='/media/" + dogs_list[i].profile_picture + "' alt='Dog picture' width='200' height='200'>";
+
+            } else {
+                out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
+            }
+
+            out += "<h3>" + dogs_list[i].name + "</h3><p>"
             out += "<a class='btn btn-outline-dark' href='" + dog_profile_url + dogs_list[i].slug + "' role='button'>View dog &raquo;</a>";
-    		out += "</p></div>";
-        	
-        	out += "</div>";
+            out += "</p></div>";
+
+            out += "</div>";
+            else if (i == dogs_list.length) {
+                out += "</row>";
+            }
+
+
         }
+
     	
     } else {
     	console.log("no");
