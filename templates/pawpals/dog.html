@@ -16,20 +16,17 @@
 
 
 {% block body_block %}
-<br/>
-<br/>
-<br/>
-<br/>
+
           {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
           			{% else %}
           <img class="rectangle center-cropped" style="transform: translateX:(-50%);" src="{% static "default_dog.png" %}" width="400" height="400">
 			{% endif %}
+<div style="padding-bottom:15px;">
         <h3> {{dog.name}}</h3>
-
 		  {% if user.is_authenticated %}
             {% if user.is_standard %}
-<div style="padding-bottom:15px;">
+
 				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}" role="button">Request a Walk</a>
 </div>
 
@@ -107,10 +104,10 @@
               {% if reviews %}
               <table style = "width:100%;">
 		<tr>
-			<th id="header">User</th>
-			<th id="header">Message</th>
-			<th id="header">Difficulty Rating</th>
-			<th id="header">Date</th>
+			<th>User</th>
+			<th>Message</th>
+			<th>Difficulty Rating</th>
+			<th>Date</th>
               <div class="container">{{ review.comment }}</div>
 
         </tr>
@@ -126,5 +123,6 @@
                   </table>
                   {% endif %}
 
+          </div>
           </div>
 {% endblock %}

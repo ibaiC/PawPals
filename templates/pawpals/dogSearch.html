@@ -8,18 +8,16 @@
 
 {% block body_block %}
 <div class="fluid-container">
-        <br/>
-<h1 id="shelters_title">Find your perfect PawPal!</h1>
+
+<h1 class="featurette-heading" align="center">Find Your Perfect PawPal!</h1>
     <div class="container">
     <hr class="featurette-divider">
     </div>
     <button class="btn btn-outline-info" data-toggle="collapse" data-target="#search">Search For A Specific PawPal</button>
 	<div id="search" class="collapse">
-<br/>
-		<form method="get">
+		<form method="get" style="padding-top:10px;">
             <div id="dogsearch" class="container">
 			{{ filter.form.as_table }}
-			<br/>
 			<button class="btn btn-outline-success" type="submit">Search</button>
             </div>
 		</form>
@@ -28,7 +26,7 @@
     <div class="row">
             <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
         {% for dog in filter.qs %}
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-sm-3">
       
       					{% if dog.profile_picture %}
 							<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"

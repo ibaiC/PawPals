@@ -1,8 +1,6 @@
 {% extends 'pawpals/base.html' %}
 {% load staticfiles %}
-{% block stylesheet_block %}
-  <link rel="stylesheet" type="text/css" href="{% static "styles/login.css" %}">
-{% endblock %}
+
 {% block title_block %}
     Login
 {% endblock %}
@@ -15,7 +13,7 @@
     <br/>
     <br/>
     <br/>
-<h1 class="form-signin-heading">Sign In</h1>
+<h1 class="featurette-heading" align="center">Sign In</h1>
 
 {% if error %}
 <p id="login"><strong>{{ error }}</strong></p>
@@ -24,13 +22,24 @@
     <div class="container">
 <label for="inputUsername" class="sr-only">Username</label>
 <input type="text" name="username" id="id_username" class="form-control"
-placeholder="Username" required autofocus>
+placeholder="Username" required autofocus style="width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;">
 <label for="inputPassword" class="sr-only">Password</label>
 <input type="password" name="password" id="id_password" class="form-control"
-placeholder="Password" required>
+placeholder="Password" required style="width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;">
         <br/>
 <button class="btn btn-lg btn-primary" type="submit"
 value="Submit" />Sign in</button>
+    </div>
 </form>
 </div>
 </div>

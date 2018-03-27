@@ -3,19 +3,19 @@
 
 {% block body_block %}
 
-<h1 class="header" align="center">Please Fill In Your Details to Register a Personal Account</h1>
-
+<h1 class="featurette-heading" align="center">Please Fill In Your Details to Register a Personal Account</h1>
+    <form id="user_form" method="post" action="{% url 'personal' %}"
+              enctype="multipart/form-data">
     <div class="row">
     <div class="col-md-7">
 
-    <form id="user_form" method="post" action="{% url 'personal' %}"
-              enctype="multipart/form-data">
+
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}
 
     </div>
     </div>
-    <button type="submit" class="btn btn-outline-success"">Submit</button>
+    <button type="submit" class="btn btn-outline-success">Submit</button>
     </form>
 {% endblock %}
