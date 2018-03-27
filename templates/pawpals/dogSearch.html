@@ -9,13 +9,13 @@
 {% block body_block %}
 <div class="fluid-container">
 
-<h1 class="featurette-heading" align="center">Find Your Perfect PawPal!</h1>
+<h1 class="featurette-heading">Find Your Perfect PawPal!</h1>
     <div class="container">
     <hr class="featurette-divider">
     </div>
     <button class="btn btn-outline-info" data-toggle="collapse" data-target="#search">Search For A Specific PawPal</button>
 	<div id="search" class="collapse">
-		<form method="get" style="padding-top:10px;">
+		<form method="get">
             <div id="dogsearch" class="container">
 			{{ filter.form.as_table }}
 			<button class="btn btn-outline-success" type="submit">Search</button>

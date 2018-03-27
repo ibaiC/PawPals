@@ -7,7 +7,7 @@ Request a Walk!
 
 {% block body_block %}
 
-<h1 class="featurette-heading" align="center">Request a Walk</h1>
+<h1 class="featurette-heading"Request a Walk</h1>
 
     	{% if dog.profile_picture %}
 			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
@@ -23,12 +23,7 @@ Request a Walk!
 
 			<input type="text" name="message" id="message"
 				class="form-control" placeholder="Type Your Message Here..."
-				required autofocus style="width: 50%;
-    padding: 15px 20px;
-    margin: 10px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;"><br />
+				required autofocus><br />
 			<button class="btn btn-lg btn-success" type="submit" value="Submit" />
 			Send Request
 			</button>

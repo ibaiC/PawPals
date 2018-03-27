@@ -20,9 +20,9 @@
           {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
           			{% else %}
-          <img class="rectangle center-cropped" style="transform: translateX:(-50%);" src="{% static "default_dog.png" %}" width="400" height="400">
+          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
 			{% endif %}
-<div style="padding-bottom:15px;">
+<div>
         <h3> {{dog.name}}</h3>
 		  {% if user.is_authenticated %}
             {% if user.is_standard %}
@@ -91,37 +91,15 @@
 
       </div>
 
-		<div id = "request_block">
-		{{ user_form.as_p }}
-	</div>
-
 </div>
 
-<button class="btn btn-outline-info" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
+<button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
           <div id = "reviewsButton" class="collapse">
-              <br/>
-              <div style="padding-left: 100px;">
-              {% if reviews %}
-              <table style = "width:100%;">
-		<tr>
-			<th>User</th>
-			<th>Message</th>
-			<th>Difficulty Rating</th>
-			<th>Date</th>
-              <div class="container">{{ review.comment }}</div>
 
-        </tr>
-                  {% for review in reviews %}
-                  <tr>
-
-                      <td>{{ review.reviewing_user }}</td>
-                      <td>{{ review.comment }}</td>
-                      <td>{{ review.difficulty_rating }}</td>
-                      <td>{{ review.date }}</td>
-                  </tr>
-                  {% endfor %}
-                  </table>
-                  {% endif %}
+              <div>
+              
+              
+              <div id="review_block"></div>
 
           </div>
           </div>

@@ -11,25 +11,24 @@ Welcome to PawPals!
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h4 class="featurette-heading" align="center">Welcome To PawPals!
+        <h4 class="featurette-heading">Welcome To PawPals!
         </h4>
-        <p class="lead" align="center" vertical-align="center">At PawPals we work to match those who want a dog but don't have the time or money to take care of one.
+        <p class="lead">At PawPals we work to match those who want a dog but don't have the time or money to take care of one.
         We work alongside dog shelters so that dogs who need love and attention can go on walks and spend quality time with amazing people like you!
           So what are you waiting for, find yourself a PawPal and go make some memories! </p>
 
       </div>
     </div>
-<div style="padding-top:40px;">
+<div>
 
-    <hr class="featurette-divider" style="padding-bottom:25px;">
+    <hr class="featurette-divider">
 
-<h1 class="featurette-heading" align="center">Dogs That Need Some Love!
+<h1 class="featurette-heading">Dogs That Need Some Love!
         </h1>
 </div>
-    <!-- /END THE FEATURETTES -->
 
     <div class="row">
-            <!-- LOOP THIS SECTION WRAPPED IN COMMENTS WITH THE DOG INFO INSERTED INSTEAD OF THE JUNK TEXT -->
+
         {% for dog in dogs %}
       <div class="col-lg-4">
 	        {% if dog.profile_picture %}
