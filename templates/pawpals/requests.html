@@ -18,6 +18,16 @@
 		<tr>
 			<!-- table headings -->
 			<th>Requested Dog</th>
+			
+			{% if user.is_standard %}
+				<th>Shelter</th>
+			{% endif %}
+			
+			{% if user.is_manager %}
+				<th>Person Requesting</th>
+				<th>Phone Contact</th>
+			{% endif %}
+			
 			<th>Message</th>
 			<th>Date</th>
 			<th>Status</th>
@@ -31,7 +41,7 @@
 			
 		</tr>	
 			
-		{% for request, shelter in requests %}
+		{% for request, shelter, user_data in requests %}
 		<!-- data entries in the table -->
 			<div class = "request">
 				<tr>
@@ -44,6 +54,11 @@
 					{% if user.is_standard %}
 						<td><a href="{% url 'show_shelter' shelter.slug %}">
 						{{ shelter.name }}</a></td>
+					{% endif %}
+					
+					{% if user.is_manager %}
+						<td>{{ user_data.username }}</td>
+						<td>{{ user_data.phone_contact }}</td>
 					{% endif %}
 					
 						<td>{{ request.message }}</td>

@@ -240,7 +240,9 @@ def show_requests(request):
     if request.user.is_manager:
         requests_list = []
         for request_obj in Request.objects.all().filter(request_manager = request.user).order_by('-date'):
-            requests_list.append([request_obj, None])
+            user_profile = UserProfile.objects.get(user = request_obj.requesting_user)
+            user_data = {"phone_contact" : user_profile.phone_contact, "username" : request_obj.requesting_user.username}
+            requests_list.append([request_obj, None, user_data])
         
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
@@ -260,7 +262,7 @@ def show_requests(request):
             manager = request_obj.request_manager
             shelter = Shelter.objects.get(manager = manager)
             
-            requests_list.append([request_obj, shelter])
+            requests_list.append([request_obj, shelter, None])
         
     context_dict['form'] = form
     context_dict['requests'] = requests_list
