@@ -25,7 +25,7 @@ transform: translateY(15%);
 /* Keeps the footer fixed to the bottom of the page when the page elements don't take up the full window height by
     adjusting body block height and footer positioning*/
 body {
-padding-top: 2rem;
+padding-top: 100px;
   padding-bottom: 2rem;
   height: 100%;
   min-height: 100vh;
@@ -56,14 +56,47 @@ p {
 div {
     text-align: center;
     }
+/* Resizing and padding on the message input so it looks neat and fits with the style of other inputs */
+#message {
+    width: 50%;
+    padding: 15px 20px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;}
+/* Makes login inputs not long and scrawny, bulks them out and makes the page look tidy and simple */
+#user,#pass {
+
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+/* Giving every header class padding below to neaten things up with spacing */
+.header {
+padding-bottom:20px;
+}
 /* Mostly just for login page, spaces out the button and resizes to match that of the input element sizes */
 button {
     padding: 14px 20px;
     margin: 8px 0;
     width: 30%;
 }
+/* Making the table stretch across the width of the window */
+#table {width:100%;}
 
-/*  * Featurette Elements *  */
+/* Centering the elements on the register template by only adjusting the header */
+#register_header {
+    padding-top: 200px;
+}
+/* Providing spacing so button isn't overalpped */
+#form {
+padding-top:20px;
+}
+
+/*  * Featurette Classes *  */
 
 /* Space out the divider more */
 .featurette-divider {
@@ -86,6 +119,9 @@ button {
     font-size: 50px;
   }
 }
+  #register {
+  font-size: 40px;
+  }
 
 @media (min-width: 62em) {
   .featurette-heading {
