@@ -4,6 +4,12 @@
 {% block stylesheet_block %}
 	<link rel="stylesheet" type="text/css" href="{% static "styles/dog.css" %}">
 {% endblock %}
+
+{% block javascript_block %}
+	<script type="text/javascript" src="{% static 'js/pawpals-ajax.js' %}"></script>
+{% endblock %}
+
+
 {% block title_block %}
     {{ shelter.name }}
 {% endblock %}
@@ -28,7 +34,7 @@
 			{% endif %}
             <div id="paws">
 
-             <button class="btn btn-info" data-toggle="collapse" data-target="#search">Show PawPals</button>
+             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}', '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">Show PawPals</button>
             </div>
 
         <div class="row" style="padding-top:25px;">
@@ -57,25 +63,8 @@
 		    <div class="row">
 
 
-	
-
-
-        {% for dogs in dog %}
-      <div class="col-sm-4">
-	        {% if dogs.profile_picture %}
-				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dogs.profile_picture }}"
-				          width="200" height="200">
-		     {% else %}
-				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
-			{% endif %}
-        <h3>{{ dogs.name }}</h3>
-          <p>
-          <a class="btn btn-outline-dark" href="{% url 'show_dog' dogs.slug %}" role="button">View dog &raquo;</a>
-        </p>
-          </div>
-        {% endfor %}
-
-	</div>
+	<div id="dogs_block"></div>
+                
 </div>
 
 {% endblock %}

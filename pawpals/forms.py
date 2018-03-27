@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from pawpals.models import *
 
-
+# Using Django's base User model
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -15,6 +15,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('profile_picture','phone_contact')
 
+# All forms from here inherit the fields from the model specified in class Meta.
 class ReviewForm(forms.ModelForm):
 
     class Meta:
