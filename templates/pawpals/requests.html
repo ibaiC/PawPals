@@ -31,7 +31,7 @@
 			
 		</tr>	
 			
-		{% for request in requests %}
+		{% for request, shelter in requests %}
 		<!-- data entries in the table -->
 			<div class = "request">
 				<tr>
@@ -40,11 +40,11 @@
 							{{ request.requested_dog }}
 						</a>
 					</td>
-					<td><a href="{% url 'show_shelter' request.shelter_manager.shelter.slug %}">
-						</a>{{ request.shelter }}</td>
-					<td>{{ request.message }}</td>
-					<td>{{ request.date }}</td>
-					<td>{{ request.get_status_display }}</td>
+					<td><a href="{% url 'show_shelter' shelter.slug %}">
+						{{ shelter.name }}</a></td>
+						<td>{{ request.message }}</td>
+						<td>{{ request.date }}</td>
+						<td>{{ request.get_status_display }}</td>
 					<!-- if the user is logged in and is a standard user... -->
 					{% if user.is_standard %}
 					<!-- Check what status this request is at, and depending on the status of the request, either write
