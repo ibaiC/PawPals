@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^dogs/(?P<dog_slug>[\w\-]+)/$', views.show_dog, name='show_dog'),
     #url(r'^edit', views.edit, name='edit'),
     url(r'^edit/$', views.edit, name='edit'),
-    url(r'^dogsearch/$',views.dog_search, name='dogSearch'),
+    url(r'^dogs/$',views.dog_search, name='dogs'),
 
     # AJAX
     url(r'^ajax/show_reviews/', views.show_reviews, name = "show_reviews"),
