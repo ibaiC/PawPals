@@ -153,7 +153,6 @@ def deactivate_user(request):
     #logout and deactivate user user
     logout(request)
     return redirect('home')
-    #return render(request, 'pawpals/edit.html', context_dict)
 
 #Allows standard user to add a review of a dog
 @login_required
@@ -251,9 +250,15 @@ def show_requests(request):
             form = RequestStatusForm()
 
     else:
-        requests_list = Request.objects.all().filter(requesting_user = request.user).order_by('-date')
+        requests_list = []
         form = RequestStatusForm()
-    print(form)
+        
+        for request_obj in Request.objects.all().filter(requesting_user = request.user).order_by('-date'):
+            manager = request_obj.request_manager
+            shelter = Shelter.objects.get(manager = manager)
+            
+            requests_list.append([request_obj, shelter])
+        
     context_dict['form'] = form
     context_dict['requests'] = requests_list
 
