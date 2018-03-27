@@ -21,6 +21,10 @@ h3 {
 div {
     padding-bottom:15px;
     }
+
+/* Creating some padding for the reviews to look neat */
+#review_block{
+    padding-top: 25px;}
 /* Shelter header is taken from information passed from model so need to manually apply CSS to this id */
 #shelter {
   font-weight: 300;
