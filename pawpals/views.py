@@ -67,23 +67,25 @@ def edit(request):
         empty_dog_form = DogEditingForm()
         context_dict["empty_dog_form"] = empty_dog_form
 
-
+    #If a user edits any of the fields and tries to submit...
     if request.method == "POST":
-
+        #Save the newly editted credentials and information for the standard user forms in the database
         user_form = UserCoreEditForm(request.POST, instance = request.user)
         user_profile_form = UserEditingForm(request.POST, instance = UserProfile.objects.get(user = request.user))
-
+        #If the manager user has made changes to the shelter and dog information then save those changes to the
+        #database too
         if request.user.is_manager:
             shelter_form = ShelterEditingForm(request.POST, instance = shelter)
 
             dog_formset = DogFormSet(request.POST, queryset=dogs)
             empty_dog_form = DogEditingForm(request.POST)
-
+            # Check if there has been an attempt to add a dog by filling in the empty fields, if so save this
+                #new dog in the database
             if empty_dog_form.is_valid():
                 dog = empty_dog_form.save(commit = False)
                 dog.dog_shelter = shelter
                 dog.save()
-
+            #
             for dog_form in dog_formset:
                 if dog_form.is_valid():
                     dog = dog_form.save(commit = False)
