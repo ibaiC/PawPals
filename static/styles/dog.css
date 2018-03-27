@@ -4,7 +4,7 @@ h1 {
     padding-bottom: 25px;
      }
 
-article {
+#article {
     column-width: 150px;}
 h2 {
     text-align: center;
@@ -12,21 +12,26 @@ h2 {
     }
 h3 {
     text-align: center;
+    padding-bottom: 15px;
     }
 
 
-.col-lg-4 {
-    margin-left: 50px;
+.col-lg-1 {
+     display: table-cell;
+    vertical-align: middle;
+    transform: translateX:(-50%);
+     }
+
+.col-sm-2 {
+    transform:translateX(200%);
      display: table-cell;
     vertical-align: middle;
      }
-
-.col-lg-2 {
-    margin-left: 50px;
+.col-sm-3 {
+    transform:translateX(50%);
      display: table-cell;
     vertical-align: middle;
      }
-
 p {
     text-align: center;
     right: 10px;
@@ -45,12 +50,7 @@ h4 {
 #review_block div {
 	text-align: left;
 }
-body {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  height: 100%;
-  position: relative;
-}
+
 
 footer {
     padding-top: 50px;

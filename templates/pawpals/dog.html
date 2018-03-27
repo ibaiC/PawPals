@@ -20,15 +20,10 @@
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-<div class="row">
-
-      <div class="col-lg-4">
           {% if dog.profile_picture %}
         <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
           			{% else %}
-          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
+          <img class="rectangle center-cropped" style="transform: translateX:(-50%);" src="{% static "default_dog.png" %}" width="400" height="400">
 			{% endif %}
         <h3> {{dog.name}}</h3>
 
@@ -37,34 +32,37 @@
 				<a id = "request_button" class="btn btn-success" href="{% url 'request' dog.slug %}" role="button">Request a Walk</a>
 			{% endif %}
           {% endif %}
-      </div>
+
     <div class="row">
 
-    <div class="col-sm-3">
+    <div class="col-sm-2">
 
         <h4>Bio</h4>
 		<article>{{ dog.bio }}</article>
 
      </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
 
         <h4>Breed</h4>
 		<p>{{ dog.breed }}</p>
 
       </div>
-
+    </div>
+<div class="row">
     <div class="col-sm-3">
 
         <h4>Size</h4>
 		<p>{{ dog.get_size_display }}</p>
 
       </div>
+
     <div class="col-sm-3">
 
         <h4>Gender</h4>
 		<p>{{ dog.get_gender_display }}</p>
 
       </div>
+
     <div class="col-sm-3">
 
         <h4>Puppy?</h4>
@@ -73,9 +71,10 @@
 					{% else %}
 						No
 {% endif %}</p>
-
-      </div>
-        <div class="col-sm-3">
+    </div>
+</div>
+<div class="row">
+        <div class="col-sm-2">
 
         <h4>Child Friendly?</h4>
 			<p>{% if dog.is_childfriendly %}
@@ -85,7 +84,7 @@
 {% endif %}</p>
 
       </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
 
         <h4>Overall Difficulty</h4>
 			<p>{{ dog.difficulty }}/5</p>
@@ -96,11 +95,9 @@
 		{{ user_form.as_p }}
 	</div>
 
-
 </div>
 
-    </div>
-<button class="btn btn-outline-info" data-toggle="collapse" data-target="#reviewsButton">See Reviews&raquo;</button>
+<button class="btn btn-outline-info" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
           <div id = "reviewsButton" class="collapse">
               <br/>
               {% if reviews %}
