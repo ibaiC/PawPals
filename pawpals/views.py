@@ -394,6 +394,7 @@ def professional(request):
                    'profile_form': profile_form,
                    'registered': registered,
                    'shelter_form': shelter_form,
+                   'profile_picture': profile_picture'
                    })
 def personal(request):
     registered = False
@@ -425,6 +426,7 @@ def personal(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered,
+                   'profile_picture': profile_picture
                    })
 
 def register(request):
@@ -513,12 +515,12 @@ def get_dogs(request):
         }
 
     for dog in dogs:
-        
+
         if dog.profile_picture:
             profile_pic = dog.profile_picture.path
         else:
             profile_pic = None
-        
+
         new_dog = {"name" : dog.name,
                   "profile_picture" : profile_pic,
                   "slug" : dog.slug,
