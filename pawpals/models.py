@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
 
-    profile_picture = models.ImageField(upload_to=user_image_path, blank="True")
+    profile_picture = models.ImageField(upload_to=user_image_path, blank= True)
     phone_contact = models.CharField(max_length = phone_len, unique = True, blank = "True", null = True)
 
     def __str__(self):
@@ -60,13 +60,13 @@ class Shelter(models.Model):
         return (os.path.join("shelters_profile_images", filename))
 
     profile_picture = models.ImageField(upload_to=shelter_image_path, blank="True")
-     
+
     """def clean(self):
             if self.pk:
                 if not(self.manager.is_manager):
                     raise ValidationError("User does not have permission to be manager.")
     """
-       
+
     def save(self, *args, **kwargs):
         """
 
@@ -128,7 +128,7 @@ class Dog(models.Model):
 
 
     def save(self, *args, **kwargs):
-        
+
         reviews = Review.objects.all().filter(reviewed_dog = self)
 
         if reviews:
@@ -158,7 +158,7 @@ class Dog(models.Model):
 
         if self.pk:
             same_name = Dog.objects.all().filter(name=self.name, dog_shelter = self.dog_shelter).count()
-    
+
             if same_name > 1:
                 raise ValidationError("Dog of this name is already in the shelter.")
 
@@ -203,17 +203,17 @@ class Request(models.Model):
         self.requested_dog.save()
 
     def clean(self):
-        
+
         if self.pk:
             managed_shelter = Shelter.objects.all().filter(manager = self.request_manager)
             managed_dogs = Dog.objects.all().filter(dog_shelter = managed_shelter)
-    
+
             if self.requested_dog not in managed_dogs:
                 raise ValidationError("Dog does not belong to shelter managed by given shelter manager.")
-    
+
             if not(self.request_manager.is_manager):
                 raise ValidationError("User does not have permission to be manager.")
-    
+
             if (self.requesting_user.is_manager):
                 raise ValidationError("User is a manager, cannot add it as requesting user.")
 
@@ -221,8 +221,8 @@ class Review(models.Model):
     # relationships
     request = models.OneToOneField(Request, on_delete=models.CASCADE)
 
-    reviewing_user = models.ForeignKey(User, on_delete=models.CASCADE) 
-    reviewed_dog = models.ForeignKey(Dog, on_delete=models.CASCADE) 
+    reviewing_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reviewed_dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
 
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators, blank=True)
     comment = models.CharField(max_length = extended_char_len)
