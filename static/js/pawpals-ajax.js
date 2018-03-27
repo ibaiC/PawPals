@@ -65,50 +65,76 @@ function print_dogs(dogs, default_picture, dog_profile_url) {
     var i;
 
     if (dogs_list.length != 0) {
-    	console.log("yes");
-
-
 
         for(i = 0; i < dogs_list.length; i++) {
-            (if (i == 0) {
-
-            out += "<div class='row'>"
-            out += "<div class='col-sm-3'>";
-            }
-
-            else {
-	            if (i%3 == 0) {
-	                out += "<div class='row'>"
-
-                    out += "</row>";
-                 }
-                }
-            // image
-            if (dogs_list[i].profile_picture) {
-                out += "<img class='rectangle center-cropped' src='/media/" + dogs_list[i].profile_picture + "' alt='Dog picture' width='200' height='200'>";
-
+        	
+            if (i == 0) {
+            	// for first open both and print
+            	out += "<div class='row'>";
+	            
+	            out += print_dog(dogs_list[i], default_picture, dog_profile_url);
+	            
+	            console.log("<row>" + dogs_list[i].name);
+	            
+            } else if ( i == (dogs_list.length - 1)) {
+            	
+            	
+            	// create new row if needed
+            	if (i%3 == 0) {
+            		out += "</div>";
+            		out += "<div class='row'>";
+            		out += print_dog(dogs_list[i], default_picture, dog_profile_url);
+            		out += "</div>";
+            		console.log("</><row>" + dogs_list[i].name + "</>");
+            	} else {
+            		out += print_dog(dogs_list[i], default_picture, dog_profile_url);
+            		out += "</div>";
+            		console.log( dogs_list[i].name + "</>");
+            	}
+	            
             } else {
-                out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
+            	// for other
+            	
+            	// if every third, close old and open new row
+            	if (i%3 == 0) {
+            		out += "</div>";
+	                out += "<div class='row'>";
+	                console.log("</> <row>");
+            	}
+            	// print
+            	out += print_dog(dogs_list[i], default_picture, dog_profile_url);
+            	console.log(dogs_list[i].name);
             }
-
-            out += "<h3>" + dogs_list[i].name + "</h3><p>"
-            out += "<a class='btn btn-outline-dark' href='" + dog_profile_url + dogs_list[i].slug + "' role='button'>View dog &raquo;</a>";
-            out += "</p></div>";
-
-            out += "</div>";
-            else if (i == dogs_list.length) {
-                out += "</row>";
-            }
-
-
+         
         }
 
     	
     } else {
-    	console.log("no");
     	out += "No dogs to show!";
     }
 
     document.getElementById("dogs_block").innerHTML = out;
 }
 
+function print_dog(dog, default_picture, dog_profile_url) {
+	// image
+	var out = "";
+	
+	out += "<div class='col-sm-3'>";
+	
+    if (dog.profile_picture) {
+        out += "<img class='rectangle center-cropped' src='/media/" + dog.profile_picture + "' alt='Dog picture' width='200' height='200'>";
+
+    } else {
+        out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
+    }
+
+    out += "<h3>" + dog.name + "</h3><p>";
+    out += "<a class='btn btn-outline-dark' href='" + dog_profile_url + dog.slug + "' role='button'>View dog &raquo;</a>";
+    out += "</p>";
+
+    out += "</div>";
+    
+    return out;
+    
+}
