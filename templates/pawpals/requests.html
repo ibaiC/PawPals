@@ -18,6 +18,10 @@
 		<tr>
 			<!-- table headings -->
 			<th>Requested Dog</th>
+			{% if user.is_standard %}
+			<th>Shelter</th>
+			{% endif %}
+			
 			<th>Message</th>
 			<th>Date</th>
 			<th>Status</th>
