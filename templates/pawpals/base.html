@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <!-- allows for responsive scaling -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CDN integration -->
        <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
@@ -24,7 +25,7 @@
 {% block stylesheet_block %}
         <link rel="stylesheet" type="text/css" href="{% static "styles/base_style.css" %}">
 {% endblock %}
-
+<!-- Standard navbar that will be used across all templates -->
 <nav class="navbar navbar-expand-lg fixed-top bg-dark">
   <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{% static "/brand.png" %}" width="30"
       height="30">PawPals</a>
@@ -44,8 +45,10 @@
         <a class="nav-link text-white" href="{% url 'about' %}">About & FAQ</a>
       </li>
     </ul>
+
 	  <form>
       <ul class="navbar-nav ml-auto">
+          <!-- checking whether a user is logged in and showing them certain buttons depending on that -->
           {% if user.is_authenticated %}
           <a class="btn btn-outline-danger text-white" href="{% url 'logout' %}" role="button">Sign Out</a>
           <a class="btn btn-outline-primary text-white" href="{% url 'edit' %}" role="button">Edit Profile</a>
@@ -59,15 +62,19 @@
     </div>
 </nav>
     </head>
+
         <title>
           {% block title_block %}
           {% endblock %}
         </title>
+
     <body>
         <div>
             {% block body_block %}
             {% endblock %}
         </div>
+        <!-- Using a second navbar in the footer to provide a 'back to top' functionality given that we have some
+                big templates -->
 <footer>
   <nav class="navbar navbar-default  navbar-sticky-bottom bg-dark" role="navigation">
     <div class="container text-center">

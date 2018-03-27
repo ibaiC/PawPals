@@ -6,7 +6,7 @@ Edit Your Profile!
 {% endblock %}
 
 {% block body_block %}
-
+<!-- displays basic user details that both standard and manager users can edit -->
 	<h1 class="featurette-heading">Edit Your Profile</h1>
 	<p class="container">
 		<form method="post" novalidate>
@@ -17,12 +17,13 @@ Edit Your Profile!
 			<div class="container">
 		<hr class="featurette-divider">
 		</div>
-
+<!-- displays shelter details form below standard one that manager users can edit -->
 				<h3 class="featurette-heading">Shelter Details Section</h3>
 				{{ shelter_form.as_ul }}
 				<div class="container">
 		<hr class="featurette-divider">
 		</div>
+<!-- displays dog details which a manager user will have uploaded onto the database, which can be editted -->
 				<h1 class="featurette-heading">Dog Details Section</h1>
 
 				{{ dog_formset.management_form }}
@@ -37,13 +38,13 @@ Edit Your Profile!
 		</div>
 
 				{% endfor %}
-
+<!-- allows a new dog to be added to the database -->
 	<h3 class="featurette-heading">Add A PawPal</h3>
 
 				<div>{{ empty_dog_form.as_ul }}</div>
 
 			{% endif %}
-
+<!-- deletetion of account functionality, and an option to save any changes that has been made to a profile -->
 			<button class="btn btn-outline-danger" href="{% url 'deactivate_user' %}" >Delete Account</button>
         	<button class="btn btn-outline-success" type="submit">Submit</button>
 		</form>

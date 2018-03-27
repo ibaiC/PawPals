@@ -9,11 +9,12 @@
               enctype="multipart/form-data">
     <div class="row">
     <div class="col-md-7">
-
+        <!-- standard user form -->
             <h4 id="register" class="featurette-heading">Standard User Credentials</h4>
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}
+        <!-- Additional credentials that need to be filled in for a manager user -->
     <h4 id="register" class="featurette-heading">Shelter Information</h4>
     {{ shelter_form.as_p }}
 

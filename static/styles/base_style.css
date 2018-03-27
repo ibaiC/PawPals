@@ -91,6 +91,10 @@ button {
 #register_header {
     padding-top: 200px;
 }
+/* Centering the elements on the login template by only adjusting the header */
+#login_header {
+    padding-top: 150px;
+}
 /* Providing spacing so button isn't overalpped */
 #form {
 padding-top:20px;

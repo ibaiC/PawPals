@@ -241,7 +241,7 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-
+@login_required
 @standardUser_required
 def request(request, dog_slug):
 

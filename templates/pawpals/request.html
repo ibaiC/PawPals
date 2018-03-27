@@ -7,8 +7,8 @@ Request a Walk!
 
 {% block body_block %}
 
-<h1 class="featurette-heading"Request a Walk</h1>
-
+<h1 class="featurette-heading">Request a Walk</h1>
+  <!-- displays the profile picture in the database for the dog, if there isn't one, provides a default image -->
     	{% if dog.profile_picture %}
 			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
 			          width="200" height="200">
@@ -20,7 +20,8 @@ Request a Walk!
 <form class="request" role="form" method="post"
 			action="{% url 'request' dog.slug %}">
 			{% csrf_token %}
-
+	<!-- allows user to enter a message to request a walk from the shelter which the dog belongs too, if field is
+	 		empty, the form won't submit -->
 			<input type="text" name="message" id="message"
 				class="form-control" placeholder="Type Your Message Here..."
 				required autofocus><br />
