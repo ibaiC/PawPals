@@ -394,7 +394,7 @@ def professional(request):
                    'profile_form': profile_form,
                    'registered': registered,
                    'shelter_form': shelter_form,
-                   'profile_picture': profile_picture'
+                   'profile_picture': 'profile_picture',
                    })
 def personal(request):
     registered = False

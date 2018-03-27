@@ -34,10 +34,12 @@
 			{% endif %}
             <div id="paws">
 
-             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}', '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">Show PawPals</button>
+             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}',
+              '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">
+                 Show PawPals</button>
             </div>
 
-        <div class="row" style="padding-top:25px;">
+        <div class="row">
         <div class="col-sm-3">
             <h4>Bio</h4>
            <article>{{ shelter.bio }}</article>
@@ -58,13 +60,14 @@
         </div>
 
     <div id="search" class="collapse">
-        <br/>
-        <br/>
-		    <div class="row">
 
+		    <div class="row">
+            <div class="col-sm-3">
 
 	<div id="dogs_block"></div>
-                
+            </div>
+            </div>
+
 </div>
 
 {% endblock %}
