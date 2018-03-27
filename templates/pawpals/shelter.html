@@ -27,8 +27,7 @@
 
 			{% if shelter.profile_picture %}
 				<img class="rectangle center-cropped"
-				src="{{ MEDIA_URL }}{{ shelter.profile_picture }}"
-				alt="Generic placeholder image" width="400" height="400">
+				src="{{ MEDIA_URL }}{{ shelter.profile_picture }}" width="400" height="400">
 			{% else %}
 				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Default" width="400" height="400">
 			{% endif %}

@@ -35,7 +35,6 @@ body::after {
   }
 
 footer {
-    padding-top:25px;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -48,6 +47,12 @@ p {
     position: relative;
     left: 40%;
 }
+#login_error {
+    left:0%;
+}
+/* making the delete button same size as submit for editting account info */
+#delete {
+    width:30%;}
 /* Centre align the input elements and the button on the page */
 div {
     text-align: center;
@@ -86,6 +91,10 @@ button {
 /* Centering the elements on the register template by only adjusting the header */
 #register_header {
     padding-top: 200px;
+}
+/* Centering the elements on the login template by only adjusting the header */
+#login_header {
+    padding-top: 150px;
 }
 /* Providing spacing so button isn't overalpped */
 #form {
