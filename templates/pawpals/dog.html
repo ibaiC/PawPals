@@ -91,10 +91,6 @@
 
       </div>
 
-		<div id = "request_block">
-		{{ user_form.as_p }}
-	</div>
-
 </div>
 
 <button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
@@ -103,32 +99,7 @@
               <div style="padding-left: 100px;">
               
               
-              
-              
-              
-              <table style = "width:100%;">
-				<tr>
-					<th></th>
-					<th>User</th>
-					<th>Message</th>
-					<th>Difficulty Rating</th>
-					<th>Date</th>
-		              <div class="container">{{ review.comment }}</div>
-		
-		        </tr>
-		        
-                <div id="review_block"></div>
-                <!-- 
-                <tr id="tr_review">
-
-                    <td>{{ review.reviewing_user }}</td>
-                    <td>{{ review.comment }}</td>
-                    <td>{{ review.difficulty_rating }}</td>
-                    <td>{{ review.date }}</td>
-                    
-                </tr> -->
-              </table>
-
+              <div id="review_block"></div>
 
           </div>
           </div>
