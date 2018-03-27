@@ -42,14 +42,14 @@ def about(request):
 
 @login_required
 def edit(request):
-
+    #The required standard user forms are taken from the models and passed to the context dictionary
     context_dict = {}
     user_form = UserCoreEditForm(instance = request.user)
     user_profile_form = UserEditingForm(instance = UserProfile.objects.get(user = request.user))
 
     context_dict["user_form"] = user_form
     context_dict["user_profile_form"] = user_profile_form
-
+    #If the user is a manager then the additional required shelter and dog forms are taken from the models
     if request.user.is_manager:
 
         shelter = Shelter.objects.get(manager = request.user)
@@ -63,7 +63,7 @@ def edit(request):
                    'profile_picture'), extra=0)
         dog_formset = DogFormSet(queryset=dogs)
         context_dict["dog_formset"] = dog_formset
-
+        #An empty dog form is also taken from the models in case the manager user wants to add a dog to the database
         empty_dog_form = DogEditingForm()
         context_dict["empty_dog_form"] = empty_dog_form
 
