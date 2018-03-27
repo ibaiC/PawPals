@@ -13,11 +13,12 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.forms import modelformset_factory
 
+# Custom decorators:
+# @standardUser_required : requires user to be a standard user in order to use the view
+# @manager_required : requires user to be a shelter manager to use the view
 
 
-#from pawpals.forms import CategoryForm, PageForm, UserForm, UserProfileForm
-
-
+# Home view, shows dogs who haven't had much attention, updates user visits
 def home(request):
     dogs_list = Dog.objects.order_by('completed_request_count')[:6]
     context_dict = {'dogs': dogs_list}
@@ -28,6 +29,7 @@ def home(request):
     response = render(request, "pawpals/home.html", context_dict)
     return response
 
+#Shows all shelters
 def shelters(request):
     shelters_list = Shelter.objects.all()
     context_dict = {'shelters': shelters_list}
@@ -116,31 +118,32 @@ def edit(request):
 
     return render(request, 'pawpals/edit.html', context_dict)
 
-# def delete_user(request):
-#     user = request.user
-#     user.delete()
-#     logout(request)
-#     return redirect("home")
 
-#I suggest this method to delete users (won't break foreign keys)
+# This method of deleting users is better than outright deleting the user instance
+# from the database as if the username is in use as a foreign key, deleting a user instance
+# could cause database issues.
 @login_required
 def deactivate_user(request):
     context_dict = {}
 
+    #grab current user object and deactivate it - without deleting the object
     user = request.user
     user.is_active = False
     user.save()
     context_dict['msg'] = 'Profile successfully disabled.'
 
+    #logout and deactivate user user
     logout(request)
-    #return redirect('home')
-    return render(request, 'pawpals/edit.html', context_dict)
+    return redirect('deactivate_user')
+    #return render(request, 'pawpals/edit.html', context_dict)
 
+#Allows standard user to add a review of a dog
 @login_required
 def add_review(request, request_pk):
 
     request_object = Request.objects.get(pk = request_pk)
 
+    #get an instance of the review form
     form = ReviewForm()
 
     context_dict = {}
@@ -148,10 +151,10 @@ def add_review(request, request_pk):
 
     if request.method == "POST":
 
-
+        #fill form with request data once it has been filled
         form = ReviewForm(request.POST)
 
-
+        #validate reviw and save it to database
         if form.is_valid():
             review = form.save(commit = False)
 
@@ -170,7 +173,7 @@ def add_review(request, request_pk):
     return render (request, 'pawpals/review.html', context_dict)
 
 
-
+#Allows user to edit one of their own dog reviews
 @login_required
 def edit_review(request, request_pk):
     request_object = Request.objects.get(pk = request_pk)
@@ -197,6 +200,7 @@ def edit_review(request, request_pk):
 
     return render (request, 'pawpals/review.html', context_dict)
 
+#Passes review to its form through POST request and saves it to database
 @login_required
 @standardUser_required
 def review(request, dog_slug):
@@ -211,6 +215,7 @@ def review(request, dog_slug):
     review.save()
     return render (request, 'pawpals/dog.html', context_dict)
 
+# Shows the requests made for all requested dogs
 @login_required
 def show_requests(request):
 
