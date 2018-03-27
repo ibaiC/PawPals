@@ -1,15 +1,15 @@
-{% extends 'pawpals/base.html' %} 
+{% extends 'pawpals/base.html' %}
 {% load staticfiles %}
 
-{% block title_block %} 
-Edit Your Profile! 
-{% endblock %} 
+{% block title_block %}
+Edit Your Profile!
+{% endblock %}
 
 {% block body_block %}
 	<h1 id="edit">Edit Your Profile</h1>
 	<p class="container">
 		<form method="post" novalidate>
-			{% csrf_token %} 
+			{% csrf_token %}
 			{{ user_form.as_ul }}
 			{{ user_profile_form.as_ul }}
 	<br/>
@@ -27,7 +27,7 @@ Edit Your Profile!
 				<h3 style="padding-top: 15px;">Dog Details Section</h3>
 				<br/>
 				{{ dog_formset.management_form }}
-				
+
 				{% for form in dog_formset %}
 
 
@@ -43,10 +43,10 @@ Edit Your Profile!
 	<br/>
 
 				<div style="transform: translateX(-40%);">{{ empty_dog_form.as_p }}</div>
-				
+
 			{% endif %}
-			
-			<button class="btn btn-outline-danger" href="{% url 'delete_user' %}" >Delete Account</button>
+
+			<button class="btn btn-outline-danger" href="{% url 'deactivate_user' %}" >Delete Account</button>
         	<button class="btn btn-outline-success" type="submit">Submit</button>
 		</form>
 	</div>

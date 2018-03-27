@@ -30,7 +30,7 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, primary_key = True)
+    user = models.OneToOneField(User, primary_key = True, on_delete=models.CASCADE)
 
     def user_image_path(self, filename):
         return (os.path.join("user_profile_images", filename))
@@ -43,7 +43,7 @@ class UserProfile(models.Model):
 
 class Shelter(models.Model):
     # relationships
-    manager = OneToOneField(User, blank = True)
+    manager = OneToOneField(User, blank = True, on_delete=models.CASCADE)
 
     name = models.CharField(max_length = 128, primary_key = True) # name and surname
     bio = models.CharField(max_length = extended_char_len)
@@ -97,7 +97,7 @@ class Shelter(models.Model):
 
 class Dog(models.Model):
     # relationships
-    dog_shelter = models.ForeignKey(Shelter, blank = True)
+    dog_shelter = models.ForeignKey(Shelter, blank = True, on_delete=models.CASCADE)
 
     # ID (or pk) is implicitly made by Django
     # id = models.AutoField(primary_key=True)
@@ -174,10 +174,10 @@ def update_slug(sender, instance, created, *args, **kwargs):
 
 class Request(models.Model):
     # relationships
-    requesting_user = models.ForeignKey(User, related_name="requesting_user")
-    request_manager = models.ForeignKey(User, related_name="request_manager", blank = True)
+    requesting_user = models.ForeignKey(User, related_name="requesting_user", on_delete=models.CASCADE)
+    request_manager = models.ForeignKey(User, related_name="request_manager", blank = True, on_delete=models.CASCADE)
 
-    requested_dog = models.ForeignKey(Dog)
+    requested_dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
 
     date = models.DateTimeField(default = timezone.now())
     status = models.CharField(max_length = 1, choices = (("A", "Accepted"),
@@ -219,10 +219,10 @@ class Request(models.Model):
 
 class Review(models.Model):
     # relationships
-    request = models.OneToOneField(Request)
+    request = models.OneToOneField(Request, on_delete=models.CASCADE)
 
-    reviewing_user = models.ForeignKey(User) 
-    reviewed_dog = models.ForeignKey(Dog) 
+    reviewing_user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    reviewed_dog = models.ForeignKey(Dog, on_delete=models.CASCADE) 
 
     difficulty_rating = models.IntegerField(default = 3, validators = difficulty_validators, blank=True)
     comment = models.CharField(max_length = extended_char_len)
