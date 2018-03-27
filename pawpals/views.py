@@ -240,7 +240,10 @@ def show_requests(request):
 
     context_dict = {}
     if request.user.is_manager:
-        requests_list = Request.objects.all().filter(request_manager = request.user).order_by('-date')
+        requests_list = []
+        for request_obj in Request.objects.all().filter(request_manager = request.user).order_by('-date'):
+            requests_list.append([request_obj, None])
+        
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
             form = RequestStatusForm(request.POST or None, instance=instance)

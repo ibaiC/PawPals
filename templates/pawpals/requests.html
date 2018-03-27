@@ -40,8 +40,12 @@
 							{{ request.requested_dog }}
 						</a>
 					</td>
-					<td><a href="{% url 'show_shelter' shelter.slug %}">
+					
+					{% if user.is_standard %}
+						<td><a href="{% url 'show_shelter' shelter.slug %}">
 						{{ shelter.name }}</a></td>
+					{% endif %}
+					
 						<td>{{ request.message }}</td>
 						<td>{{ request.date }}</td>
 						<td>{{ request.get_status_display }}</td>
