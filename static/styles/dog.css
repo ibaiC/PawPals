@@ -47,13 +47,13 @@ h4 {
     }
 
     /* Show reviews */
-#review_block div {
+review_block div {
 	text-align: left;
 }
 
 
 footer {
-    padding-top: 50px;
+  padding-top:25px;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -61,6 +61,7 @@ footer {
 }
 body {
   min-height: 100vh;
+  padding-bottom:50px;
   position: relative;
   margin: 0;
   text-align: center;
