@@ -1,14 +1,9 @@
 from django.test import TestCase
 
+from pawpals.forms import *
 
-
-class YourTestClass(TestCase):
-
-    @classmethod
-    def setUpTestData(cls):
-        print("setUpTestData: Run once to set up non-modified data for all class methods.")
-        pass
-
-    def setUp(self):
-        print("setUp: Run once for every test method to setup clean data.")
-        pass
+# All form validations are made by Django and we had no special model attributes
+# to test due to this.
+# The only exception being DateTimeField fields which were instantly populated
+# with the date and time of the creation of the object instance therefore, no
+# impossible value could be passed to it.

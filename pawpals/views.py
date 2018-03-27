@@ -296,6 +296,9 @@ def show_dog(request, dog_slug):
         dog = Dog.objects.get(slug=dog_slug)
         context_dict['dog'] = dog
 
+        reviews = Review.objects.all().filter(reviewed_dog = dog)
+        context_dict["reviews"] = reviews
+
     except Dog.DoesNotExist:
         context_dict = {}
 
@@ -305,6 +308,26 @@ def dog_search(request):
     dog_list = Dog.objects.all()
     dog_filter = DogFilter(request.GET, queryset = dog_list)
     return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
+
+def show_reviews(request):
+    dog_slug = request.GET.get("dog_slug", None)
+    dog = Dog.objects.get(slug = dog_slug)
+
+    data = {
+        "reviews": []
+        }
+
+    for review in Review.objects.all().filter(reviewed_dog = dog):
+        user_profile = UserProfile.objects.get(user = review.reviewing_user)
+        new_review = {"username" : review.reviewing_user.username,
+                      "rating" : review.difficulty_rating,
+                      "comment" : review.comment,
+                      "date" : review.date,
+                      "profile_picture" : user_profile.profile_picture.path
+                      }
+        data["reviews"].append(new_review)
+
+    return JsonResponse(data)
 
 def professional(request):
     shelter_form = ShelterEditingForm()
@@ -439,42 +462,3 @@ def get_server_side_cookie(request, cookie, default_val=None):
     if not val:
         val = default_val
     return val
-
-### AJAX Views ###
-
-def show_reviews(request):
-    dog_slug = request.GET.get("dog_slug", None)
-    dog = Dog.objects.get(slug = dog_slug)
-
-    data = {
-        "reviews": []
-        }
-
-    for review in Review.objects.all().filter(reviewed_dog = dog):
-        user_profile = UserProfile.objects.get(user = review.reviewing_user)
-        new_review = {"username" : review.reviewing_user.username,
-                      "rating" : review.difficulty_rating,
-                      "comment" : review.comment,
-                      "date" : review.date,
-                      "profile_picture" : user_profile.profile_picture.path
-                      }
-        data["reviews"].append(new_review)
-
-    return JsonResponse(data)
-
-def show_dogs(request,):
-    shelter = request.GET.get("shelter", None)
-    dogs = Dog.objects.al().filter(dog_shelter = shelter)
-
-    data = {
-        "dogs": []
-        }
-
-    for dog in dogs:
-        new_dog = {"name" : dog.name,
-                  "profile_picture" : dog.profile_picture.path,
-                  "slug" : dog.slug,
-                  }
-        data["reviews"].append(new_dog)
-
-    return JsonResponse(data)
