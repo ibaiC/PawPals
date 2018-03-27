@@ -152,7 +152,7 @@ def deactivate_user(request):
 
     #logout and deactivate user user
     logout(request)
-    return redirect('deactivate_user')
+    return redirect('home')
     #return render(request, 'pawpals/edit.html', context_dict)
 
 #Allows standard user to add a review of a dog
@@ -161,7 +161,7 @@ def add_review(request, request_pk):
 
     request_object = Request.objects.get(pk = request_pk)
 
-    #get an instance of the review form
+    #get an instance of the empty review form
     form = ReviewForm()
 
     context_dict = {}
