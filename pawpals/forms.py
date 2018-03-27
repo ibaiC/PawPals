@@ -16,7 +16,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ('profile_picture','phone_contact')
 
 class ReviewForm(forms.ModelForm):
-        
+
     class Meta:
         model = Review
         fields = ('difficulty_rating', 'comment')
@@ -47,16 +47,16 @@ class UserCoreEditForm(forms.ModelForm):
 class ShelterEditingForm(forms.ModelForm):
     class Meta:
         model = Shelter
-        fields = ('name', 'bio', 'webpage', 
-                  'phone_contact', 
-                  'availability_info', 
+        fields = ('name', 'bio', 'webpage',
+                  'phone_contact',
+                  'availability_info',
                   'location')
 
 class DogEditingForm(forms.ModelForm):
-    
+
     class Meta:
         model = Dog
         fields = ('name', 'bio', 'breed', 'size',
-                   'gender', 'is_puppy', 
-                   'is_childfriendly', 
+                   'gender', 'is_puppy',
+                   'is_childfriendly',
                    'profile_picture')

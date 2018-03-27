@@ -12,7 +12,6 @@ function get_reviews(view_url, dog_slug) {
 
 
 function print_reviews(reviews) {
-	console.log(reviews);
     var out = "";
 	var review_list = reviews.reviews;
     var i;
@@ -41,7 +40,6 @@ function print_reviews(reviews) {
     	out += "</table>";
     	
     } else {
-    	console.log("no");
     	out += "No reviews to show!";
     }
 
