@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^login/requests/$', views.show_requests, name='requests'),
 
     url(r'^delete/$', views.deactivate_user, name='deactivate_user'),
+    url(r'^delete_dog/(?P<dog_slug>[\w\-]+)/$', views.remove_dog, name='remove_dog'),
 
     url(r'^add-review/(?P<request_pk>[\w\-]+)$', views.add_review, name="add_review"),
     url(r'^edit-review/(?P<request_pk>[\w\-]+)$', views.edit_review, name="edit_review"),
@@ -26,9 +27,9 @@ urlpatterns = [
     #url(r'^edit', views.edit, name='edit'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^dogsearch/$',views.dog_search, name='dogSearch'),
-    
+
     # AJAX
     url(r'^ajax/show_reviews/', views.show_reviews, name = "show_reviews"),
-    url(r'^ajax/show_dogs/', views.show_dogs, name = "show_dogs"),
+    url(r'^ajax/show_dog/', views.show_dog, name = "show_dogs"),
 
 ]

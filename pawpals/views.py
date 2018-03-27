@@ -118,6 +118,24 @@ def edit(request):
 
     return render(request, 'pawpals/edit.html', context_dict)
 
+# Completely eliminates a dog from database
+@login_required
+@manager_required
+def remove_dog(request, dog_slug):
+    context_dict = {}
+
+    shelter = Shelter.objects.get(manager = request.user)
+    context_dict["shelter"] = shelter
+
+    dog = Dog.objects.get(slug=dog_slug)
+    context_dict["dog"] = dog
+
+    dog.delete()
+    dog.save()
+    context_dict['msg'] = 'Dog profile successfully removed'
+
+    return render(request, 'pawpals/edit.html', context_dict)
+
 
 # This method of deleting users is better than outright deleting the user instance
 # from the database as if the username is in use as a foreign key, deleting a user instance
