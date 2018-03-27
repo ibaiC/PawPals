@@ -34,12 +34,9 @@
 
 			{% endif %}
           {% endif %}
-<<<<<<< HEAD
+
 <!-- Displays the information of the dog in a nice pattern -->
-=======
 
-
->>>>>>> d27d9e4081b8c39b21b01f79d10ebdffa5ee78bc
     <div class="row" >
 
     <div class="col-sm-2">
@@ -99,17 +96,14 @@
       </div>
 
 </div>
-<<<<<<< HEAD
+
 <!-- Using AJAX, this button displays the reviews left on this specific dog -->
-<button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')"
-        data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
-=======
 
 {% if user.is_authenticated %}
 			{% if user.is_manager %}
-					{% if dog.dog_shelter == shelter.name %}
+					{% if show_delete %}
 
-			<button class="btn btn-outline-danger" href="{% url 'remove_dog' %}" >Delete Dog</button>
+			<button class="btn btn-outline-danger" href="{% url 'remove_dog' dog.slug %}" >Delete Dog</button>
 
 {% endif %}
 			{% endif %}
@@ -117,7 +111,7 @@
 
 
 <button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
->>>>>>> d27d9e4081b8c39b21b01f79d10ebdffa5ee78bc
+
           <div id = "reviewsButton" class="collapse">
 
               <div>

@@ -309,6 +309,8 @@ def show_shelter(request, shelter_slug):
 
 def show_dog(request, dog_slug):
     context_dict = {}
+    show_delete = False
+  
 
     try:
         dog = Dog.objects.get(slug=dog_slug)
@@ -317,8 +319,19 @@ def show_dog(request, dog_slug):
         reviews = Review.objects.all().filter(reviewed_dog = dog)
         context_dict["reviews"] = reviews
 
+        if request.user.is_authenticated:
+            if request.user.is_manager:
+                shelter = Shelter.objects.all().filter(manager = request.user)
+                dogs = Dog.objects.all().filter(dog_shelter = shelter)
+            
+                if dog in dogs:
+                    show_delete = True
+                
     except Dog.DoesNotExist:
         context_dict = {}
+
+
+    context_dict["show_delete"] = show_delete    
 
     return render(request, 'pawpals/dog.html', context_dict)
 

@@ -1,10 +1,5 @@
 /* Global Styles */
 
-td {
-  width: 200px;
-  text-align: center;
-}
-
 /*  * General Spacing Formatting *  */
 
 /* Ensures tables fit the size of the window and don't overlap at all */
@@ -40,6 +35,7 @@ body::after {
   }
 
 footer {
+    padding-top:25px;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -90,10 +86,6 @@ button {
 /* Centering the elements on the register template by only adjusting the header */
 #register_header {
     padding-top: 200px;
-}
-/* Centering the elements on the login template by only adjusting the header */
-#login_header {
-    padding-top: 150px;
 }
 /* Providing spacing so button isn't overalpped */
 #form {
