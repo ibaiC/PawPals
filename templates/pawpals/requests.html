@@ -94,7 +94,7 @@
 								{% csrf_token %}
 				        		<td>{{ form.as_ul }}</td>
 				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
-								<td><button class="btn btn-outline-primary" type="submit" name="submit">Change</button></td>
+								<td><button class="btn btn-outline-primary" id="requests_submit" type="submit" name="submit">Change</button></td>
 				        	</form>
 			        	
 						{% endif %}

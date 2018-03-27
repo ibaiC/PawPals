@@ -33,12 +33,12 @@ Welcome to PawPals!
         {% for dog in dogs %}
       <div class="col-lg-4">
 	        {% if dog.profile_picture %}
-				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+				<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Image of Dog"
                      alt="Generic placeholder image"
 				          width="200" height="200">
 		     {% else %}
 				<img class="rectangle center-cropped" src="{% static "default_dog.png" %}"
-          alt="Default" width="200" height="200">
+          alt="Image of Dog" width="200" height="200">
 			{% endif %}
         <h3>{{ dog.name }}</h3>
 

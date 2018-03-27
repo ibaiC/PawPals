@@ -53,6 +53,9 @@ p {
 /* making the delete button same size as submit for editting account info */
 #delete {
     width:30%;}
+/* Making the requests page submit button a reasonable size */
+#requests_submit {
+    width:45%;}
 /* Centre align the input elements and the button on the page */
 div {
     text-align: center;

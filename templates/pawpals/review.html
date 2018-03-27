@@ -14,10 +14,10 @@
 <div>
 	  <!-- displays the profile picture in the database for the dog, if there isn't one, provides a default image -->
     	{% if dog.profile_picture %}
-			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}"
+			<img class="rectangle center-cropped" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Image of Dog"
 			          width="200" height="200">
       	{% else %}
-			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="200" height="200">
+			<img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Image of Dog" width="200" height="200">
 		{% endif %}
 </div>
 		{{ dog.name }}

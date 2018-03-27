@@ -18,9 +18,9 @@
 {% block body_block %}
     <!-- displays the profile picture in the database for the dog, if there isn't one, provides a default image -->
           {% if dog.profile_picture %}
-        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" width="400" height="400">
+        <img class="rectangle" src="{{ MEDIA_URL }}{{ dog.profile_picture }}" alt="Image of Dog" width="400" height="400">
           			{% else %}
-          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" width="400" height="400">
+          <img class="rectangle center-cropped" src="{% static "default_dog.png" %}" alt="Image of Dog" width="400" height="400">
 			{% endif %}
 <div>
         <h3> {{dog.name}}</h3>
@@ -98,18 +98,18 @@
 </div>
 
 <!-- Using AJAX, this button displays the reviews left on this specific dog -->
-
+<div>
 {% if user.is_authenticated %}
 			{% if user.is_manager %}
 					{% if show_delete %}
 
-			<button class="btn btn-outline-danger" href="{% url 'remove_dog' dog.slug %}" >Delete Dog</button>
+			<a class="btn btn-outline-danger" href="{% url 'remove_dog' dog.slug %}" >Delete Dog</a>
 
 {% endif %}
 			{% endif %}
 					{% endif %}
 
-
+</div>
 <button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
 
           <div id = "reviewsButton" class="collapse">
