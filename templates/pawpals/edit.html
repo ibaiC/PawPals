@@ -7,40 +7,40 @@ Edit Your Profile!
 
 {% block body_block %}
 
-	<h1 class="featurette-heading" align="center">Edit Your Profile</h1>
+	<h1 class="featurette-heading">Edit Your Profile</h1>
 	<p class="container">
 		<form method="post" novalidate>
 			{% csrf_token %}
 			{{ user_form.as_ul }}
 			{{ user_profile_form.as_ul }}
 			{% if user.is_manager %}
-			<div class="container"style="padding-top: 35px;">
-		<hr class="featurette-divider" >
-		</div>
-
-				<h3 class="featurette-heading" align="center" style="padding-top: 15px; padding-bottom:15px;">Shelter Details Section</h3>
-				{{ shelter_form.as_ul }}
-				<div class="container" style="padding-top: 35px;">
+			<div class="container">
 		<hr class="featurette-divider">
 		</div>
-				<h1 class="featurette-heading" align="center" style="padding-top: 15px; padding-bottom:30px;">Dog Details Section</h1>
+
+				<h3 class="featurette-heading">Shelter Details Section</h3>
+				{{ shelter_form.as_ul }}
+				<div class="container">
+		<hr class="featurette-divider">
+		</div>
+				<h1 class="featurette-heading">Dog Details Section</h1>
 
 				{{ dog_formset.management_form }}
 
 				{% for form in dog_formset %}
 
 
-			<div style="transform: translateX(-40%);">{{ form.as_p }}</div>
+			<div >{{ form.as_ul }}</div>
 
-			<div class="container" style="padding-top: 35px;">
-		<hr class="featurette-divider" style="padding-top: 35px; width:50%; transform:translateX(50%);">
+			<div class="container">
+		<hr class="featurette-divider">
 		</div>
 
 				{% endfor %}
 
-	<h3 class="featurette-heading" align="center" style="padding-bottom:15px; transform: translateY(-20%);">Add A PawPal</h3>
+	<h3 class="featurette-heading">Add A PawPal</h3>
 
-				<div style="transform: translateX(-40%);">{{ empty_dog_form.as_p }}</div>
+				<div>{{ empty_dog_form.as_ul }}</div>
 
 			{% endif %}
 
