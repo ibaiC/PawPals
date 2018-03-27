@@ -47,6 +47,51 @@ function print_reviews(reviews) {
 }
 
 
+function get_dogs(shelter_pk, view_url, default_picture) {
+	
+	$("dog_block").toggle();
+	$.ajax({
+		 url: view_url,
+		 data: {"shelter_pk" : shelter_pk},
+		 success: function(result){
+			print_dogs(result, default_picture);
+		}
+	 });
+}
 
+function print_dogs(dogs, default_picture, dog_profile_url) {
+    var out = "";
+	var dogs_list = dogs.dogs;
+    var i;
 
+    if (dogs_list.length != 0) {
+    	console.log("yes");
+
+        
+    	for(i = 0; i < dogs_list.length; i++) {
+    	
+    		out += "<div class='col-sm-4'>";
+    	
+    		// image
+    		if (dogs_list[i].profile_picture) {
+            	out += "<img class='rectangle center-cropped' src='/media/" + dogs_list[i].profile_picture + "' alt='Dog picture' width='200' height='200'>";
+
+    		} else {
+    			out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
+    		}
+    		
+    		out += "<h3>" + dogs_list[i].name + "</h3><p>"
+            out += "<a class='btn btn-outline-dark' href='/pawpals/dogs/" + dogs_list[i].slug + "' role='button'>View dog &raquo;</a>";
+    		out += "</p></div>";
+        	
+        	out += "</div>";
+        }
+    	
+    } else {
+    	console.log("no");
+    	out += "No dogs to show!";
+    }
+
+    document.getElementById("dogs_block").innerHTML = out;
+}
 

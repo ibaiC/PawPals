@@ -462,19 +462,26 @@ def show_reviews(request):
 
     return JsonResponse(data)
 
-def show_dogs(request,):
-    shelter = request.GET.get("shelter", None)
-    dogs = Dog.objects.al().filter(dog_shelter = shelter)
+def get_dogs(request):
+    shelter_pk = request.GET.get("shelter_pk", None)
+    shelter = Shelter.objects.get(pk = shelter_pk)
+    dogs = Dog.objects.all().filter(dog_shelter = shelter)
 
     data = {
         "dogs": []
         }
 
     for dog in dogs:
+        
+        if dog.profile_picture:
+            profile_pic = dog.profile_picture.path
+        else:
+            profile_pic = None
+        
         new_dog = {"name" : dog.name,
-                  "profile_picture" : dog.profile_picture.path,
+                  "profile_picture" : profile_pic,
                   "slug" : dog.slug,
                   }
-        data["reviews"].append(new_dog)
+        data["dogs"].append(new_dog)
 
     return JsonResponse(data)

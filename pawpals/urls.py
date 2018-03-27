@@ -29,6 +29,7 @@ urlpatterns = [
     
     # AJAX
     url(r'^ajax/show_reviews/', views.show_reviews, name = "show_reviews"),
-    url(r'^ajax/show_dogs/', views.show_dogs, name = "show_dogs"),
+    url(r'^ajax/get_dogs/', views.get_dogs, name = "get_dogs"),
+    
 
 ]
