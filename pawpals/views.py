@@ -259,11 +259,12 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-@login_required
+
 @standardUser_required
 def request(request, dog_slug):
 
     context_dict = {}
+
 
     dog = Dog.objects.get(slug=dog_slug)
 
@@ -352,7 +353,7 @@ def professional(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
         shelter_form = ShelterEditingForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -394,13 +395,12 @@ def professional(request):
                    'profile_form': profile_form,
                    'registered': registered,
                    'shelter_form': shelter_form,
-                   'profile_picture': 'profile_picture',
                    })
 def personal(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -426,7 +426,6 @@ def personal(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered,
-                   'profile_picture': profile_picture
                    })
 
 def register(request):
