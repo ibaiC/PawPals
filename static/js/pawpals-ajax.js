@@ -1,6 +1,5 @@
 function get_reviews(view_url, dog_slug) {
-	console.log(dog_slug);
-	console.log(view_url);
+	
 	$("review_block").toggle();
 	$.ajax({
 		 url: view_url,
@@ -13,17 +12,43 @@ function get_reviews(view_url, dog_slug) {
 
 
 function print_reviews(reviews) {
+	console.log(reviews);
     var out = "";
 	var review_list = reviews.reviews;
     var i;
-    for(i = 0; i < review_list.length; i++) {
-        out += "<div class='review'><h4>" + review_list[i].username + "</h4></br>";
-        out += "Date: " + review_list[i].date + '</br>';
-        out += "How difficult was the walk?: " + review_list[i].rating + "/5</br>";
-        out += "Comment: " + review_list[i].comment + "</br>";
-        out += "<img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='Generic placeholder image' width='200' height='200'></div>";
 
+    if (review_list.length != 0) {
+    	console.log("yes");
+        out += "<table style = 'width:100%;'>";
+        out += "<tr>";
+        out += "<th></th>";
+        out += "<th>User</th>";
+        out += "<th>Message</th>";
+        out += "<th>Difficulty Rating</th>";
+        out += "<th>Date</th>";
+        out += "</tr>";
+    	
+    	for(i = 0; i < review_list.length; i++) {
+        	out += "<tr>"
+        	out += "<td><img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='Generic placeholder image' width='200' height='200'></td>";
+        	out += "<td>" + review_list[i].username + "</td>";
+        	out += "<td>" + review_list[i].comment + "</td>";
+        	out += "<td>" + review_list[i].rating + "</td>";
+        	out += "<td>" + review_list[i].date + "</td>";
+        	out += "</tr>";
+        }
+    	
+    	out += "</table>";
+    	
+    } else {
+    	console.log("no");
+    	out += "No reviews to show!";
     }
+
     document.getElementById("review_block").innerHTML = out;
 }
+
+
+
+
 
