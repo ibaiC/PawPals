@@ -98,7 +98,7 @@
 			{% if user.is_manager %}
 					{% if dog.dog_shelter == shelter.name %}
 
-			<button class="button" href="{% url 'remove_dog' %}" >Delete Dog</button>
+			<button class="btn btn-outline-danger" href="{% url 'remove_dog' %}" >Delete Dog</button>
 
 {% endif %}
 			{% endif %}
