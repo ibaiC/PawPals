@@ -539,11 +539,17 @@ def show_reviews(request):
     # iterate over all reviews of a dog
     for review in Review.objects.all().filter(reviewed_dog = dog):
         user_profile = UserProfile.objects.get(user = review.reviewing_user)
+        
+        if user_profile.profile_picture:
+            profile_pic = user_profile.profile_picture.path
+        else:
+            profile_pic = None
+        
         new_review = {"username" : review.reviewing_user.username,
                       "rating" : review.difficulty_rating,
                       "comment" : review.comment,
                       "date" : review.date,
-                      "profile_picture" : user_profile.profile_picture.path
+                      "profile_picture" : profile_pic
                       }
         data["reviews"].append(new_review)
 

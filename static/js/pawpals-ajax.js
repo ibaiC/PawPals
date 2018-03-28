@@ -1,20 +1,20 @@
 /** Functions handling AJAX functionality **/
 
 // Get reviews for given dog from database
-function get_reviews(view_url, dog_slug) {
+function get_reviews(view_url, dog_slug, default_user_picture) {
 	
 	$("review_block").toggle();
 	$.ajax({
 		 url: view_url,
 		 data: {"dog_slug" : dog_slug},
 		 success: function(result){
-			print_reviews(result);
+			print_reviews(result, default_user_picture);
 		}
 	 });
 }
 
 // Print reviews to HTML
-function print_reviews(reviews) {
+function print_reviews(reviews, default_user_picture) {
     var out = "";
 	var review_list = reviews.reviews;
     var i;
@@ -30,8 +30,19 @@ function print_reviews(reviews) {
         out += "</tr>";
     	
     	for(i = 0; i < review_list.length; i++) {
-        	out += "<tr>"
-        	out += "<td><img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='Generic placeholder image' width='200' height='200'></td>";
+        	out += "<tr>";
+        		
+        	out += "<td>";        	
+        	
+        	if (review_list[i].profile_picture) {
+                out += "<img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='Dog image' width='150' height='150'>";
+
+            } else {
+                out += "<img class='rectangle center-cropped' src='" + default_user_picture + "' alt='Dog picture' width='150' height='150'>";
+            }
+        	
+        	out += "</td>";
+
         	out += "<td>" + review_list[i].username + "</td>";
         	out += "<td>" + review_list[i].comment + "</td>";
         	out += "<td>" + review_list[i].rating + "</td>";

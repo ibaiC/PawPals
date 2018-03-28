@@ -30,6 +30,13 @@ class RequestForm(forms.ModelForm):
 
 class RequestStatusForm(forms.ModelForm):
 
+    CHOICES =  (("", "-----"),
+                ("A", "Accepted"),
+                ("D", "Denied"),
+                ("C", "Completed"))
+
+    status = forms.ChoiceField(choices = CHOICES)
+
     class Meta:
         model = Request
         fields = ('status',)

@@ -31,14 +31,8 @@
 			{% else %}
 				<img class="rectangle center-cropped" src="{% static "default_shelter.png" %}" alt="Image of Shelter" width="400" height="400">
 			{% endif %}
-            <div id="paws">
 
-             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}',
-              '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">
-                 Show PawPals</button>
-            </div>
-
-        <div class="row">
+        <div class="row" id="shelter_row">
         <div class="col-sm-3">
             <h4>Bio</h4>
            <article>{{ shelter.bio }}</article>
@@ -55,8 +49,13 @@
 		<p>{{ shelter.avg_difficulty_rating }}/5</p>
 
       </div>
-
         </div>
+<div id="paws">
+
+             <button class="btn btn-info" id="pawpalsButton" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}', '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">
+                 Show PawPals</button>
+            </div>
+
 
     <div id="search" class="collapse">
 

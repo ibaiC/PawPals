@@ -31,14 +31,17 @@ padding-top: 100px;
 body::after {
   content: '';
   display: block;
-  height: 50px;
+  height: 25px;
   }
 
-footer {
-  position: absolute;
+#navbar1 {
+
   bottom: 0;
+  left:0;
+  right:0;
   width: 100%;
-  height: 50px;
+  height: 40px;
+
 }
 /* Keeps the p tag elements centred */
 p {
@@ -55,7 +58,7 @@ p {
     width:30%;}
 /* Making the requests page submit button a reasonable size */
 #requests_submit {
-    width:45%;}
+    width:30%;}
 /* Centre align the input elements and the button on the page */
 div {
     text-align: center;
