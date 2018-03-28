@@ -84,7 +84,7 @@ class decorators_test(TestCase):
         self.assertRedirects(response, 'pawpals/login/?next=/pawpals/request/bailey-1/')
 
     def test_stay_if_right_user_type(self):
-        login ) self.client.get(username='testuser1', password='12345')
+        login = self.client.get(username='testuser1', password='12345')
         response = self.client.get('pawpals/request/bailey-1/') #existing dog request next_page
         #should give "success" response
         self.assertEqual(response.status_code, 200)
