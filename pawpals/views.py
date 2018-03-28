@@ -249,6 +249,7 @@ def show_requests(request):
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
             form = RequestStatusForm(request.POST or None, instance=instance)
+            print(form)
             if form.is_valid():
                 form.save()
                 return HttpResponseRedirect(reverse('requests'))
