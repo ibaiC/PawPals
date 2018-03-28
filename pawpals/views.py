@@ -235,6 +235,9 @@ def review(request, dog_slug):
     return render (request, 'pawpals/dog.html', context_dict)
 
 # Shows the requests made for all requested dogs
+# View changes based on user type.
+# Manager can see all requests for dogs of its own shelters
+# standard users can only see requests they've made
 @login_required
 def show_requests(request):
 
@@ -272,7 +275,8 @@ def show_requests(request):
 
     return render(request, 'pawpals/requests.html', context_dict)
 
-
+# Passes POST request data to new form instance
+# and saves the request made by user to database
 @standardUser_required
 def request(request, dog_slug):
 
@@ -307,7 +311,7 @@ def request(request, dog_slug):
 
     return render(request, 'pawpals/request.html', context_dict)
 
-
+# Shows the information and dogs of a shelter
 def show_shelter(request, shelter_slug):
     context_dict = {}
     try:
@@ -321,6 +325,7 @@ def show_shelter(request, shelter_slug):
 
     return render(request, 'pawpals/shelter.html', context_dict)
 
+# Shows information about a specific dog
 def show_dog(request, dog_slug):
     context_dict = {}
     show_delete = False
@@ -333,6 +338,7 @@ def show_dog(request, dog_slug):
         reviews = Review.objects.all().filter(reviewed_dog = dog)
         context_dict["reviews"] = reviews
 
+        # If the user seeing the dog's page is its manager, show the delete dog button
         if request.user.is_authenticated:
             if request.user.is_manager:
                 shelter = Shelter.objects.all().filter(manager = request.user)
@@ -349,11 +355,13 @@ def show_dog(request, dog_slug):
 
     return render(request, 'pawpals/dog.html', context_dict)
 
+# View to search dogs, uses django filters
 def dog_search(request):
     dog_list = Dog.objects.all()
     dog_filter = DogFilter(request.GET, queryset = dog_list)
     return render(request, "pawpals/dogSearch.html", {"filter" : dog_filter})
 
+# Shows the reviews of a dog, uses AJAX
 def show_reviews(request):
     dog_slug = request.GET.get("dog_slug", None)
     dog = Dog.objects.get(slug = dog_slug)
@@ -362,6 +370,7 @@ def show_reviews(request):
         "reviews": []
         }
 
+    #loop over all reviews of the dog
     for review in Review.objects.all().filter(reviewed_dog = dog):
         user_profile = UserProfile.objects.get(user = review.reviewing_user)
         new_review = {"username" : review.reviewing_user.username,
@@ -374,6 +383,7 @@ def show_reviews(request):
 
     return JsonResponse(data)
 
+# View to pass data to registration form for manager users.
 def professional(request):
     shelter_form = ShelterEditingForm()
     registered = False
@@ -382,6 +392,7 @@ def professional(request):
         profile_form = UserProfileForm(request.POST, request.FILES)
         shelter_form = ShelterEditingForm(request.POST)
 
+        #validate form
         if user_form.is_valid() and profile_form.is_valid():
 
             user = user_form.save()
@@ -423,12 +434,14 @@ def professional(request):
                    'shelter_form': shelter_form,
                    })
 
+# View to pass data to registration form for manager users.
 def personal(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(request.POST, request.FILES)
 
+        # validate form
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
@@ -455,10 +468,12 @@ def personal(request):
                    'registered': registered,
                    })
 
+# registration view
 def register(request):
 
     return render(request,'pawpals/register.html')
 
+# login view, authenticates user if credentials match an active user
 def user_login(request):
 
     if request.method == 'POST':
@@ -484,6 +499,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
 
+# handles visits
 def visitor_cookie_handler(request):
 
     visits = int(get_server_side_cookie(request, 'visits', '1'))
@@ -503,6 +519,7 @@ def visitor_cookie_handler(request):
     # Update/set the visits cookie
     request.session['visits'] = visits
 
+# handles cookies
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
     if not val:
@@ -511,6 +528,7 @@ def get_server_side_cookie(request, cookie, default_val=None):
 
 ### AJAX Views ###
 
+# ajax version of the view that shows all the reviews for a dog
 def show_reviews(request):
     dog_slug = request.GET.get("dog_slug", None)
     dog = Dog.objects.get(slug = dog_slug)
@@ -519,6 +537,7 @@ def show_reviews(request):
         "reviews": []
         }
 
+    # iterate over all reviews of a dog
     for review in Review.objects.all().filter(reviewed_dog = dog):
         user_profile = UserProfile.objects.get(user = review.reviewing_user)
         
@@ -537,6 +556,7 @@ def show_reviews(request):
 
     return JsonResponse(data)
 
+# shows all the dogs (Ajax version)
 def get_dogs(request):
     shelter_pk = request.GET.get("shelter_pk", None)
     shelter = Shelter.objects.get(pk = shelter_pk)

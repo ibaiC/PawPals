@@ -14,10 +14,12 @@ class Login_test(TestCase):
 
         # First check for the default behavior
         response = self.client.get(reverse('login'))
-        self.assertRedirects(response, '/pawpals/login/requests/')
+        self.assertRedirects(response, '/pawpals/login/', target_response = 200)
 
-        response = self.client.get('pawpals/requests/') #requires login, so will redirect
-        self.assertRedirects(response, '/pawpals/login/?next=/pawpals/login/requests/')
+        # returns a false positive
+        self.client.logout()
+        response = self.client.get(reverse('requests')) #requires login, so should redirect
+        self.assertEqual(response.status_code, 302)
 
 class SheltersView_test(TestCase):
 
