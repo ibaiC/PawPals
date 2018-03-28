@@ -14,7 +14,7 @@ class Login_test(TestCase):
 
         # First check for the default behavior
         response = self.client.get(reverse('login'))
-        self.assertRedirects(response, '/pawpals/login/requests/')
+        self.assertRedirects(response, '/pawpals/login/', target_response = 200)
 
         # returns a false positive
         self.client.logout()
