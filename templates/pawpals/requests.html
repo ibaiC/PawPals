@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block body_block %}
-
 <h1 class="featurette-heading">Requests Page</h1>
+<ul class="errorlist nonfield"><li>Cannot change status backward.</li></ul>
 <!-- A table is used to display the requests in a neat and orderly way -->
 	<table id="table">
 	
@@ -88,7 +88,18 @@
 
 							<form id="status_update" method="post" action="">
 								{% csrf_token %}
-				        		<td>{{ form.as_ul }}</td>
+
+
+								<td><select name="status" required id="id_status">
+  <option value="" selected>-----</option>
+
+  <option value="A">Accepted</option>
+
+  <option value="D">Denied</option>
+
+  <option value="C">Completed</option>
+
+</select></td>
 				        		<input type='hidden' value='{{ request.pk }}' name='request_object'>
 				        		<input type='hidden' value='{{ request.status }}' name='previous_status' >
 								<td><button class="btn btn-outline-primary" id="requests_submit" type="submit" name="submit">Change</button></td>
