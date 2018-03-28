@@ -14,17 +14,15 @@ class Login_test(TestCase):
 
         # First check for the default behavior
         response = self.client.get(reverse('login'))
-        self.assertRedirects(response, '/pawpals/login/')
+        self.assertRedirects(response, '/pawpals/login/requests/')
 
-        # Then override the LOGIN_URL setting
-        with self.settings(LOGIN_URL='/wrongURL/login/'):
-            response = self.client.get('/requests/') #requires login, so will redirect
-            self.assertRedirects(response, '/pawpals/login/?next=/pawpals/login/requests/')
+        response = self.client.get('pawpals/requests/') #requires login, so will redirect
+        self.assertRedirects(response, '/pawpals/login/?next=/pawpals/login/requests/')
 
 class SheltersView_test(TestCase):
 
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get('/pawpals/shelters/')
+        response = self.client.get('/pawpals/shelters')
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
@@ -32,7 +30,7 @@ class SheltersView_test(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('authors'))
+        response = self.client.get(reverse('shelters'))
         self.assertEqual(response.status_code, 200)
 
         self.assertTemplateUsed(response, 'pawpals/shelters.html')
@@ -48,7 +46,7 @@ class edit_profile_view_test(TestCase):
 
     def setUp(self):
         #Create a dummy user to test
-        test_user1 = User.objects.create_user(username='testuser1', password='12345')
+        test_user1 = User.objects.create_user(username='testuser1', password='12345', is_standard = True)
         test_user1.save()
 
     def test_redirect_if_not_logged_in(self):
@@ -84,7 +82,7 @@ class decorators_test(TestCase):
         self.assertRedirects(response, 'pawpals/login/?next=/pawpals/request/bailey-1/')
 
     def test_stay_if_right_user_type(self):
-        login ) self.client.get(username='testuser1', password='12345')
+        login = self.client.get(username='testuser1', password='12345')
         response = self.client.get('pawpals/request/bailey-1/') #existing dog request next_page
         #should give "success" response
         self.assertEqual(response.status_code, 200)

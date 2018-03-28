@@ -34,6 +34,18 @@ class RequestStatusForm(forms.ModelForm):
         model = Request
         fields = ('status',)
 
+    # def is_valid(self):
+    #     # Basic principle is to see what the request status is now and not allow the status submitted to form to be x
+    #     # steps: get current status, then get submitted status,
+    #     # then check return true if change is admissible or false if not admissibke
+    #     currentRequest = Request.objects.get(requested_dog=???)
+    #     requestStatus = currentRequest.status
+    #
+    #     if requestStatus == ...... :
+    #         #change is ok - return True
+    #     else:
+    #         return False
+
 class UserEditingForm(forms.ModelForm):
     class Meta:
         model = UserProfile
