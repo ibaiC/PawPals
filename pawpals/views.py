@@ -133,10 +133,10 @@ def remove_dog(request, dog_slug):
     context_dict["dog"] = dog
 
     dog.delete()
-    dog.save()
+
     context_dict['msg'] = 'Dog profile successfully removed'
 
-    return render(request, 'pawpals/edit.html', context_dict)
+    return render(request, 'pawpals/dog.html', context_dict)
 
 
 # This method of deleting users is better than outright deleting the user instance
@@ -245,7 +245,7 @@ def show_requests(request):
             user_profile = UserProfile.objects.get(user = request_obj.requesting_user)
             user_data = {"phone_contact" : user_profile.phone_contact, "username" : request_obj.requesting_user.username}
             requests_list.append([request_obj, None, user_data])
-        
+
         if request.method == 'POST':
             instance = get_object_or_404(Request, pk = request.POST.get("request_object"))
             form = RequestStatusForm(request.POST or None, instance=instance)
@@ -259,13 +259,13 @@ def show_requests(request):
     else:
         requests_list = []
         form = RequestStatusForm()
-        
+
         for request_obj in Request.objects.all().filter(requesting_user = request.user).order_by('-date'):
             manager = request_obj.request_manager
             shelter = Shelter.objects.get(manager = manager)
-            
+
             requests_list.append([request_obj, shelter, None])
-        
+
     context_dict['form'] = form
     context_dict['requests'] = requests_list
 
