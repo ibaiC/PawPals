@@ -9,7 +9,8 @@
      display: table-cell;
     vertical-align: middle;
      }
-
+#shelter_row {
+    padding-top:15px;
 /* Text and header formatting to adjust spacing */
 h1 {
     padding-bottom: 25px;
@@ -18,8 +19,8 @@ h1 {
 h3 {
     padding-bottom: 15px;
     }
-
-/* Creating some padding for the reviews to look neat */
+/* Creating some padding for the reviews and reviews button to look neat */
+}
 #review_block{
     padding-top: 25px;}
 /* Shelter header is taken from information passed from model so need to manually apply CSS to this id */
@@ -31,12 +32,13 @@ h3 {
 font-size: 50px;
 }
 #paws {
-    padding-top: 20px;}
+    padding-bottom: 15px;}
 /* Base formatting for the structure and layout of the entire page, keeps footer fixed regardless of window size
     and adjust elements in the body to position properly and not overlap */
 footer {
 
   position: absolute;
+  padding-top: 15px;
   bottom: 0;
   width: 100%;
   height: 50px;

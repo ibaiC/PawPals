@@ -42,6 +42,7 @@ function print_reviews(reviews, default_user_picture) {
             }
         	
         	out += "</td>";
+
         	out += "<td>" + review_list[i].username + "</td>";
         	out += "<td>" + review_list[i].comment + "</td>";
         	out += "<td>" + review_list[i].rating + "</td>";
