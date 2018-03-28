@@ -20,7 +20,6 @@ class Login_test(TestCase):
         self.client.logout()
         response = self.client.get(reverse('requests')) #requires login, so should redirect
         self.assertEqual(response.status_code, 302)
-        #self.assertRedirects(response, '/pawpals/login/?next=/pawpals/login/requests/')
 
 class SheltersView_test(TestCase):
 
