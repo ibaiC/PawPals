@@ -40,7 +40,7 @@ class RequestStatusForm(forms.ModelForm):
     #     # then check return true if change is admissible or false if not admissibke
     #     currentRequest = Request.objects.get(requested_dog=???)
     #     requestStatus = currentRequest.status
-    # 
+    #
     #     if requestStatus == ...... :
     #         #change is ok - return True
     #     else:
