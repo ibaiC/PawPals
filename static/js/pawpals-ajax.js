@@ -1,3 +1,6 @@
+/** Functions handling AJAX functionality **/
+
+// Get reviews for given dog from database
 function get_reviews(view_url, dog_slug) {
 	
 	$("review_block").toggle();
@@ -10,14 +13,13 @@ function get_reviews(view_url, dog_slug) {
 	 });
 }
 
-
+// Print reviews to HTML
 function print_reviews(reviews) {
     var out = "";
 	var review_list = reviews.reviews;
     var i;
 
     if (review_list.length != 0) {
-    	console.log("yes");
         out += "<table style = 'width:100%;'>";
         out += "<tr>";
         out += "<th></th>";
@@ -46,7 +48,7 @@ function print_reviews(reviews) {
     document.getElementById("review_block").innerHTML = out;
 }
 
-
+//Get dogs from given shelter from database
 function get_dogs(shelter_pk, view_url, default_picture, dog_profile_url) {
 	
 	$("dog_block").toggle();
@@ -59,6 +61,7 @@ function get_dogs(shelter_pk, view_url, default_picture, dog_profile_url) {
 	 });
 }
 
+//Print dogs to HTML adhering to grid layout
 function print_dogs(dogs, default_picture, dog_profile_url) {
     var out = "";
 	var dogs_list = dogs.dogs;
@@ -69,46 +72,38 @@ function print_dogs(dogs, default_picture, dog_profile_url) {
         for(i = 0; i < dogs_list.length; i++) {
         	
             if (i == 0) {
-            	// for first open both and print
+            	// for first open row and print dog
             	out += "<div class='row'>";
-	            
 	            out += print_dog(dogs_list[i], default_picture, dog_profile_url);
-	            
-	            console.log("<row>" + dogs_list[i].name);
 	            
             } else if ( i == (dogs_list.length - 1)) {
             	
-            	
-            	// create new row if needed
+            	// for last
+            	// create new row if needed, print dog, close row
             	if (i%3 == 0) {
             		out += "</div>";
             		out += "<div class='row'>";
             		out += print_dog(dogs_list[i], default_picture, dog_profile_url);
             		out += "</div>";
-            		console.log("</><row>" + dogs_list[i].name + "</>");
+            	// if not needed, print dog and close row
             	} else {
             		out += print_dog(dogs_list[i], default_picture, dog_profile_url);
             		out += "</div>";
-            		console.log( dogs_list[i].name + "</>");
             	}
 	            
             } else {
-            	// for other
+            	// for any other case other
             	
-            	// if every third, close old and open new row
+            	// every third dog, close previous row and open new
             	if (i%3 == 0) {
             		out += "</div>";
 	                out += "<div class='row'>";
-	                console.log("</> <row>");
             	}
-            	// print
+            	
+            	// print dog
             	out += print_dog(dogs_list[i], default_picture, dog_profile_url);
-            	console.log(dogs_list[i].name);
             }
-         
         }
-
-    	
     } else {
     	out += "No dogs to show!";
     }
@@ -116,12 +111,14 @@ function print_dogs(dogs, default_picture, dog_profile_url) {
     document.getElementById("dogs_block").innerHTML = out;
 }
 
+// Print single dog
 function print_dog(dog, default_picture, dog_profile_url) {
-	// image
 	var out = "";
 	
+	// open column
 	out += "<div class='col-sm-3'>";
 	
+	// handle image or lack of
     if (dog.profile_picture) {
         out += "<img class='rectangle center-cropped' src='/media/" + dog.profile_picture + "' alt='Dog picture' width='200' height='200'>";
 
@@ -129,10 +126,12 @@ function print_dog(dog, default_picture, dog_profile_url) {
         out += "<img class='rectangle center-cropped' src='" + default_picture + "' alt='Dog picture' width='200' height='200'>";
     }
 
+    // add dog info
     out += "<h3>" + dog.name + "</h3><p>";
     out += "<a class='btn btn-outline-dark' href='" + dog_profile_url + dog.slug + "' role='button'>View dog &raquo;</a>";
     out += "</p>";
 
+    // close column
     out += "</div>";
     
     return out;
