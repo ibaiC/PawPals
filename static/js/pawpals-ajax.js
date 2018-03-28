@@ -31,7 +31,7 @@ function print_reviews(reviews) {
     	
     	for(i = 0; i < review_list.length; i++) {
         	out += "<tr>"
-        	out += "<td><img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='Generic placeholder image' width='200' height='200'></td>";
+        	out += "<td><img class='rectangle center-cropped' src='/media/" + review_list[i].profile_picture + "' alt='User Image' width='200' height='200'></td>";
         	out += "<td>" + review_list[i].username + "</td>";
         	out += "<td>" + review_list[i].comment + "</td>";
         	out += "<td>" + review_list[i].rating + "</td>";

@@ -35,6 +35,7 @@ body::after {
   }
 
 footer {
+padding-top: 15px;
   position: absolute;
   bottom: 0;
   width: 100%;
