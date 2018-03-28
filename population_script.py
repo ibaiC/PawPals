@@ -10,9 +10,24 @@ from pawpals.models import *
 from django.core.files import File
 
 
+### TESTING INFO #####
+# 
+# For nicely populated users (requests page, reviews):
+#
+#     Logging in as standard user: 
+#        username: lilylith
+#        password: cobaltrose12
+#
+#     Logging in as shelter manager:
+#        username: speedwagon
+#        password: eveniamafraid12
+#
+#######################
+
+
 def populate():
     
-    ### In Dogs We Trust data ###
+### In Dogs We Trust data ###
     dog_trust_dogs = [
         {"name" : "Bailey",
          "bio" : "Very good boy.",
@@ -62,14 +77,14 @@ def populate():
         ]
     
     dog_trust_manager = {"username" : "jsmith",
-                        "fullname" : "John Smith",
                         "password" : "lovealldoggos12",
                         "phone_contact" : "+44 1111111111",
                         "email" : "jsmith@mail.co.uk",
                         "profile_picture" : None
                         }
 
-    ### Big Hearts For Pets data ###
+
+### Big Hearts For Pets data ###
 
     hearts_dogs = [
         {"name": "Bailey",
@@ -111,14 +126,14 @@ def populate():
     ]
 
     hearts_manager = {"username": "abrown",
-                         "fullname": "Anna Brown",
-                         "phone_contact": "+44 2222222222",
-                         "email": "abrown@mail.co.uk",
-                        "profile_picture" : None,
-                        "password" : "heartsandspades12",
-                         }
+                      "phone_contact": "+44 2222222222",
+                      "email": "abrown@mail.co.uk",
+                      "profile_picture" : None,
+                      "password" : "heartsandspades12",
+                     }
     
-    ### Speedwagon Foundation data ###
+
+### Speedwagon Foundation data ###
 
     speedwagon_dogs = [
         {"name": "Jonathan",
@@ -196,15 +211,14 @@ def populate():
     ]
 
     speedwagon_manager = {"username": "speedwagon",
-                         "fullname": "Robert E. O. Speedwagon",
-                         "phone_contact": "+44 3333333333",
-                         "email": "speedwagon@mail.co.uk",
-                        "profile_picture" : None,
-                        "password" : "eveniamafraid12",
+                          "phone_contact": "+44 3333333333",
+                          "email": "speedwagon@mail.co.uk",
+                          "profile_picture" : None,
+                          "password" : "eveniamafraid12",
                          }
     
     
-    ### Wag&Bark Centre data ###
+### Wag&Bark Centre data ###
 
     wagbark_dogs = [
         {"name": "Seph",
@@ -237,14 +251,14 @@ def populate():
     ]
 
     wagbark_manager = {"username": "wbman",
-                         "fullname": "Rose Goldman",
-                         "phone_contact": "+44 4444444444",
-                         "email": "wagandbark@mail.co.uk",
-                        "profile_picture" : None,
-                        "password" : "woofwoof12",
-                         }
+                       "phone_contact": "+44 4444444444",
+                       "email": "wagandbark@mail.co.uk",
+                       "profile_picture" : None,
+                       "password" : "woofwoof12",
+                       }
     
-    ### Shelters ###
+
+### Shelters ###
 
     shelters = {"In Dogs We Trust" : {
                     "manager": dog_trust_manager,
@@ -291,13 +305,12 @@ def populate():
                     "profile_picture" : None
                     }}
     
-    ### Shelter, dog, manager creation ###
+### Shelter, dog, manager creation ###
 
     for shelter, shelter_data in shelters.items():
         manager_data = shelter_data["manager"]
         sh_manager = add_user(is_manager=True,
                              username=manager_data["username"],
-                             fullname=manager_data["fullname"],
                              email=manager_data["email"],
                              phone_contact=manager_data["phone_contact"],
                              profile_picture = manager_data["profile_picture"],
@@ -326,38 +339,34 @@ def populate():
                     profile_picture=dog["profile_picture"])
     
 
-    ### Users ###
+### Users ###
 
-    users = {"hendo": {"fullname" : "Henrietta Dobras",
-                       "email" :"hendo@gmail.com",
+    users = {"hendo": {"email" :"hendo@gmail.com",
                        "phone_contact" : "+44 2222222221",
                        "profile_picture" : "hendo.jpg",
                        "password" : "rainydays12"},
-            "yerba4life": {"fullname" : "Elliot Black",
-                        "email" : "optiplex@mail.com",
+            "yerba4life": {"email" : "optiplex@mail.com",
                         "phone_contact": "+44 2222222223",
                         "profile_picture" : "yerba4life.jpg",
-                       "password" : "poezja12"},
-            "lilylith": {"fullname" : "Lily Lithium",
-                         "email" : "llith@mail.com",
+                        "password" : "poezja12"},
+            "lilylith": {"email" : "llith@mail.com",
                          "phone_contact" : "+44 2222222224",
                          "profile_picture" : "lilylith.jpg",
-                       "password" : "cobaltrose12"}
+                         "password" : "cobaltrose12"}
             }
     
     
-    ### Users creation ###
+### Users creation ###
     for user, user_data in users.items():
         u = add_user(is_manager=False,
                      username=user,
-                     fullname=user_data["fullname"],
                      email=user_data["email"],
                      phone_contact=user_data["phone_contact"],
                      profile_picture=user_data["profile_picture"],
                      password=user_data["password"]
                      )
 
-    ### Request creation ###
+### Request creation ###
     requests = {0 : {"user" : User.objects.all().get(username = "lilylith"), 
                      "shelter_manager" : User.objects.all().get(username = "speedwagon"),
                      "dog" : Dog.objects.all().get(pk = 10), 
@@ -483,7 +492,7 @@ def populate():
                     message = request["message"])
 
 
-    # Reviews creation
+# Reviews creation
     reviews = {Request.objects.get(pk = 1) : {
                                                "rating": 1,
                                                "comment": "Good doggo!",
@@ -515,7 +524,7 @@ def populate():
                    )
 
 
-    ### Print confirmation ###
+### Print confirmation ###
     
     # Print shelter, dogs and manager
     print("\n>>> Shelters and dogs")
@@ -535,7 +544,7 @@ def populate():
 
 
 
-def add_user(is_manager, username, fullname, password,email, phone_contact, profile_picture=None):
+def add_user(is_manager, username, password,email, phone_contact, profile_picture=None):
     
     if is_manager:
         user = User.objects.get_or_create(username=username)[0]
@@ -545,13 +554,8 @@ def add_user(is_manager, username, fullname, password,email, phone_contact, prof
         user = User.objects.get_or_create(username=username)[0]
         user.is_standard = True
 
-    # No user in population has more than one name
-    user.first_name = fullname.split(" ")[0]
-    user.last_name = fullname.split(" ")[1]
     user.email = email
-    
     user.set_password(password)
-    
     user.save()
     
     user_profile = UserProfile.objects.get_or_create(user=user)[0]
@@ -592,7 +596,6 @@ def add_dog(shelter, name, bio, breed, difficulty, size, gender, profile_picture
     d = Dog.objects.get_or_create(name=name, dog_shelter=shelter)[0]
 
     d.bio = bio 
-      
     d.breed = breed 
     d.difficulty = difficulty
     d.size = size
@@ -628,7 +631,6 @@ def add_request(user, shelter_manager, dog, date, confirmation_status, message):
     req = Request.objects.get_or_create(requesting_user=user, request_manager=shelter_manager, requested_dog=dog, date=date)[0]
     
     req.date = date
-    
     req.status = confirmation_status 
     req.message = message  
     
