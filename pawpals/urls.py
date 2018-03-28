@@ -2,7 +2,6 @@ from django.conf.urls import url
 from pawpals import views
 from django.contrib.auth import views as auth_views
 
-
 urlpatterns = [
     # General pages for basic interactions such as browsing to home, about, login and logout
     url(r'^shelters$', views.shelters, name='shelters'),
