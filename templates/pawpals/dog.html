@@ -110,7 +110,7 @@
 					{% endif %}
 
 </div>
-<button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews'%}', '{{ dog.slug }}')" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
+<button class="btn btn-outline-info" onclick="get_reviews('{% url 'show_reviews' %}', '{{ dog.slug }}', '{% static 'default_user.png' %}' )" data-toggle="collapse"  data-target="#reviewsButton">See Reviews&raquo;</button>
 
           <div id = "reviewsButton" class="collapse">
 
