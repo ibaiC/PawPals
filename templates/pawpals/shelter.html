@@ -33,8 +33,7 @@
 			{% endif %}
             <div id="paws">
 
-             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}',
-              '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">
+             <button class="btn btn-info" onclick="get_dogs('{{ shelter.pk }}', '{% url 'get_dogs' %}', '{% static 'default_dog.png' %}', '{% url 'dogs' %}')" data-toggle="collapse" data-target="#search">
                  Show PawPals</button>
             </div>
 
